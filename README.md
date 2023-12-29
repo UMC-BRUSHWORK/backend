@@ -63,10 +63,10 @@ Related to: #48, #45                     현재 커밋에서 아직 이슈 48 �
 ### 깃모지 예시
 아이콘|코드|설명|원문
 ---|---|---|---
-🔥|:fire:|코드/파일 삭제|Remove code or files.
-🐛|:bug:|버그 수정|Fix a bug.
-🚑|:ambulance:|긴급 수정|Critical hotfix.
-✨|:sparkles:|새 기능|Introduce new features.
-📝|:memo:|문서 추가/수정|Add or update documentation.
-🎉|:tada:|프로젝트 시작|Begin a project.
-♻️|:recycle:|코드 리팩토링|Refactor code.
+🔥|`:fire:`|코드/파일 삭제|Remove code or files.
+🐛|`:bug:`|버그 수정|Fix a bug.
+🚑|`:ambulance:`|긴급 수정|Critical hotfix.
+✨|`:sparkles:`|새 기능|Introduce new features.
+📝|`:memo:`|문서 추가/수정|Add or update documentation.
+🎉|`:tada:`|프로젝트 시작|Begin a project.
+♻️|`:recycle:`|코드 리팩토링|Refactor code.
