@@ -1,7 +1,7 @@
 # BRUSHWORK-backend
 
 ## Branch
-###종류
+###종류<br>
 [참고-gitflow 설명](https://techblog.woowahan.com/2553/)
 
 - `main`: 제품 출시 브랜치
@@ -12,12 +12,12 @@
 - `release`: 이번 출시 버전을 준비하는 브랜치
 
 ## Commit Message
-[참고1](https://velog.io/@msung99/Git-Commit-Message-Convension)
-[참고2](https://doublesprogramming.tistory.com/256)
-[참고3](https://overcome-the-limits.tistory.com/6#%EB%8C%80%EC%B6%A9-%EC%8D%BC%EB%8D%98-git-commit-message)
+[참고1](https://velog.io/@msung99/Git-Commit-Message-Convension) <br>
+[참고2](https://doublesprogramming.tistory.com/256) <br>
+[참고3](https://overcome-the-limits.tistory.com/6#%EB%8C%80%EC%B6%A9-%EC%8D%BC%EB%8D%98-git-commit-message) <br>
 ### 구조
 ```
-✨[Feat] "추가 login API"   // 타입: 제목
+✨[Feat] 추가 login API   // 타입: 제목
 // 깃모지의 경우, 넣어도 되고 안넣어도 되는데 나중에 넣을지 말지 정해야됨
 
 로그인 API 개발               // 본문
@@ -56,9 +56,10 @@ Related to: #48, #45                     현재 커밋에서 아직 이슈 48 �
 - `Remove` : 코드(파일) 의 삭제가 있을 때. "Clean", "Eliminate" 를 사용하기도 함
 
 - - -
-## Gitmoji -> 사용 여부 논의 필요
-[깃모지 공식 사이트](https://gitmoji.dev/)
-[깃모지 참고](https://inpa.tistory.com/entry/GIT-%E2%9A%A1%EF%B8%8F-Gitmoji-%EC%82%AC%EC%9A%A9%EB%B2%95-Gitmoji-cli)
+## Gitmoji
+[깃모지 공식 사이트](https://gitmoji.dev/) <br>
+[깃모지 참고](https://inpa.tistory.com/entry/GIT-%E2%9A%A1%EF%B8%8F-Gitmoji-%EC%82%AC%EC%9A%A9%EB%B2%95-Gitmoji-cli) <br>
+[gitmoji-cli](https://tngusmiso.tistory.com/57) <br>
 
 ### 깃모지 예시
 아이콘|코드|설명|원문
@@ -70,3 +71,33 @@ Related to: #48, #45                     현재 커밋에서 아직 이슈 48 �
 📝|`:memo:`|문서 추가/수정|Add or update documentation.
 🎉|`:tada:`|프로젝트 시작|Begin a project.
 ♻️|`:recycle:`|코드 리팩토링|Refactor code.
+
+- - -
+## Project 경로
+```
+📦brushwork_be
+ ┣ 📂config
+ ┃ ┣ 📜db.connect.js
+ ┃ ┣ 📜error.js
+ ┃ ┣ 📜response.js
+ ┃ ┗ 📜response.status.js
+ ┣ 📂public
+ ┃ ┗ 📜favicon.ico
+ ┣ 📂src
+ ┃ ┣ 📂controllers
+ ┃ ┣ 📂dtos
+ ┃ ┣ 📂middleware
+ ┃ ┣ 📂models
+ ┃ ┣ 📂providers
+ ┃ ┣ 📂routes
+ ┃ ┗ 📂services
+ ┣ 📜.env
+ ┣ 📜.gitignore
+ ┣ 📜babel.config.json
+ ┣ 📜index.js
+ ┣ 📜package.json
+ ┣ 📜README.md
+ ┣ 📜swagger-output.json
+ ┣ 📜swagger.js
+ ┗ 📜yarn.lock
+```
