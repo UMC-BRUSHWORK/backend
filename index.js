@@ -1,12 +1,17 @@
+// 패키지들
 import express from 'express';
 import SwaggerUi from 'swagger-ui-express';
 import SwaggerFile from './swagger-output.json'
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+// 응답 관련
 import { response } from './config/response.js';
 import { BaseError } from './config/error.js';
 import { status } from './config/response.status.js';
+
+// route 파일
+import { healthRoute } from './src/routes/health.route.js';
 
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
@@ -23,6 +28,9 @@ app.use(express.urlencoded({extended: false})); // 단순 객체 문자열 형�
 app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerFile));
 
 // router setting
+app.use('/health', healthRoute);    // health check 
+
+
 
 // error handling
 app.use((req, res, next) => {
