@@ -68,18 +68,18 @@ jobs:
         shell: bash 
 
       # Beanstalk 배포
-      # - name: Beanstalk Deploy
-      #   uses: einaregilsson/beanstalk-deploy@v21
-      #   with:
-      #     aws_access_key: ${{secrets.AWS_ACTION_ACCESS_KEY_ID}}
-      #     aws_secret_key: ${{secrets.AWS_ACTION_SECRET_ACCESS_KEY}}
-      #     application_name: 
-      #     environment_name: 
-      #     version_label: github-action-${{ steps.current-time.outputs.formattedTime }}  # version_label은 이전에 배포한 label과 중복되면 안됨!
-      #     use_existing_version_if_available: true
-      #     region: ap-northeast-2
-      #     deployment_package: dist/deploy.zip
-      #     wait_for_deployment: false  # 바로 Beanstalk으로 넘어갈 수 있도록 함
+      - name: Beanstalk Deploy
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{secrets.AWS_ACTION_ACCESS_KEY_ID}}
+          aws_secret_key: ${{secrets.AWS_ACTION_SECRET_ACCESS_KEY}}
+          application_name: brushwork-dev
+          environment_name: Brushwork-dev-env
+          version_label: github-action-${{ steps.current-time.outputs.formattedTime }}  # version_label은 이전에 배포한 label과 중복되면 안됨!
+          use_existing_version_if_available: true
+          region: ap-northeast-2
+          deployment_package: dist/deploy.zip
+          wait_for_deployment: false  # 바로 Beanstalk으로 넘어갈 수 있도록 함
 
       # 그냥 다 했다고 출력하기
       - name: Deployed!
