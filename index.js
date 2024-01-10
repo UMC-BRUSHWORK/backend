@@ -30,7 +30,7 @@ app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerFile));
 // router setting
 app.use('/health', healthRoute);    // health check 
 
-
+app.use('/prefer', (req, res) => {res.send("tt");})
 
 // error handling
 app.use((req, res, next) => {
