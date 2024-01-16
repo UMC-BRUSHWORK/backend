@@ -14,7 +14,8 @@ import { BaseError } from './config/error.js';
 import { status } from './config/response.status.js';
 
 // route 파일
-import { healthRoute } from './src/routes/health.route.js';
+//import { healthRoute } from './src/routes/health.route.js';
+import { testRouter } from './src/routes/test.route.js';
 
 
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
@@ -22,8 +23,14 @@ dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
 const app = express();
 const mysql = require('mysql2')
-const connection = mysql.createConnection(process.env.DATABASE_URL)
-console.log('Connected to PlanetScale!')
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST, // 데이터베이스 호스트
+    user: process.env.DB_USER, // 데이터베이스 사용자 이름
+    password: process.env.DB_PASSWORD, // 데이터베이스 비밀번호
+    database: process.env.DB_TABLE, // 데이터베이스 이름
+    port: process.env.DB_PORT, // 데이터베이스 포트 (기본값은 3306)
+  });
+console.log('Connected to BrushworkDB')
 
 
 
@@ -45,11 +52,11 @@ app.get('/auth/login', (req,res) => {
 app.post('/auth/login', (req,res, next) => {
     const key = process.env.SECRET_KEY;
 
-    const email = req.body.email;
-    let nickname =""
+    const user_email = req.body.user_email;
+    let user_nickname =""
 
-    const sql = 'SELECT nickname FROM user WHERE email = ?';
-    const values = [email];
+    const sql = 'SELECT user_nickname FROM user WHERE user_email = ?';
+    const values = [user_email];
     
     connection.query(sql, values, (err, result) => {
         if (err) {
@@ -57,13 +64,13 @@ app.post('/auth/login', (req,res, next) => {
             // 에러 처리 로직 추가
         } else {
             if (result.length > 0) {
-                nickname = result[0].nickname;
-                console.log('닉네임:', nickname);
+                user_nickname = result[0].user_nickname;
+                console.log('닉네임:', user_nickname);
 
                 const token = jwt.sign(
                     {
                         type: "JWT",
-                        nickname: nickname,
+                        user_nickname: user_nickname,
                     },
                     key,
                     {
@@ -120,7 +127,11 @@ app.use((req, res, next) => {
 app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerFile));
 
 // router setting
-app.use('/health', healthRoute);    // health check 
+// app.use('/health', healthRoute);    // health check 
+// <<<<<<< HEAD
+// =======
+app.use('/test', testRouter);       // test
+//>>>>>>> develop
 
 // error handling
 app.use((req, res, next) => {
