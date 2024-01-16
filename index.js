@@ -12,6 +12,8 @@ import { status } from './config/response.status.js';
 
 // route 파일
 import { healthRoute } from './src/routes/health.route.js';
+import { testRouter } from './src/routes/test.route.js';
+import { userRouter } from './src/routes/user.route.js';
 
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
@@ -29,8 +31,8 @@ app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerFile));
 
 // router setting
 app.use('/health', healthRoute);    // health check 
-
-app.use('/prefer', (req, res) => {res.send("tt");})
+app.use('/test', testRouter);       // test
+app.use('/user', userRouter);       // user 관련 router
 
 // error handling
 app.use((req, res, next) => {
