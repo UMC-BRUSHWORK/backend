@@ -13,7 +13,7 @@ import { status } from '../../config/response.status';
 dotenv.config();    // .env 파일 사용
 
 const s3 = new AWS.S3({
-    region: process.env.AWS_S3_REAGION,
+    region: "ap-northeast-2",
     accessKeyId: process.env.AWS_S3_ACCESS_KEY,
     secretAccessKey: process.env.AWS_S3_SECRET_KEY
 });

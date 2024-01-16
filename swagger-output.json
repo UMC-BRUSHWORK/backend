@@ -10,5 +10,26 @@
   "schemes": [
     "http"
   ],
-  "paths": {}
+  "paths": {
+    "/test/s3": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/test/db": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
 }
