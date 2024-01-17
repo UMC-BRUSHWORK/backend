@@ -1,6 +1,7 @@
 const nodeExternals = require("webpack-node-externals");
 const SwaggerJSDocWebpackPlugin = require('swagger-jsdoc-webpack-plugin');
 const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: "development",
@@ -33,7 +34,7 @@ module.exports = {
                 ],
             },
             apis: ['./src/routes/*.js', './src/swagger/*']        
-        })
+        }),
     ],
     module: {
         rules: [
