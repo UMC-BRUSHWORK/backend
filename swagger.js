@@ -5,7 +5,7 @@ const doc = {
         title: 'BRUSHWORK',
         description: 'UMC-Project-BRUSHWORK API'
     },
-    host: 'localhost:3000'
+    host: 'dev.brushwork.shop'
 };
 
 const outputFile = './swagger-output.json';
