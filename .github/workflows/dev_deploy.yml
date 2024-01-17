@@ -38,7 +38,7 @@ jobs:
         run: npm ci   # dependencies 설치 npm ci, npm install 모두 다 됨!
 
       - name: Run Build
-        run: npm run build # 빌드
+        run: npm run build:dev # 빌드
 
       # 배포 패키지 생성
       - name: Generate deployment package
