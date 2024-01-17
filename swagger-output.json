@@ -5,7 +5,17 @@
     "description": "UMC-Project-BRUSHWORK API",
     "version": "1.0.0"
   },
-  "host": "dev.brushwork.shop",
+  "host": "localhost:3000",
+  "servers": [
+    {
+      "description": "localhost",
+      "url": "localhost:3000"
+    },
+    {
+      "description": "brushwork-be api",
+      "url": "dev.brushwork.shop"
+    }
+  ],
   "basePath": "/",
   "schemes": [
     "https",
