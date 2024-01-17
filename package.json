@@ -9,7 +9,8 @@
     "start:dist": "webpack --mode production & node ./dist/main.js",
     "start": "node main.js",
     "build:prod": "webpack --mode production",
-    "build:dev": "webpack --mode development"
+    "build:dev": "webpack --mode development",
+    "test:dist": "webpack --mode development & node ./dist/main.js"
   },
   "license": "MIT",
   "dependencies": {
@@ -30,6 +31,7 @@
     "multer-s3": "^2.10.0",
     "mysql2": "^3.6.5",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-jsdoc-webpack-plugin": "^2.1.0",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1"
   },
