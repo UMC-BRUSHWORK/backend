@@ -8,93 +8,101 @@ paths:
         - in: path
           name: userId
           required: true
-          type: string
-          description: 사용자 sequence Number
+          schema:
+            type: string
+            description: 사용자 sequence Number
         - in: query
           name: cursorId
           required: false
-          type: integer
-          description: 없으면 가장 최근의 선호 작품부터 불러옴.
+          schema:
+            type: integer
+            description: 없으면 가장 최근의 선호 작품부터 불러옴.
         - in: query
           name: paging
           required: false
-          type: integer
-          description: 'default: 3, 한 번에 몇 개의 데이터를 불러올 지 지정'
-
+          schema:
+            type: integer
+            description: 'default: 3, 한 번에 몇 개의 데이터를 불러올 지 지정'
       responses:
         '200':
-          description: 리뷰 조회 성공
-          schema:
-            type: object
-            properties:
-              status:
-                type: integer
-                example: 200
-              isSuccess:
-                type: boolean
-                example: true
-              code:
-                type: integer
-                example: 2000
-              message:
-                type: string
-                example: "success!"
-              data:
-                type: array
-                example: {
-                  "userLikeList": [
-                    {
-                        "fv_id": 1,
-                        "userId": 2,
-                        "status": 1,
-                        "productId": 1,
-                        "productName": "작품명",
-                        "productAuthor": "작가명"
-                    },
-                    {
-                        "fv_id": 1,
-                        "userId": 2,
-                        "status": 1,
-                        "productId": 1,
-                        "productName": "작품명2",
-                        "productAuthor": "작가명2"
+          description: 사진 등록 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "success!"
+                  data:
+                    type: array
+                    example: {
+                      "userLikeList": [
+                        {
+                            "fv_id": 1,
+                            "userId": 2,
+                            "status": 1,
+                            "productId": 1,
+                            "productName": "작품명",
+                            "productAuthor": "작가명"
+                        },
+                        {
+                            "fv_id": 1,
+                            "userId": 2,
+                            "status": 1,
+                            "productId": 1,
+                            "productName": "작품명2",
+                            "productAuthor": "작가명2"
+                        }
+                      ],
+                      "cursorId": 2
                     }
-                  ],
-                  "cursorId": 2
-                }
                 
         '400':
           description: 잘못된 요청
-          schema:
-            type: object
-            properties:
-              status:
-                type: integer
-                example: 400
-              isSuccess:
-                type: boolean
-                example: false
-              code:
-                type: integer
-                example: COMMON001
-              message:
-                type: string
-                example: 잘못된 요청입니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 400
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON001
+                  message:
+                    type: string
+                    example: 잘못된 요청입니다
 
         '500':
           description: 서버 에러
-          schema:
-            type: object
-            properties:
-              status:
-                type: integer
-                example: 500
-              isSuccess:
-                type: boolean
-                example: false
-              code:
-                type: integer
-                example: COMMON000
-              message:
-                type: string
-                example: 서버 에러, 관리자에게 문의 바랍니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: 서버 에러, 관리자에게 문의 바랍니다.
