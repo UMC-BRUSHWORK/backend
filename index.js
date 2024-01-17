@@ -11,7 +11,7 @@ import { BaseError } from './config/error.js';
 import { status } from './config/response.status.js';
 
 // route 파일
-import { healthRoute } from './src/routes/health.route.js';
+import { healthRouter } from './src/routes/health.route.js';
 import { testRouter } from './src/routes/test.route.js';
 import { userRouter } from './src/routes/user.route.js';
 
@@ -30,7 +30,8 @@ app.use(express.urlencoded({extended: false})); // 단순 객체 문자열 형�
 app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerFile));
 
 // router setting
-app.use('/health', healthRoute);    // health check 
+app.use('/health', healthRouter);    // health check 
+
 app.use('/test', testRouter);       // test
 app.use('/user', userRouter);       // user 관련 router
 
