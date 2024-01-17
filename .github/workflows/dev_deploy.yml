@@ -49,7 +49,7 @@ jobs:
           cp Procfile dist/Procfile
           cd dist
           mkdir config
-          cp ..\config\swagger.config.js .\config\swagger.config.js
+          cp ../config/swagger.config.js ./config/swagger.config.js
           zip -r deploy.zip .
       
       # 생성한 deploy.zip 파일 내부 확인용!
