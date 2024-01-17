@@ -29,6 +29,7 @@ app.use(express.urlencoded({extended: false})); // 단순 객체 문자열 형�
 
 // swagger
 app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerDocument));
+app.use('/local/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
 
 // router setting
 app.use('/health', healthRouter);    // health check 
