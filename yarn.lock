@@ -1123,6 +1123,11 @@
   dependencies:
     undici-types "~5.26.4"
 
+"@types/swagger-jsdoc@^6.0.1":
+  version "6.0.4"
+  resolved "https://registry.npmjs.org/@types/swagger-jsdoc/-/swagger-jsdoc-6.0.4.tgz"
+  integrity sha512-W+Xw5epcOZrF/AooUM/PccNMSAFOKWZA5dasNyMujTwsBkU74njSJBpvCCJhHAJ95XRMzQrrW844Btu0uoetwQ==
+
 "@webassemblyjs/ast@^1.11.5", "@webassemblyjs/ast@1.11.6":
   version "1.11.6"
   resolved "https://registry.npmjs.org/@webassemblyjs/ast/-/ast-1.11.6.tgz"
@@ -3758,7 +3763,15 @@ swagger-cli@^4.0.4:
   dependencies:
     "@apidevtools/swagger-cli" "4.0.4"
 
-swagger-jsdoc@^6.2.8:
+swagger-jsdoc-webpack-plugin@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/swagger-jsdoc-webpack-plugin/-/swagger-jsdoc-webpack-plugin-2.1.0.tgz"
+  integrity sha512-yRZrBzyi1DN4JjPN8hqQPGx/GhXwGxyGeT4yftyoJwSxViw03uzMnAe8wd2w1F5XHhCxNIaLKO6vkJH2XedPbQ==
+  dependencies:
+    "@types/swagger-jsdoc" "^6.0.1"
+    swagger-jsdoc "^6.2.0"
+
+swagger-jsdoc@^6.2.0, swagger-jsdoc@^6.2.8:
   version "6.2.8"
   resolved "https://registry.npmjs.org/swagger-jsdoc/-/swagger-jsdoc-6.2.8.tgz"
   integrity sha512-VPvil1+JRpmJ55CgAtn8DIcpBs0bL5L3q5bVQvF4tAW/k/9JYSj7dCpaYCAv5rufe0vcCbBRQXGvzpkWjvLklQ==
