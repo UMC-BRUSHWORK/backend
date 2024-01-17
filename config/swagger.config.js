@@ -1,5 +1,4 @@
 import SwaggerJsdoc from "swagger-jsdoc";
-import SwaggerUi from "swagger-ui-express"
 
 const options = {
     swaggerDefinition: {
@@ -23,6 +22,4 @@ const options = {
     apis: ['./src/routes/*.js', './swagger/*']
 };
 
-const specs = SwaggerJsdoc(options);
-
-module.exports = { SwaggerUi, specs }
+export const specs = SwaggerJsdoc(options);
