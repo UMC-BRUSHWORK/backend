@@ -9,8 +9,7 @@
     "start:dist": "webpack --mode production & node ./dist/main.js",
     "start": "node main.js",
     "build:prod": "webpack --mode production",
-    "build:dev": "webpack --mode development",
-    "swagger": "babel-node ./swagger.js"
+    "build:dev": "webpack --mode development"
   },
   "license": "MIT",
   "dependencies": {
@@ -39,7 +38,6 @@
     "@babel/node": "^7.22.19",
     "@babel/preset-env": "^7.23.7",
     "nodemon": "^3.0.2",
-    "swagger-autogen": "^2.23.7",
     "swagger-cli": "^4.0.4",
     "swagger-jsdoc": "^6.2.8",
     "webpack": "^5.89.0",
