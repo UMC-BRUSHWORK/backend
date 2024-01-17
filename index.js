@@ -1,6 +1,7 @@
 // 패키지들
 import express from 'express';
-import { SwaggerUi, specs } from './config/swagger.config.js';
+import SwaggerUi from "swagger-ui-express"
+import { specs } from './config/swagger.config.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
