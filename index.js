@@ -1,8 +1,9 @@
 // 패키지들
 import express from 'express';
 import session from 'express-session';
-import SwaggerUi from 'swagger-ui-express';
-import SwaggerFile from './swagger-output.json'
+import SwaggerUi from "swagger-ui-express"
+import { specs } from './config/swagger.config.js';
+import SwaggerDocument from './swagger.json'
 import dotenv from 'dotenv';
 import cors from 'cors';
 import jwt from "jsonwebtoken";
@@ -14,9 +15,9 @@ import { BaseError } from './config/error.js';
 import { status } from './config/response.status.js';
 
 // route 파일
-//import { healthRoute } from './src/routes/health.route.js';
+import { healthRouter } from './src/routes/health.route.js';
 import { testRouter } from './src/routes/test.route.js';
-
+import { userRouter } from './src/routes/user.route.js';
 
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
@@ -153,14 +154,13 @@ app.use((req, res, next) => {
 });
 
 // swagger
-app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerFile));
+app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
 
 // router setting
-// app.use('/health', healthRoute);    // health check 
-// <<<<<<< HEAD
-// =======
+app.use('/health', healthRouter);    // health check 
+
 app.use('/test', testRouter);       // test
-//>>>>>>> develop
+app.use('/user', userRouter);       // user 관련 router
 
 // error handling
 app.use((req, res, next) => {

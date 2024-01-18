@@ -35,10 +35,10 @@ jobs:
 
       # dependencies 설치, test and build
       - name: Install dependencies
-        run: npm ci   # dependencies 설치 npm ci, npm install 모두 다 됨!
+        run: npm install   # dependencies 설치 npm ci, npm install 모두 다 됨!
 
       - name: Run Build
-        run: npm run build # 빌드
+        run: npm run build:dev # 빌드
 
       # 배포 패키지 생성
       - name: Generate deployment package
@@ -48,6 +48,8 @@ jobs:
           cp package-lock.json dist/package-lock.json
           cp Procfile dist/Procfile
           cd dist
+          mkdir config
+          cp ../config/swagger.config.js ./config/swagger.config.js
           zip -r deploy.zip .
       
       # 생성한 deploy.zip 파일 내부 확인용!
