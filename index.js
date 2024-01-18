@@ -79,6 +79,7 @@ app.post('/auth/login', (req,res, next) => {
                         issuer: "malibu",
                     }
                 );
+
             
                 // JWT 토큰을 클라이언트에게 전송
                 res.status(200).json({
@@ -89,12 +90,41 @@ app.post('/auth/login', (req,res, next) => {
 
             } else {
                 console.log('해당 ID에 대한 사용자를 찾을 수 없습니다.');
-                // 사용자를 찾지 못한 경우에 대한 처리 로직 추가
+                return res.status(404).json({
+                    code: 404,
+                    message: "사용자를 찾을 수 없습니다.",
+                });
             }
         }
     });
 
 });
+
+
+
+
+app.get('/auth/logout', (req,res) => {
+    res.sendFile(__dirname + '/logout.html');
+});
+
+app.post('/auth/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('세션 삭제 에러:', err);
+            // 에러 처리 로직 추가
+            return res.status(500).json({
+                code: 500,
+                message: "세션 삭제 중 에러가 발생했습니다.",
+            });
+        }
+        
+        res.status(200).json({
+            code: 200,
+            message: "로그아웃 되었습니다.",
+        });
+    });
+});
+
 
 app.use((req, res, next) => {
     const key = process.env.SECRET_KEY;
@@ -120,8 +150,7 @@ app.use((req, res, next) => {
         });
       }
     }
-  });
-
+});
 
 // swagger
 app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerFile));
