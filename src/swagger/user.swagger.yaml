@@ -115,17 +115,14 @@ paths:
           name: userId
           required: true
           schema:
-            type: string
+            type: integer
             description: 사용자 sequence Number
-      requestBody:
-        description: '선호 작품 등록/상태 변경'
-        content:
-          application/json:
-            schema:
-              type: integer
-              example: 0
-              description: '좋아요를 적용할 작품 ID(sequence Number) 전달'
-        required: true
+        - in: query
+          name: productId
+          required: true
+          schema:
+            type: integer
+            description: 좋아요를 적용할 작품 ID(sequence Number) 전달
       responses:
         '200':
           description: 성공!

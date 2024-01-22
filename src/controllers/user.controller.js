@@ -11,5 +11,5 @@ export const getUserLike = async (req, res, next) => {
 
 export const addOrChangeUserLike = async (req, res, next) => {
     // 사용자 좋아요 리스트 등록 or 상태 변경(좋아요 해제 또는 재등록) 관련 Controller
-    res.send(response(status.SUCCESS, await addOrChangeUserLikeCon(req.params.userId, req.body)));
+    res.send(response(status.SUCCESS, await addOrChangeUserLikeCon(req.params.userId, req.query)));
 }
