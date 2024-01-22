@@ -20,6 +20,10 @@ export const getUserLikeListResponseDTO = (data) => {
 }
 
 export const addOrChangeUserLikeResponseDTO = (data) => {
-
-    return {"null": "null"};
+    return {
+        "id": data.fv_id,
+        "userId": data.favor_user_id,
+        "productId": data.favor_product_id,
+        "status": data.favor_status
+    };
 }

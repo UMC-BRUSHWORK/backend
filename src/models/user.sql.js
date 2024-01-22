@@ -8,3 +8,12 @@ export const selectUserLikeList =
 +"FROM favor_product fp JOIN product p on fp.favor_product_id = p.product_id "
 +"WHERE fp.favor_user_id = ? AND fp.fv_id < ? "
 +"ORDER BY fp.fv_id DESC LIMIT ?";
+
+export const findUserLikeCount = "SELECT COUNT(*) as favorExist, favor_status, fv_id FROM favor_product WHERE favor_user_id = ? and favor_product_id = ?;"
+
+export const findUserLike = "SELECT * FROM favor_product WHERE favor_user_id = ? and favor_product_id = ?;"
+export const getUserLikeToIndexId = "SELECT * FROM favor_product WHERE fv_id = ?;"
+
+export const insertUserLike = "INSERT INTO favor_product (favor_user_id, favor_product_id) VALUES (?, ?);"
+
+export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;"

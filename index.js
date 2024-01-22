@@ -2,7 +2,6 @@
 import express from 'express';
 import SwaggerUi from "swagger-ui-express"
 import { specs } from './config/swagger.config.js';
-import SwaggerDocument from './swagger.json'
 import dotenv from 'dotenv';
 import cors from 'cors';
 
@@ -28,7 +27,7 @@ app.use(express.json());                    // request의 본문을 json으로 �
 app.use(express.urlencoded({extended: false})); // 단순 객체 문자열 형태로 본문 데이터 해석
 
 // swagger
-app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
+app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs, {explorer: true}));
 
 // router setting
 app.use('/health', healthRouter);    // health check 
