@@ -19,7 +19,7 @@ const options = {
             }
         ],
     },
-    apis: ['./swagger/*']
+    apis: ['./swagger/*', './src/swagger/*']
 };
 
 export const specs = SwaggerJsdoc(options);

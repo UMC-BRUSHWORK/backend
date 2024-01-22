@@ -33,4 +33,6 @@ export const status = {
 
     // paging err
 
+    // 선호 작품 관련 err
+    LIKE_PARAM_IS_WRONG: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "LIKE4001", "message": "쿼리 실행 시 전달되는 파라미터가 잘못되었습니다. userId, productId 가 제대로 전달되었는지 확인해주세요." },
 };

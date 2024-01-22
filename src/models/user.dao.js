@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { countUserLike, selectUserLikeList } from "./user.sql";
+import { countUserLike, findUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike } from "./user.sql";
 
 
 export const getUserLikeListToDB = async (userId, cursorId, paging) => {
@@ -22,6 +22,46 @@ export const getUserLikeListToDB = async (userId, cursorId, paging) => {
 
         conn.release();
         return prefer_list;
+
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const addOrChangeUserLikeToDB = async (userId, productId) => {
+    try{
+        const conn = await pool.getConnection();
+        
+        // 사용자가 찜 한 작품이 존재하는지 여부 확인
+        const [existence] = await pool.query(findUserLikeCount, [userId, productId]);
+        if(!existence[0].favorExist){
+            // 없으면 insert 통해 작품 추가
+            const [insertLike] = await pool.query(insertUserLike, [userId, productId]);
+            
+            conn.release();
+            return insertLike.insertId;
+        }else{
+            // 있으면 Status 변경을 통해 관심 상태 변경 (1 - 관심, 0 - 관심 해제)
+            const [updateLike] = await pool.query(updateUserLike, [!existence[0].favor_status, existence[0].fv_id]);
+            
+            conn.release();
+            return existence[0].fv_id;
+        }
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getUserLikeToDB = async (indexId) => {
+    try{
+        const conn = await pool.getConnection();
+        
+        const [userLike] = await pool.query(getUserLikeToIndexId, indexId);
+
+        conn.release();
+        return userLike[0];
 
     }catch (err) {
         console.error(err);
