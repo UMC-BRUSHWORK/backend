@@ -28,3 +28,22 @@ export const getUserLikeListToDB = async (userId, cursorId, paging) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
+
+export const addOrChangeUserLikeToDB = async () => {
+    try{
+        const conn = await pool.getConnection();
+        
+        // 사용자가 찜 한 작품이 존재하는지 여부 확인
+
+            // 없으면 insert 통해 작품 추가
+
+            // 있으면 Status 변경을 통해 관심 상태 변경 (1 - 관심, 0 - 관심 해제)
+
+        conn.release();
+        return "db";
+
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}

@@ -18,3 +18,8 @@ export const getUserLikeListResponseDTO = (data) => {
     // 추후 다음 커서 아이디도 함께 넣어줌
     return {"userLikeList": userLikeList, "cursorId": data[data.length-1].fv_id};
 }
+
+export const addOrChangeUserLikeResponseDTO = (data) => {
+
+    return {"null": "null"};
+}
