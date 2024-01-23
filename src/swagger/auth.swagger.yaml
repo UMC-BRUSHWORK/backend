@@ -99,3 +99,51 @@ paths:
                   message:
                     type: string
                     example: "세션 삭제 중 에러"
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_email:
+                  type: string
+                  format: email
+                user_password:
+                  type: string
+                user_nickname:
+                  type: string
+                user_name:
+                  type: string
+                user_phone:
+                  type: string
+              required:
+                - user_email
+                - user_password
+                - user_nickname
+                - user_name
+                - user_phone
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              example:
+                message: '회원 가입 성공'
+        '400':
+          description: Bad request - Duplicate nickname or email
+          content:
+            application/json:
+              example:
+                error: '이미 사용 중인 닉네임입니다.' # or '이미 등록된 이메일 주소입니다.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: '서버 에러'
