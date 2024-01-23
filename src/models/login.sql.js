@@ -1,0 +1,1 @@
+export const getSql = 'SELECT user_id, user_nickname, user_password FROM user WHERE user_email = ?';
