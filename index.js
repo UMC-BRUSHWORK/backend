@@ -3,7 +3,6 @@ import express from 'express';
 import session from 'express-session';
 import SwaggerUi from "swagger-ui-express"
 import { specs } from './config/swagger.config.js';
-import SwaggerDocument from './swagger.json'
 import dotenv from 'dotenv';
 import cors from 'cors';
 
@@ -68,7 +67,7 @@ app.use(bodyParser.json());
 // });          --> middleware에 넣기
 
 // swagger
-app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
+app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs, {explorer: true}));
 
 // router setting
 app.use('/health', healthRouter);    // health check 
