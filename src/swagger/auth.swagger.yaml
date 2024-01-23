@@ -1,13 +1,5 @@
 paths:
   /auth/login:
-    get:
-      tags:
-        - Auth
-      summary: 로그인 페이지 불러오기
-      responses:
-        '200':
-          description: 로그인 페이지 불러오기 성공
-
     post:
       tags:
         - Auth
@@ -72,13 +64,6 @@ paths:
                     type: string
                     example: Server error
   /auth/logout:
-    get:
-      tags:
-        - Auth
-      summary: "로그아웃 페이지 불러오기"
-      responses:
-        '200':
-          description: "로그아웃 페이지 불러오기 성공"
     post:
       tags:
         - Auth

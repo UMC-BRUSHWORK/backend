@@ -1,11 +1,8 @@
 import express from 'express';
-import { login } from '../controllers/login.controller';
-import { loginpage } from '../controllers/login.controller';
-import { logout } from '../controllers/logout.controller';
-import { logoutpage } from '../controllers/logout.controller';
+import asyncHandler from 'express-async-handler';
+import { loginController, logoutController } from '../controllers/auth.controller';
+
 export const authRouter = express.Router();
 
-authRouter.get('/login', loginpage);
-authRouter.post('/login', login);
-authRouter.get('/logout', logoutpage);
-authRouter.post('/logout', logout);
+authRouter.post('/login', asyncHandler(loginController));
+authRouter.post('/logout', asyncHandler(logoutController));
