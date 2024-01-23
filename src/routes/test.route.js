@@ -1,6 +1,7 @@
 import express from 'express';
-import { imageUploader } from '../middleware/image.uploader';
 import asyncHandler from 'express-async-handler';
+
+import { imageUploader } from '../middleware/image.uploader';
 import { dbTestController, imageTestController } from '../controllers/test.controller';
 
 export const testRouter = express.Router();

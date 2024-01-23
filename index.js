@@ -46,7 +46,7 @@ app.use('/health', healthRouter);    // health check
 
 app.use('/test', testRouter);       // test
 app.use('/user', userRouter);       // user 관련 router
-app.use('/auth', authRouter);
+app.use('/auth', authRouter);       // auth 관련 router
 
 // error handling
 app.use((req, res, next) => {
