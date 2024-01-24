@@ -132,3 +132,42 @@ paths:
             application/json:
               example:
                 error: '서버 에러'
+  /auth/resign:
+    patch:
+      tags:
+        - Auth
+      summary: 유저 삭제
+      description: 유저 계정 삭제
+      parameters:
+        - in: body
+          name: body
+          description: 유저 삭제를 위한 메일과 비밀번호
+          required: true
+          schema:
+            type: object
+            properties:
+              user_email:
+                type: string
+                description: 유저 삭제를 위한 메일
+              user_password:
+                type: string
+                description: 유저 삭제를 위한 비밀번호
+
+      responses:
+        '201':
+          description: 유저 삭제 성공
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: 유저 삭제 성공
+
+        '500':
+          description: 서버 오류
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: 서버 오류
