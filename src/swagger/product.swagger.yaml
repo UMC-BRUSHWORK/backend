@@ -1,0 +1,401 @@
+paths:
+  /product/register:
+    post:
+      tags:
+        - product
+      summary: registration of product
+      parameters:
+      - name: register
+        in: body
+        required: true
+        schema:
+          properties:
+          productId:
+            type: integer
+            description: product id
+            example: productId
+          image:
+            type: string
+            description: product image
+            example: 
+          title:
+            type: string 
+            description: product title
+            example: 모나리자
+          price:
+            type: integer
+            description: product price
+            example: 150,000
+          delivery:
+            type: boolean
+            description: delivery type
+            example: 0
+          details:
+            type: TEXT
+            description: 상세 설명
+            example: This is...
+          createdAt:
+            type: DATETIME
+            description: 생성일시
+            example: 일-월-년-시간
+      responses:
+        '200':
+          description: 작품 등록 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "email": "swaggerTest@mail.com",
+                  "name": "swagger",
+                  "SelecteCategory": [
+                    "동양화",
+                    "공예"
+                  ]
+                }        
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+                
+                
+  /product/:productId:
+    patch:
+      tags:
+        - product
+      summary: 작품 정보 수정
+      parameters:
+      - name: edit
+        in: body
+        required: true
+        schema:
+          properties:
+          productId:
+            type: BIGINT
+            description: 작품 아이디
+            example: userId + productIdCounter++
+          image:
+            type: TEXT
+            description: 작품 이미지2
+            example: 
+          title:
+            type: VARCHAR(50) 
+            description: 작품 이름(제목)2
+            example: 모나리자
+          price:
+            type: INT
+            description: 작품 가격
+            example: 150,000
+          delivery:
+            type: TINYINT
+            description: 배송 방식
+            example: 택배(0)
+          details:
+            type: TEXT
+            description: 상세 설명
+            example: This is...
+          updatedAt:
+            type: DATETIME
+            description: 생성일시
+            example: 일-월-년-시간
+      responses:
+        '200':
+          description: 작품 수정 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "email": "swaggerTest@mail.com",
+                  "name": "swagger",
+                  "SelecteCategory": [
+                    "서양화"
+                  ]
+                }        
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+                
+  /product/:productId:
+    get:
+      tags:
+        - product
+      summary: 작품 정보 조회
+      parameters:
+      - name: info
+        in: body
+        required: true
+        schema:
+          properties:
+          productId:
+            type: BIGINT
+            description: 작품 아이디
+            example: userId + productIdCounter++
+          image:
+            type: TEXT
+            description: 작품 이미지
+            example: 
+          title:
+            type: VARCHAR(50) 
+            description: 작품 이름(제목)
+            example: 모나리자
+          price:
+            type: INT
+            description: 작품 가격
+            example: 150,000
+          delivery:
+            type: TINYINT
+            description: 배송 방식
+            example: 택배(0)
+          details:
+            type: TEXT
+            description: 상세 설명
+            example: This is...
+          updatedAt:
+            type: DATETIME
+            description: 생성일시
+            example: 일-월-년-시간
+      responses:
+        '200':
+          description: 작품 등록 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "email": "swaggerTest@mail.com",
+                  "name": "swagger",
+                  "SelecteCategory": [
+                    "서양화"
+
+                  ]
+                }        
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+                
+  /product/list:
+    get:
+      tags:
+        - product
+      summary: 작품 리스트 조회
+      parameters:
+      - name: list
+        in: body
+        required: true
+        schema:
+          properties:
+          productId:
+            type: BIGINT
+            description: 작품 아이디
+            example: userId + productIdCounter++
+          image:
+            type: TEXT
+            description: 작품 이미지
+            example: 
+          title:
+            type: VARCHAR(50) 
+            description: 작품 이름(제목)
+            example: 모나리자
+          price:
+            type: INT
+            description: 작품 가격
+            example: 150,000
+      responses:
+        '200':
+          description: 작품 등록 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "email": "swaggerTest@mail.com",
+                  "name": "swagger",
+                  "SelecteCategory": [
+                    "동양화",
+                    "공예"
+                  ]
+                }        
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+                
