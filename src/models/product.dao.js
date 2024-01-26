@@ -6,35 +6,47 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { confirmProductId, insertProductSql, getProductId, connectProductCategory, connectProductTag, getCategoryToProductId, getTagToProductId } from "./product.sql.js";
+import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql } from "./product.sql.js";
 
-// 작품 데이터 삽입
+// 작품 존재 확인
+export const getProductByProductId = async (productId) => {
+    const [confirm] = await pool.query(confirmProductIdSql, productId);
+
+    if(confirm[0].isExistProductId){
+        throw new BaseError(status.PRODUCT_ALREADY_EXIST);
+    }
+}
+
+// 작품 등록(추가)
 export const addProduct = async (data) => {
     try{
         const conn = await pool.getConnection();
-        
-        const [confirm] = await pool.query(confirmProductId, data.productId);
 
-        if(confirm[0].isExistProductId){
-            conn.release();
+        // 필수 정보
+        if(!(image || title || price || details)) {
+            throw new BaseError(status.INFO_NOT_EXIST);
+            return -1;
+        }
+
+        if(getProductByProductId){
             return -1;
         }
 
         const result = await pool.query(insertProductSql, [body.productId, body.image, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
 
         conn.release();
-        return result[0].insertId;
+        return result[0].productId;
         
     }catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
 
-// 작품 정보 얻기
+// 작품 정보 조회
 export const getProduct = async (productId) => {
     try {
         const conn = await pool.getConnection();
-        const [product] = await pool.query(getProductId, productId);
+        const [product] = await pool.query(getProductIdSql, productId);
 
         console.log(product);
 
@@ -43,96 +55,77 @@ export const getProduct = async (productId) => {
         }
 
         conn.release();
-        return product;
+        return productId;
         
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
 
-// 작품 카테고리 매핑
+// 작품 카테고리 및 태그 조회
+export const getCategory = async (productId) => {
+    try {
+        const conn = await pool.getConnection();
+        const category = await pool.query(getCategoryIdSql, productId);
+
+        conn.release();
+
+        return category;
+    } catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+export const getTag = async (productId) => {
+    try {
+        const conn = await pool.getConnection();
+        const tag = await pool.query(getTagIdSql, productId);
+
+        conn.release();
+
+        return tag;
+    } catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 작품 정보 수정
+export const changeProduct = async (data) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const update = await pool.query(updateProductInfoSql, [body.productId, body.image, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
+
+        conn.release();
+        return update[0].productId;
+        
+    }catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 작품 카테고리 및 태그 연결
 export const setCategory = async (productId, productCategoryId) => {
     try {
         const conn = await pool.getConnection();
         
-        await pool.query(connectProductCategory, [productCategoryId, productId]);
+        await pool.query(connectProductCategorySql, [productCategoryId, productId]);
 
         conn.release();
         
         return;
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
-
     }
 }
-
-// 작품 태그 매핑
 export const setTag = async (productId, productTagId) => {
     try {
         const conn = await pool.getConnection();
         
-        await pool.query(connectProductTag, [productTagId, productId]);
+        await pool.query(connectProductTagSql, [productTagId, productId]);
 
         conn.release();
         
         return;
-    } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-
-    }
-}
-
-// 작품 카테고리 반환
-export const getProductCategoryToProductID = async (productId) => {
-    try {
-        const conn = await pool.getConnection();
-        const category = await pool.query(getCategoryToProductId, productId);
-
-        conn.release();
-
-        return category;
-    } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
-
-// 작품 태그 반환
-export const getProductTagToProductID = async (productId) => {
-    try {
-        const conn = await pool.getConnection();
-        const tag = await pool.query(getTagToProductId, productId);
-
-        conn.release();
-
-        return category;
-    } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
-
-// 작품 정보 반환
-export const getProductInfoToDB = async (productId) => {
-    try {
-        const conn = await pool.getConnection();
-        const productInfo = await pool.query(getProductInfoToProductId, productId);
-
-        conn.release();
-
-        return productInfo;
-    } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
-
-// 작품 목록 반환
-export const getProductListToDB = async (productId) => {
-    try {
-        const conn = await pool.getConnection();
-        const productList = await pool.query(getProductListToProductId, productId);
-
-        conn.release();
-
-        return productList;
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
