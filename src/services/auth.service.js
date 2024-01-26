@@ -17,7 +17,6 @@ export const loginUser = async(body) => {
     if (user_db.length > 0) {
         const user = user_db[0];
         const hashedPassword = await bcrypt.hash(user.user_password, 10);
-
         const isPasswordMatch = await comparePassword(user_password, hashedPassword);
 
         if (isPasswordMatch) {      // 비밀번호 일치

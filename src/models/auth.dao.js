@@ -9,14 +9,14 @@ export const getUserByEmail = async (email) => {
         const conn = await pool.getConnection();
 
         const [result] = await pool.query(getUserSql, email);
-        console.log('inpool', null, result);
+        console.log('ok', null, result);
         
         conn.release();
         
         return result;
 
     }catch (err) {
-        console.error('inpool', null, err);
+        console.error('err', null, err);
         conn.release();
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
