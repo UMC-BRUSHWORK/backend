@@ -4,9 +4,9 @@ import { BaseError } from '../../config/error';
 import { status } from '../../config/response.status';
 
 import { generateToken } from '../middleware/jwt';
-import { comparePassword } from '../middleware/auth';
+import { comparePassword, maskEmail } from '../middleware/auth';
 
-import { getUserByEmail, updateAccess } from '../models/auth.dao';
+import { getUserByEmail, updateAccess, getUserByName } from '../models/auth.dao';
 import { loginResponseDTO } from '../dtos/auth.dto';
 
 export const loginUser = async(body) => {
@@ -33,4 +33,17 @@ export const loginUser = async(body) => {
         // 콜백 대신 직접 결과 반환
         throw new BaseError(status.LOGIN_PARAM_NOT_EXIST);
     }
+}
+
+export const findEmail = async(body) => {
+    const {user_name} = body;
+
+    const check_db = await getUserByName(user_name);
+    if (check_db.length > 0){
+        const user = check_db[0];
+        const useremail = user.user_email;
+        const maskedEmail = maskEmail(useremail);
+        return maskedEmail;
+    }
+
 }

@@ -13,3 +13,11 @@ export const comparePassword = async (inputPassword, hashedPassword) => {
         throw new BaseError(status.LOGIN_PASSWORD_WRONG);
     }
 };
+
+export const maskEmail = async(email) =>{
+    const atIndex = email.indexOf('@');
+    const visiblePart = email.substring(0, 3);
+    const maskedPart = email.substring(3, atIndex).replace(/./g, '*');
+    const domain = email.substring(atIndex);
+    return visiblePart + maskedPart + domain;
+};

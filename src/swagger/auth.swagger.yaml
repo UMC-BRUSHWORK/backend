@@ -171,3 +171,30 @@ paths:
               error:
                 type: string
                 description: 서버 오류
+  auth/finduser/email:
+    post:
+      tags:
+        - Auth
+      summary: Find user email by name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                  description: The username to find the email for
+                  example: john_doe
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                maskedEmail: masked_email@example.com
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
