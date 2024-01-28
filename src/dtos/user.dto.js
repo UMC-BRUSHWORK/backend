@@ -1,5 +1,4 @@
 
-
 export const getUserLikeListResponseDTO = (data) => {
 
     const userLikeList = [];
