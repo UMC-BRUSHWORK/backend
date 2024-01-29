@@ -84,3 +84,119 @@ paths:
                   message:
                     type: string
                     example: "세션 삭제 중 에러"
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_email:
+                  type: string
+                  format: email
+                user_password:
+                  type: string
+                user_nickname:
+                  type: string
+                user_name:
+                  type: string
+                user_phone:
+                  type: string
+              required:
+                - user_email
+                - user_password
+                - user_nickname
+                - user_name
+                - user_phone
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              example:
+                message: '회원 가입 성공'
+        '400':
+          description: Bad request - Duplicate nickname or email
+          content:
+            application/json:
+              example:
+                error: '이미 사용 중인 닉네임입니다.' # or '이미 등록된 이메일 주소입니다.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: '서버 에러'
+  /auth/resign:
+    patch:
+      tags:
+        - Auth
+      summary: 유저 삭제
+      description: 유저 계정 삭제
+      requestBody:
+        required: true
+        content:
+          application/json:
+                schema:
+                  type: object
+                  properties:
+                    user_email:
+                      type: string
+                      description: 유저 이메일
+                    user_password:
+                      type: string
+                      description: 유저 비밀번호
+                  required:
+                    - user_email
+                    - user_password
+
+      responses:
+        '201':
+          description: 유저 삭제 성공
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: 유저 삭제 성공
+
+        '500':
+          description: 서버 오류
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: 서버 오류
+  /auth/finduser/email:
+    post:
+      tags:
+        - Auth
+      summary: 전화번호를 통해 사용자 이메일 찾기
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_phone:
+                  type: string
+                  description: 전화번호 입력
+                  example: 010-0000-0000
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                maskedEmail: masked_email@example.com
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
