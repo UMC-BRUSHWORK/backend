@@ -138,20 +138,22 @@ paths:
         - Auth
       summary: 유저 삭제
       description: 유저 계정 삭제
-      parameters:
-        - in: body
-          name: body
-          description: 유저 삭제를 위한 메일과 비밀번호
-          required: true
-          schema:
-            type: object
-            properties:
-              user_email:
-                type: string
-                description: 유저 삭제를 위한 메일
-              user_password:
-                type: string
-                description: 유저 삭제를 위한 비밀번호
+      requestBody:
+        required: true
+        content:
+          application/json:
+                schema:
+                  type: object
+                  properties:
+                    user_email:
+                      type: string
+                      description: 유저 이메일
+                    user_password:
+                      type: string
+                      description: 유저 비밀번호
+                  required:
+                    - user_email
+                    - user_password
 
       responses:
         '201':
@@ -171,11 +173,11 @@ paths:
               error:
                 type: string
                 description: 서버 오류
-  auth/finduser/email:
+  /auth/finduser/email:
     post:
       tags:
         - Auth
-      summary: Find user email by name
+      summary: 전화번호를 통해 사용자 이메일 찾기
       requestBody:
         required: true
         content:
@@ -183,10 +185,10 @@ paths:
             schema:
               type: object
               properties:
-                user_name:
+                user_phone:
                   type: string
-                  description: The username to find the email for
-                  example: john_doe
+                  description: 전화번호 입력
+                  example: 010-0000-0000
       responses:
         '200':
           description: Successful response

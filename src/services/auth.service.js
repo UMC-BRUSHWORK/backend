@@ -17,8 +17,7 @@ export const loginUser = async(body) => {
     const user_db = await getUserByEmail(user_email);   // 사용자 존재하는지 확인
     if (user_db.length > 0) {
         const user = user_db[0];
-        const hashedPassword = await bcrypt.hash(user.user_password, 10);
-        const isPasswordMatch = await comparePassword(user_password, hashedPassword);
+        const isPasswordMatch = await comparePassword(user_password, user.user_password);
 
         if (isPasswordMatch) {      // 비밀번호 일치
             const token = generateToken(user.user_nickname);
@@ -88,14 +87,14 @@ export const resignService = async (body) => {
 }
 
 // email 찾기
-export const findEmail = async(body) => {
+export const findEmail = async (body) => {
     const {user_phone} = body;
     const check_db = await getUserByPhone(user_phone);
     
     if (check_db.length > 0){
         const user = check_db[0];
         const useremail = user.user_email;
-        const maskedEmail = maskEmail(useremail);
+        const maskedEmail = await maskEmail(useremail);
         return findEmailResponseDTO(maskedEmail);
     }
 }

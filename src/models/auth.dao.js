@@ -2,12 +2,11 @@ import { pool } from "../../config/db.connect";
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { createUserSql, getUserByIDSql, getUserSql, selectNicknameSql, updateAccessTime, updateUserStatus, getEmailByName } from "./auth.sql";
+import { createUserSql, getUserByIDSql, getUserSql, selectNicknameSql, updateAccessTime, updateUserStatus, getEmailByName, getEmailByphoneSql } from "./auth.sql";
 
 export const getUserByEmail = async (email) => {
     try {
         const conn = await pool.getConnection();
-
         const [result] = await pool.query(getUserSql, email);
         
         conn.release();
@@ -15,6 +14,7 @@ export const getUserByEmail = async (email) => {
         return result;
 
     }catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 };
@@ -34,11 +34,11 @@ export const updateAccess = async (userId) => {
     }
 }
 
-export const getUserByName = async (name) =>{
+export const getUserByPhone = async (phone) =>{
     try{
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(getEmailByName, name);
+        const [result] = await pool.query(getEmailByphoneSql, phone);
 
         conn.release();
 
@@ -80,15 +80,15 @@ export const createUser = async (req_email, req_password, req_name, req_nickname
     }
 }
 
-export const changeStatusByEmail = async(email) =>{
+export const changeStatusByEmail = async (email) =>{
     try{
         const conn = await pool.getConnection();
-
         const result = await pool.query(updateUserStatus, email);
 
         conn.release();
         return result;
     } catch (err){
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }

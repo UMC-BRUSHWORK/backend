@@ -1,6 +1,6 @@
 
 // 사용자 관심 작품 중 가장 최근 index가 무엇인지 확인
-export const countUserLike = "SELECT COUNT(*) as likeCount from favor_product";
+export const countUserLike = "SELECT fv_id as likeCount from favor_product order by fv_id DESC limit 1;";
 
 // 사용자 관심 작품 - 사용자 아이디, 커서 아이디, paging 사이즈 -> 변수로 필요
 export const selectUserLikeList =
