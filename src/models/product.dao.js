@@ -9,7 +9,7 @@ import { status } from "../../config/response.status";
 import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql } from "./product.sql.js";
 
 // 작품 존재 확인
-export const getProductByProductId = async (productId) => {
+export const getProductByProductIdDB = async (productId) => {
     const [confirm] = await pool.query(confirmProductIdSql, productId);
 
     if(confirm[0].isExistProductId){
@@ -18,7 +18,7 @@ export const getProductByProductId = async (productId) => {
 }
 
 // 작품 등록(추가)
-export const addProduct = async (data) => {
+export const addProductDB = async (data) => {
     try{
         const conn = await pool.getConnection();
 
@@ -43,7 +43,7 @@ export const addProduct = async (data) => {
 }
 
 // 작품 정보 조회
-export const getProduct = async (productId) => {
+export const getProductDB = async (productId) => {
     try {
         const conn = await pool.getConnection();
         const [product] = await pool.query(getProductIdSql, productId);
@@ -63,7 +63,7 @@ export const getProduct = async (productId) => {
 }
 
 // 작품 카테고리 및 태그 조회
-export const getCategory = async (productId) => {
+export const getCategoryDB = async (productId) => {
     try {
         const conn = await pool.getConnection();
         const category = await pool.query(getCategoryIdSql, productId);
@@ -75,7 +75,7 @@ export const getCategory = async (productId) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
-export const getTag = async (productId) => {
+export const getTagDB = async (productId) => {
     try {
         const conn = await pool.getConnection();
         const tag = await pool.query(getTagIdSql, productId);
@@ -89,7 +89,7 @@ export const getTag = async (productId) => {
 }
 
 // 작품 정보 수정
-export const changeProduct = async (data) => {
+export const changeProductDB = async (data) => {
     try{
         const conn = await pool.getConnection();
 
@@ -104,7 +104,7 @@ export const changeProduct = async (data) => {
 }
 
 // 작품 카테고리 및 태그 연결
-export const setCategory = async (productId, productCategoryId) => {
+export const setCategoryDB = async (productId, productCategoryId) => {
     try {
         const conn = await pool.getConnection();
         
@@ -117,7 +117,7 @@ export const setCategory = async (productId, productCategoryId) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
-export const setTag = async (productId, productTagId) => {
+export const setTagDB = async (productId, productTagId) => {
     try {
         const conn = await pool.getConnection();
         

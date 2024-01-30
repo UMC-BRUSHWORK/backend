@@ -4,7 +4,7 @@ import { status } from "../../config/response.status";
 import { compareData } from '../middleware/product.data';
 
 import { registerResponseDTO, editResponseDTO } from "../dtos/product.dto"
-import { addProduct, getProduct, changeProduct, getCategory, getTag, getProductByProductId, setCategory, setTag } from "../models/product.dao";
+import { addProductDB, getProductDB, changeProductDB, getCategoryDB, getTagDB, getProductByProductIdDB, setCategoryDB, setTagDB } from "../models/product.dao";
 
 // 작품 등록
 export const joinProduct = async (body) => {
@@ -13,7 +13,7 @@ export const joinProduct = async (body) => {
     const category = body.category;
     const tag = body.tag;
 
-    const joinProductData = await addProduct({
+    const joinProductData = await addProductDB({
         'productId': body.productId,
         'image': body.image,
         'title': body.title,
@@ -29,16 +29,16 @@ export const joinProduct = async (body) => {
     }else{
         // 작품 카테고리 매핑
         for (let i = 0; i < category.length; i++) {
-            await setCategory(joinProductData, category[i]);
+            await setCategoryDB(joinProductData, category[i]);
         }
         // 작품 태그 매핑
         for (let i = 0; i < tag.length; i++) {
-            await setTag(joinProductData, tag[i]);
+            await setTagDB(joinProductData, tag[i]);
         }
         return registerResponseDTO(
-            await getProduct(joinProductData), 
-            await getCategory(joinProductData),
-            await getTag(joinProductData)
+            await getProductDB(joinProductData), 
+            await getCategoryDB(joinProductData),
+            await getTagDB(joinProductData)
         );
     }
 }
@@ -49,14 +49,14 @@ export const rejoinProduct = async (body) => {
     const updatedAt = new Date(body.updateYear, body.updateMonth, body.updateDay, body.updateTime);
     
     // 작품 존재 확인
-    const product_db = await getProductByProductId(productId);
+    const product_db = await getProductByProductIdDB(productId);
 
     if (product_db.length > 0) {
         // 기존 데이터
-        const existedProductData = await getProduct(joinProductData);
+        const existedProductData = await getProductDB(joinProductData);
 
         // 수정된 데이터
-        const rejoinProductData = await changeProduct({
+        const rejoinProductData = await changeProductDB({
             'productId': body.productId,
             'image': body.image,
             'title': body.title,
@@ -76,17 +76,17 @@ export const rejoinProduct = async (body) => {
             if ( category!=category || tag!=tag ) {
                 // 작품 카테고리 매핑
                 for (let i = 0; i < category.length; i++) {
-                    await setCategory(joinProductData, category[i]);
+                    await setCategoryDB(joinProductData, category[i]);
                 }
                 // 작품 태그 매핑
                 for (let i = 0; i < tag.length; i++) {
-                    await setTag(joinProductData, tad[i]);
+                    await setTagDB(joinProductData, tag[i]);
                 }
             }
             return editResponseDTO(
-                await getProduct(rejoinProductData), 
-                await getCategory(rejoinProductData),
-                await getTag(rejoinProductData)
+                await getProductDB(rejoinProductData), 
+                await getCategoryDB(rejoinProductData),
+                await getTagDB(rejoinProductData)
             );
         }
         // 데이터 불일치 
