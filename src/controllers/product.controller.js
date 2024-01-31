@@ -19,7 +19,7 @@ export const getProductInfoController = async (req, res, next) => {
     res.send(response(status.SUCCESS, await joinProductInfo(req.params.productId)));
 }
 
-// 작품 목록 조회 - 조건 없음
+// 작품 목록 조회
 export const getProductListController = async (req, res, next) => {
     res.send(response(status.SUCCESS, await joinProductList(req.query)));
 }

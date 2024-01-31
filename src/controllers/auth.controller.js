@@ -6,6 +6,7 @@ import { findEmail, loginUser, registerService, resignService } from "../service
 
 // 로그인
 export const loginController = async (req, res, next) => {
+    console.log(req.body);
     res.send(response(status.SUCCESS, await loginUser(req.body)));
 };
 
