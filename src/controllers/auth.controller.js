@@ -6,13 +6,12 @@ import { findEmail, loginUser, registerService, resignService } from "../service
 
 // 로그인
 export const loginController = async (req, res, next) => {
-    console.log(req.body);
     res.send(response(status.SUCCESS, await loginUser(req.body)));
 };
 
 // 로그아웃
 export const logoutController = (req, res, next) => {
-    req.session.destroy((err) => {throw new BaseError(status.SESSION_DELETE_ERR)});
+    // req.session.destroy((err) => {throw new BaseError(status.SESSION_DELETE_ERR)});
     res.send(response(status.SUCCESS, "로그아웃 성공"))
 };
 

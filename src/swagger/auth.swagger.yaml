@@ -11,15 +11,15 @@ paths:
             schema:
               type: object
               properties:
-                user_email:
+                userEmail:
                   type: string
                   description: 유저 이메일
-                user_password:
+                userPassword:
                   type: string
                   description: 유저 비밀번호
               required:
-                - user_email
-                - user_password
+                - userEmail
+                - userPassword
       responses:
         '200':
           description: 토큰 발급에 성공
@@ -96,23 +96,23 @@ paths:
             schema:
               type: object
               properties:
-                user_email:
+                userEmail:
                   type: string
                   format: email
-                user_password:
+                userPassword:
                   type: string
-                user_nickname:
+                userNickname:
                   type: string
-                user_name:
+                userName:
                   type: string
-                user_phone:
+                userPhone:
                   type: string
               required:
-                - user_email
-                - user_password
-                - user_nickname
-                - user_name
-                - user_phone
+                - userEmail
+                - userPassword
+                - userNickname
+                - userName
+                - userPhone
       responses:
         '201':
           description: User successfully registered
@@ -145,15 +145,15 @@ paths:
                 schema:
                   type: object
                   properties:
-                    user_email:
+                    userEmail:
                       type: string
                       description: 유저 이메일
-                    user_password:
+                    userPassword:
                       type: string
                       description: 유저 비밀번호
                   required:
-                    - user_email
-                    - user_password
+                    - userEmail
+                    - userPassword
 
       responses:
         '201':
@@ -185,7 +185,7 @@ paths:
             schema:
               type: object
               properties:
-                user_phone:
+                userPhone:
                   type: string
                   description: 전화번호 입력
                   example: 010-0000-0000
