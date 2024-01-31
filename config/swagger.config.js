@@ -14,7 +14,7 @@ const options = {
                 description: "API 서버"
             },
             {
-                url: 'http://localhost:8000',
+                url: 'http://localhost:3000',
                 description: "로컬호스트"
             }
         ],
