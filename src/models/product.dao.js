@@ -1,20 +1,31 @@
 // db 연결
-import { pool } from "../../config/db.config";
+import { Lightsail } from "aws-sdk";
+import { pool } from "../../config/db.connect";
 
 // 응답 관련
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql } from "./product.sql.js";
+import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
-    const [confirm] = await pool.query(confirmProductIdSql, productId);
+    try{
+        const conn = await pool.getConnection();
+        const [confirm] = await pool.query(isExistProduct, productId);
+    
+        conn.release();
 
-    if(confirm[0].isExistProductId){
-        throw new BaseError(status.PRODUCT_ALREADY_EXIST);
+        if(!(confirm.length)){
+            return -1;
+        }else{
+            return confirm[0].product_id;
+        }
+    }catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
     }
+
 }
 
 // 작품 등록(추가)
@@ -22,20 +33,12 @@ export const addProduct = async (data) => {
     try{
         const conn = await pool.getConnection();
 
-        // 필수 정보
-        if(!(image || title || price || details)) {
-            throw new BaseError(status.INFO_NOT_EXIST);
-            return -1;
-        }
-
-        if(getProductByProductId){
-            return -1;
-        }
-
-        const result = await pool.query(insertProductSql, [body.productId, body.image, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
+        const [result] = await pool.query(insertProductSql,
+            [ data.title, data.authorId, data.authorNickname, data.delivery,
+                data.price, data.details, data.hashtag, data.authorId, data.image]);
 
         conn.release();
-        return result[0].productId;
+        return result.insertId;
         
     }catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
@@ -48,85 +51,113 @@ export const getProduct = async (productId) => {
         const conn = await pool.getConnection();
         const [product] = await pool.query(getProductIdSql, productId);
 
-        console.log(product);
-
-        if(product.length == 0){
+        if(!product.length){
             return -1;
         }
 
         conn.release();
-        return productId;
+        return product[0];
         
     } catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
 
-// 작품 카테고리 및 태그 조회
+// 작품 카테고리 조회
 export const getCategory = async (productId) => {
     try {
         const conn = await pool.getConnection();
-        const category = await pool.query(getCategoryIdSql, productId);
-
+    
+        const [result] = await pool.query(getCategoryIdSql, productId);
+        
         conn.release();
-
-        return category;
-    } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
-export const getTag = async (productId) => {
-    try {
-        const conn = await pool.getConnection();
-        const tag = await pool.query(getTagIdSql, productId);
-
-        conn.release();
-
-        return tag;
+        return result;
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
 
 // 작품 정보 수정
-export const changeProduct = async (data) => {
+export const changeProduct = async (productId, data) => {
     try{
         const conn = await pool.getConnection();
 
-        const update = await pool.query(updateProductInfoSql, [body.productId, body.image, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
+        await pool.query(updateProductInfoSql, [
+            data.images, data.title, data.price, data.delivery, data.detail, data.hashtag,
+            productId
+        ]);
 
         conn.release();
-        return update[0].productId;
+        return 1;
         
     }catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
 
-// 작품 카테고리 및 태그 연결
-export const setCategory = async (productId, productCategoryId) => {
+// 작품 카테고리 추가
+export const setCategory = async (productId, category) => {
     try {
         const conn = await pool.getConnection();
-        
-        await pool.query(connectProductCategorySql, [productCategoryId, productId]);
+
+        for (let i = 0; i < category.length; i++) {
+            await pool.query(connectProductCategorySql, [productId, category[i]]);
+        }
 
         conn.release();
         
-        return;
+        return 1;
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
-export const setTag = async (productId, productTagId) => {
+
+export const changeCategory = async (productId, changeList, addList) => {
     try {
         const conn = await pool.getConnection();
-        
-        await pool.query(connectProductTagSql, [productTagId, productId]);
+
+        // 비활성화 할 카테고리
+        for (let i = 0; i < changeList.length; i++) {
+            let [temp] = await pool.query(getCategoryItem, [productId, changeList[i]]);
+            await pool.query(updateCategorySql, [!(temp[0].pc_status), productId, changeList[i]]);
+        }
+
+        // 추가해야 하는 카테고리
+        for (let i = 0; i < addList.length; i++) {
+            await pool.query(connectProductCategorySql, [productId, addList[i]]);
+        }
 
         conn.release();
         
-        return;
+        return 1;
     } catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getProductListToDB = async (cursorId, paging, keyword) => {
+    try {
+        const conn = await pool.getConnection();
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(countProduct);
+            cursorId = temp[0].productCursor + 1;
+        }
+
+        // 작품 리스트 - 커서 아이디, paging 사이즈
+        // if(keyword == ""){   // 추후 검색 진행 시
+        if(1){
+            const [product_list] = await pool.query(selectProductList, [cursorId, paging]);
+            conn.release();
+            return product_list;    
+        }else{
+            // 검색!!! -> 검색 기준 이런거 물어봐야겠음
+        }
+
+
+    } catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
