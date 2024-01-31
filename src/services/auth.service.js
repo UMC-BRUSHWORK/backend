@@ -6,7 +6,7 @@ import { status } from '../../config/response.status';
 import { generateToken } from '../middleware/jwt';
 import { comparePassword, maskEmail } from '../middleware/auth';
 
-import { changeStatusByEmail, createUser, getUserByEmail, getUserByNickname, getUserByPhone, updateAccess } from '../models/auth.dao';
+import { changeStatusByEmail, createUser, getUserByEmail, getUserByName, getUserByNickname, getUserByPhone, updateAccess } from '../models/auth.dao';
 import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO } from '../dtos/auth.dto';
 
 // 로그인
@@ -42,9 +42,6 @@ export const registerService = async (body) => {
     const CN = await getUserByNickname(userNickname);  // 닉네임이 아니라 본명을 따져야 하지 않을까 생각..!
     const CE = await getUserByEmail(userEmail);
     const hashedPassword = await bcrypt.hash(userPassword, 10);
-
-    console.log(CN);
-    console.log(CE);
 
     if(CN.length){
         //이미 사용 중인 닉네임입니다.
