@@ -2,7 +2,7 @@ import { BaseError } from "../../config/error";
 import { response } from "../../config/response";
 import { status } from "../../config/response.status";
 
-import { loginUser, findEmail } from "../services/auth.service";
+import { loginUser, findEmail, changePassword } from "../services/auth.service";
 
 export const loginController = async (req, res) => {
     res.send(response(status.SUCCESS, await loginUser(req.body)));
@@ -16,3 +16,7 @@ export const logoutController = (req, res) => {
 export const findEmailConrtroller = async (req, res) => {
     res.send(response(status.SUCCESS, await findEmail(req.body)));
 };
+
+export const  changepasswordController = async (req, res) => {
+    res.send(response(status.SUCCESS, await changePassword(req.body)));
+}

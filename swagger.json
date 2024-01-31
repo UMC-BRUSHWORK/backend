@@ -693,6 +693,69 @@
           }
         }
       }
+    },
+    "/auth/finduser/password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Update user password",
+        "description": "Update the password of a user based on email and name",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_email": {
+                    "type": "string",
+                    "description": "The email of the user"
+                  },
+                  "user_name": {
+                    "type": "string",
+                    "description": "The name of the user"
+                  },
+                  "a_password": {
+                    "type": "string",
+                    "description": "The new password for the user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User password updated successfully"
+          },
+          "400": {
+            "description": "Bad request - Invalid input parameters"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Explanation of the error"
+                    }
+                  },
+                  "example": {
+                    "message": "User not found for the given email and name"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {},

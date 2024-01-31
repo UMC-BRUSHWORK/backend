@@ -2,7 +2,7 @@ import { pool } from "../../config/db.connect";
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { getUserByIDSql, getUserSql, updateAccessTime, getEmailByName } from "./auth.sql";
+import { getUserByIDSql, getUserSql, updateAccessTime, getEmailByName, getUser } from "./auth.sql";
 
 export const getUserByEmail = async (email) => {
     try {
@@ -48,6 +48,22 @@ export const getUserByName = async (name) =>{
         return result;
     }catch (err) {
         conn.release();
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getUserByEmailAndName = async (a_password, email, name) =>{
+    try{
+        const conn = await pool.getConnection();
+
+        const result = await pool.query(getUser, [a_password, email, name]);
+
+        conn.release();
+
+        return result;
+    } catch (err) {
+        conn.release();
+
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }

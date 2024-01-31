@@ -1,7 +1,7 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 
-import { loginController, logoutController, findEmailConrtroller } from '../controllers/auth.controller';
+import { loginController, logoutController, findEmailConrtroller, changepasswordController } from '../controllers/auth.controller';
 import { register } from '../controllers/register.controller';
 import { resign } from '../controllers/resign.controller';
 
@@ -12,4 +12,4 @@ authRouter.post('/logout', asyncHandler(logoutController));
 authRouter.post('/register', register);
 authRouter.patch('/resign', resign);
 authRouter.post('/finduser/email', asyncHandler(findEmailConrtroller));
-
+authRouter.post('/finduser/password', asyncHandler(changepasswordController));

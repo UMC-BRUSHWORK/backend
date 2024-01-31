@@ -6,7 +6,7 @@ import { status } from '../../config/response.status';
 import { generateToken } from '../middleware/jwt';
 import { comparePassword, maskEmail } from '../middleware/auth';
 
-import { getUserByEmail, updateAccess, getUserByName } from '../models/auth.dao';
+import { getUserByEmail, updateAccess, getUserByName, getUserByEmailAndName } from '../models/auth.dao';
 import { loginResponseDTO } from '../dtos/auth.dto';
 
 export const loginUser = async(body) => {
@@ -46,4 +46,18 @@ export const findEmail = async(body) => {
         return maskedEmail;
     }
 
+}
+
+export const changePassword = async(body) => {
+    const {user_email, user_name } = body;
+    const afterpassword = body.a_password;
+
+    const hashedAfterPassword = await bcrypt.hash(afterpassword, 10);
+
+    const check_db = await getUserByEmailAndName(hashedAfterPassword, user_email, user_name);
+    if(check_db){
+        return check_db
+    }else{
+        throw new BaseError 
+    }
 }
