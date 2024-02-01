@@ -15,12 +15,12 @@ import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResp
 // 로그인
 export const loginUser = async(body) => {
 
-    const { user_email, user_password } = body;
+    const { useremail, userpassword } = body;
 
-    const user_db = await getUserByEmail(user_email);   // 사용자 존재하는지 확인
+    const user_db = await getUserByEmail(useremail);   // 사용자 존재하는지 확인
     if (user_db.length > 0) {
         const user = user_db[0];
-        const isPasswordMatch = await comparePassword(user_password, user.user_password);
+        const isPasswordMatch = await comparePassword(userpassword, user.user_password);
 
         if (isPasswordMatch) {      // 비밀번호 일치
             const token = generateToken(user.user_nickname);
@@ -40,11 +40,11 @@ export const loginUser = async(body) => {
 // 회원가입 -> DB 비밀번호 암호화
 export const registerService = async (body) => {
 
-    const {user_email, user_password, user_nickname, user_name, user_phone} = body;
+    const {useremail, userpassword, usernickname, username, userphone} = body;
 
-    const CN = await getUserByNickname(user_nickname);  // 닉네임이 아니라 본명을 따져야 하지 않을까 생각..!
-    const CE = await getUserByEmail(user_email);
-    const hashedPassword = await bcrypt.hash(user_password, 10);
+    const CN = await getUserByNickname(usernickname);  // 닉네임이 아니라 본명을 따져야 하지 않을까 생각..!
+    const CE = await getUserByEmail(useremail);
+    const hashedPassword = await bcrypt.hash(userpassword, 10);
 
     console.log(CN);
     console.log(CE);
@@ -59,7 +59,7 @@ export const registerService = async (body) => {
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }
 
-    const result = await createUser(user_email, hashedPassword, user_name, user_nickname, user_phone);
+    const result = await createUser(useremail, hashedPassword, username, usernickname, userphone);
 
     return registerResponseDTO(result);
 }
@@ -67,17 +67,17 @@ export const registerService = async (body) => {
 // 회원 탈퇴
 export const resignService = async (body) => {
 
-    const {user_email, user_password} = body;
-    const user_db = await getUserByEmail(user_email);
+    const {useremail, userpassword} = body;
+    const user_db = await getUserByEmail(useremail);
 
     if(user_db.length > 0){
         const user = user_db[0];
-        const isPasswordMatch = await comparePassword(user_password, user.user_password);
+        const isPasswordMatch = await comparePassword(userpassword, user.user_password);
 
         if(isPasswordMatch){
             //비밀번호가 일치, 인증완료 삭제 쿼리
-            await changeStatusByEmail(user_email);
-            const result = await getUserByEmail(user_email);
+            await changeStatusByEmail(useremail);
+            const result = await getUserByEmail(useremail);
 
             return resignResponseDTO(result[0]);
         }else{
@@ -91,8 +91,8 @@ export const resignService = async (body) => {
 
 // email 찾기
 export const findEmail = async (body) => {
-    const {user_phone} = body;
-    const check_db = await getUserByPhone(user_phone);
+    const {userphone} = body;
+    const check_db = await getUserByPhone(userphone);
     
     if (check_db.length > 0){
         const user = check_db[0];
@@ -104,12 +104,12 @@ export const findEmail = async (body) => {
 }
 
 export const changePassword = async(body) => {
-    const {user_email, user_name } = body;
+    const {useremail, username } = body;
     const afterpassword = body.a_password;
 
     const hashedAfterPassword = await bcrypt.hash(afterpassword, 10);
 
-    const check_db = await getUserByEmailAndName(hashedAfterPassword, user_email, user_name);
+    const check_db = await getUserByEmailAndName(hashedAfterPassword, useremail, username);
     if(check_db){
         return check_db
     }else{
