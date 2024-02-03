@@ -10,6 +10,8 @@ export const getProductIdSql = "SELECT * FROM product WHERE product_id = ?";
 export const getCategoryIdSql = "SELECT * FROM product WHERE pc_category_id = ?";
 export const getTagIdSql = "SELECT * FROM product WHERE pc_tag_id = ?";
 
+export const getKeywordSql = "SELECT * FROM product WHERE product_description = %KEYWORD%";
+
 // 작품 정보 수정
 export const updateProductInfoSql = 
 "UPDATE product" 

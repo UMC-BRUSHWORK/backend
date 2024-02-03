@@ -80,7 +80,7 @@ export const rejoinProduct = async (body) => {
                 }
                 // 작품 태그 매핑
                 for (let i = 0; i < tag.length; i++) {
-                    await setTag(joinProductData, tad[i]);
+                    await setTag(joinProductData, tag[i]);
                 }
             }
             return editResponseDTO(

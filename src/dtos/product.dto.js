@@ -40,16 +40,16 @@ export const getProductInfoResponseDTO = (data) => {
 export const getProductListResponseDTO = (data, category) => {
     const productCategory = [];
 
-    for (let i = 0; i < tag[0].length; i++) {
-        productTag.push(tag[0][i].p_tags_name);
+    for (let i = 0; i < category[0].length; i++) {
+        productCategory.push(category[0][i].p_category_name);
     }
 
     const productTag = [];
     
-    for (let i = 0; i < category[0].length; i++) {
-        productCategory.push(category[0][i].p_category_name);
+    for (let i = 0; i < tag[0].length; i++) {
+        productTag.push(tag[0][i].p_tags_name);
     }
-    
+
     const products = [];
 
     for (let i = 0; i < category.length; i++) {
@@ -63,6 +63,31 @@ export const getProductListResponseDTO = (data, category) => {
 
     return {
         "categoryData": products, 
+        "cursorId": data[data.length-1].productId
+    };
+}
+
+// 작품 검색 조회
+export const getKeywordResponseDTO = (data, keyword) => {
+    const productKeyword = [];
+
+    for (let i = 0; i < keyword[0].length; i++) {
+        productKeyword.push(keyword[0][i].p_keyword_name);
+    }
+
+    const products = [];
+
+    for (let i = 0; i < keyword.length; i++) {
+        products.push({
+            'productId': keyword[i].productId,
+            'image': keyword[i].image,
+            'title': keyword[i].title,
+            'price': keyword[i].price,
+        })
+    }
+
+    return {
+        "keywordData": products, 
         "cursorId": data[data.length-1].productId
     };
 }

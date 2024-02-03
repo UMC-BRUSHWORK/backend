@@ -42,6 +42,49 @@ export const addProduct = async (data) => {
     }
 }
 
+// 작품 정보 수정
+export const changeProduct = async (data) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const update = await pool.query(updateProductInfoSql, [body.productId, body.image, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
+
+        conn.release();
+        return update[0].productId;
+        
+    }catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 작품 카테고리 및 태그 연결
+export const setCategory = async (productId, productCategoryId) => {
+    try {
+        const conn = await pool.getConnection();
+        
+        await pool.query(connectProductCategorySql, [productCategoryId, productId]);
+
+        conn.release();
+        
+        return;
+    } catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+export const setTag = async (productId, productTagId) => {
+    try {
+        const conn = await pool.getConnection();
+        
+        await pool.query(connectProductTagSql, [productTagId, productId]);
+
+        conn.release();
+        
+        return;
+    } catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
 // 작품 정보 조회
 export const getProduct = async (productId) => {
     try {
@@ -88,44 +131,15 @@ export const getTag = async (productId) => {
     }
 }
 
-// 작품 정보 수정
-export const changeProduct = async (data) => {
-    try{
-        const conn = await pool.getConnection();
-
-        const update = await pool.query(updateProductInfoSql, [body.productId, body.image, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
-
-        conn.release();
-        return update[0].productId;
-        
-    }catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
-
-// 작품 카테고리 및 태그 연결
-export const setCategory = async (productId, productCategoryId) => {
+// 작품 검색 조회
+export const getKeyword = async (productId) => {
     try {
-        const conn = await pool.getConnection();
-        
-        await pool.query(connectProductCategorySql, [productCategoryId, productId]);
+        const conn = await pool.getConnection(KEYWORD);
+        const keyword = await pool.query(getKeywordSql, productId);
 
         conn.release();
-        
-        return;
-    } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
-export const setTag = async (productId, productTagId) => {
-    try {
-        const conn = await pool.getConnection();
-        
-        await pool.query(connectProductTagSql, [productTagId, productId]);
 
-        conn.release();
-        
-        return;
+        return keyword;
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }

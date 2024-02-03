@@ -265,7 +265,7 @@ paths:
           required: false
           schema:
             type: integer
-            description: 없으면 가장 등록된 작품부터 불러옴.
+            description: 없으면 가장 최근에 등록된 작품부터 불러옴.
         - in: query
           name: paging
           required: false
