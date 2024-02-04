@@ -33,3 +33,7 @@ export const resignResponseDTO = (result) => {
 export const findEmailResponseDTO = (result) => {
     return {"email": result};
 }
+
+export const changePasswordResponseDTO = (result) => {
+    return {"email": result};
+}

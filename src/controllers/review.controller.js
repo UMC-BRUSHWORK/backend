@@ -16,6 +16,5 @@ export const getReviewContentController = async (req, res, next) => {
 
 // 후기 목록 조회 관련 Controller
 export const getReviewListController = async (req, res, next) => {
-    console.log("getReviewList");
     res.send(response(status.SUCCESS, await getReviewListService(req.query)));
 }

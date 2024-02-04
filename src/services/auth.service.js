@@ -6,8 +6,9 @@ import { status } from '../../config/response.status';
 import { generateToken } from '../middleware/jwt';
 import { comparePassword, maskEmail } from '../middleware/auth';
 
-import { changeStatusByEmail, createUser, getUserByEmail, getUserByNickname, getUserByPhone, updateAccess } from '../models/auth.dao';
+import { changeStatusByEmail, createUser, getUserByEmail, getUserByNickname, getUserByPhone, updateAccess, getUserByEmailAndName } from '../models/auth.dao';
 import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO } from '../dtos/auth.dto';
+
 
 // 로그인
 export const loginUser = async (body) => {
@@ -53,7 +54,7 @@ export const registerService = async (body) => {
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }
 
-    const result = await createUser(userEmail, hashedPassword, userName, userNickname, userPhone);
+    const result = await createUser(useremail, hashedPassword, username, usernickname, userphone);
 
     return registerResponseDTO(result);
 }
@@ -93,5 +94,22 @@ export const findEmail = async (body) => {
         const useremail = user.user_email;
         const maskedEmail = await maskEmail(useremail);
         return findEmailResponseDTO(maskedEmail);
+    }
+
+}
+
+//  비밀번호 찾기
+export const changePassword = async (body) => {
+    const {userEmail, userName } = body;
+    const afterpassword = body.afterPassword;
+
+    const hashedAfterPassword = await bcrypt.hash(afterpassword, 10);
+
+    const check_db = await getUserByEmailAndName(hashedAfterPassword, userEmail, userName);
+    
+    if(check_db){
+        return check_db
+    }else{
+        throw new BaseError(status.PASSWORD_CHANGE_FAILED);
     }
 }

@@ -12,4 +12,3 @@ reviewRouter.post('/register', asyncHandler(newReviewController));
 reviewRouter.get('/list', asyncHandler(getReviewListController));
 // 후기 정보 조회
 reviewRouter.get('/:reviewId', asyncHandler(getReviewContentController));
-
