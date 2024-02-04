@@ -6,7 +6,6 @@ import { addProduct, getProduct, changeProduct, getCategory, getProductByProduct
 
 // 작품 등록
 export const joinProduct = async (body, files) => {
-
     // imageFiles 변환
     const imageFiles = [];
     for (let i = 0; i < files.length; i++) {

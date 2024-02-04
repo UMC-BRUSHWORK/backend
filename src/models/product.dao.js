@@ -22,6 +22,7 @@ export const getProductByProductId = async (productId) => {
             return confirm[0].product_id;
         }
     }catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 
@@ -177,7 +178,6 @@ export const dealProductUpdateDao = async (productId, consumerId) => {
 export const dealSalesAddDao = async (productId, consumerId, authorId) => {
     try {
         const conn = await pool.getConnection();
-        console.log(insertSalesSql);
         const [product] = await pool.query(insertSalesSql, [productId, consumerId, authorId]);
 
         conn.release();

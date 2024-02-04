@@ -1,3 +1,5 @@
+import moment from "moment";
+
 // 작품 등록, 작품 정보, 작품 수정 조회 (일반적으로 특정 작품 응답 시 사용하는 DTO)
 export const productCommonResponseDTO = (data, category) => {
 

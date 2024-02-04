@@ -41,8 +41,8 @@ app.use('/health', healthRouter);    // health check
 app.use('/test', testRouter);       // test
 app.use('/user', userRouter);       // user 관련 router
 app.use('/auth', authRouter);       // auth 관련 router
-app.use('/product', productRouter);
-app.use('/review', reviewRouter);
+app.use('/product', productRouter); // 작품 관련 router
+app.use('/review', reviewRouter);   // 리뷰 관련 router
 
 // error handling
 app.use((req, res, next) => {

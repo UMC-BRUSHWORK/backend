@@ -6,20 +6,18 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { insertReviewSql, getReviewIdSql, getReviewListIdSql, reviewStatusSql } from "./review.sql.js";
+import { insertReviewSql, getReviewIdSql, getReviewListIdSql, reviewStatusSql, findExistSalesSql, findAlreadyRegisterReviewSql, getReviewCountSql } from "./review.sql.js";
 
-// 후기 등록(추가)
-export const addReviewDB = async (productId, userId, reviewRate, reviewContent) => {
+// 리뷰 등록 ----
+// 실제 판매 테이블에 존재하는지 확인
+export const findExistSalesDao = async (productId, consumerId) => {
     try{
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(insertReviewSql, [productId, userId, reviewContent, reviewRate]);
-        
-        console.log("addReviewDAO", result);
-        
+        const [exist] = await pool.query(findExistSalesSql, [productId, consumerId]);
         conn.release();
 
-        return result[0].review_id;
+        return exist[0].isExist;
         
     }catch (err) {
         console.error(err);
@@ -27,51 +25,67 @@ export const addReviewDB = async (productId, userId, reviewRate, reviewContent) 
     }
 }
 
-// 후기 내용 조회
-export const getReviewDB = async (review_id) => {
+export const findAlreadyRegisterReviewDao = async (productId, consumerId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [already] = await pool.query(findAlreadyRegisterReviewSql, [productId, consumerId]);
+        conn.release();
+
+        return already[0].isAlreadyRegister;
+        
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 후기 등록(추가)
+export const addReviewDB = async (productId, userId, reviewRate, reviewContent) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(insertReviewSql, [productId, userId, reviewContent, reviewRate]);
+                
+        conn.release();
+
+        return result.insertId;
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+// --- 리뷰 등록
+
+// 후기 상세 조회
+export const getReviewDB = async (reviewId) => {
     try {
         const conn = await pool.getConnection();
-        const [review] = await pool.query(getReviewIdSql, review_id);
-
-        console.log(review);
-
-        if(review.length == 0){
-            return -1;
-        }
-
+        const [review] = await pool.query(getReviewIdSql, reviewId);
         conn.release();
-        return review_id;
-        
+        return review[0];
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
 
 // 후기 목록 조회
-export const getReviewListDB = async (reviewer_id) => {
+export const getReviewListDB = async (authorId, cursorId, paging) => {
     try {
         const conn = await pool.getConnection();
-        const reviewList = await pool.query(getReviewListIdSql, reviewer_id);
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(getReviewCountSql);
+            cursorId = temp[0].reviewCursor + 1;
+        }
+
+        const [reviewList] = await pool.query(getReviewListIdSql, [authorId, cursorId, paging]);
+
+        console.log(reviewList);
 
         conn.release();
-
         return reviewList;
     } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
-
-// 후기 상태 변경
-export const isVisibleDB = async (data) => {
-    try{
-        const conn = await pool.getConnection();
-
-        const turn_off = await pool.query(reviewStatusSql, [body.review_id, body.review_product, body.review_context, body.review_rate, created_at]);
-
-        conn.release();
-        return turn_off[0].review_id;
-        
-    }catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
