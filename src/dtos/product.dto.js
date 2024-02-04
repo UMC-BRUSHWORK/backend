@@ -1,8 +1,3 @@
-// 날짜
-const formatDate = (date) => {
-    return new Intl.DateTimeFormat('kr').format(new Date(date)).replaceAll(" ", "").slice(0, -1);
-}
-
 // 작품 등록, 작품 정보, 작품 수정 조회 (일반적으로 특정 작품 응답 시 사용하는 DTO)
 export const productCommonResponseDTO = (data, category) => {
 
@@ -26,7 +21,7 @@ export const productCommonResponseDTO = (data, category) => {
         "delivery": data.product_delivery,
         "hashtag": data.product_hashtag,
         "image": imageList,
-        "createdAt": formatDate(data.created_at),
+        "createdAt": moment.utc(data.created_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
         "favor": data.favor_count,
         "category": categoryList
     };
@@ -43,8 +38,9 @@ export const getProductListResponseDTO = (data) => {
             "title": data[i].product_name,
             "authorId": data[i].product_author_id,
             "authorNickname": data[i].product_author_nickname,
-            "image": (data[i].p_img.split(','))[0]
-        }) 
+            "image": (data[i].p_img.split(','))[0],
+            "status": data[i].product_status    // 상태 추가
+        })
     }
 
     return {

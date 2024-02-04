@@ -33,7 +33,7 @@ export const connectProductCategorySql = "INSERT INTO product_category (pc_produ
 // 작품 리스트 조회
 export const selectProductList =
 "SELECT * FROM product "
-+"WHERE product_id < ? and product_status = 0 "
++"WHERE product_id < ? "
 +"ORDER BY product_id DESC LIMIT ?";
 
 // 작품 조횟수가 가장 큰
