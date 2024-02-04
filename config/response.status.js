@@ -24,7 +24,8 @@ export const status = {
     INFO_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PRODUCT4002", "message": "작품 이미지, 이름, 가격, 설명은 필수입니다."},
 
     // review err
-    
+    STATUS_CHANGE_ERR: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PRODUCT4001", "message": "상태 변경 중 에러가 발생했습니다."},
+        
     // db error
     PARAMETER_IS_WRONG: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "DATABASE4001", "message": "쿼리 실행 시 전달되는 파라미터가 잘못되었습니다. 파라미터 개수 혹은 파라미터 형식을 확인해주세요."},
 

@@ -1,5 +1,4 @@
 // db 연결
-import { Lightsail } from "aws-sdk";
 import { pool } from "../../config/db.connect";
 
 // 응답 관련
@@ -29,7 +28,7 @@ export const getProductByProductId = async (productId) => {
 }
 
 // 작품 등록(추가)
-export const addProduct = async (data) => {
+export const addProductDB = async (data) => {
     try{
         const conn = await pool.getConnection();
 
@@ -46,7 +45,7 @@ export const addProduct = async (data) => {
 }
 
 // 작품 정보 조회
-export const getProduct = async (productId) => {
+export const getProductDB = async (productId) => {
     try {
         const conn = await pool.getConnection();
         const [product] = await pool.query(getProductIdSql, productId);

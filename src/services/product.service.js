@@ -1,9 +1,7 @@
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { compareData } from '../middleware/product.data';
-
-import { editResponseDTO, productCommonResponseDTO } from "../dtos/product.dto"
+import { productCommonResponseDTO } from "../dtos/product.dto"
 import { addProduct, getProduct, changeProduct, getCategory, getTag, getProductByProductId, setCategory, setTag, changeCategory } from "../models/product.dao";
 
 // 작품 등록
@@ -45,7 +43,6 @@ export const joinProduct = async (body, files) => {
 export const rejoinProduct = async (params, body, files) => {
     // 작품 존재 확인
     const productId = parseInt(params);
-    console.log(productId);
     const product_db = await getProductByProductId(productId);
 
     // imageFiles 변환

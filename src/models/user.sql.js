@@ -16,4 +16,8 @@ export const getUserLikeToIndexId = "SELECT * FROM favor_product WHERE fv_id = ?
 
 export const insertUserLike = "INSERT INTO favor_product (favor_user_id, favor_product_id) VALUES (?, ?);"
 
-export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;"
+export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;";
+export const updateProductLikeCount =
+"UPDATE product SET favor_count = (SELECT COUNT(*) FROM favor_product WHERE "+
+"favor_product_id = ? and favor_status = 1) "+
+"WHERE product_id = ?";
