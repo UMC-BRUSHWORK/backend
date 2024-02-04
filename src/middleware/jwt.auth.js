@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 export const jwtAuthenticationMiddleware = (req, res, next) => {
-  const key = process.env.SECRET_KEY;
+  const key = process.env.JWT_SECRET_KEY;
 
   try {
     // 요청 헤더에 저장된 토큰(req.headers.authorization)과 비밀키를 사용하여 토큰을 req.decoded에 반환
@@ -16,6 +16,8 @@ export const jwtAuthenticationMiddleware = (req, res, next) => {
         message: "토큰이 만료되었습니다.",
       });
     }
+
+    console.error(error);
     // 토큰의 비밀키가 일치하지 않는 경우
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({
