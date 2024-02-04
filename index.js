@@ -17,6 +17,7 @@ import { testRouter } from './src/routes/test.route.js';
 import { userRouter } from './src/routes/user.route.js';
 import { authRouter } from './src/routes/auth.route.js';
 import { productRouter } from './src/routes/product.route.js';
+import { reviewRouter } from './src/routes/review.route.js';
 
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
@@ -41,6 +42,7 @@ app.use('/test', testRouter);       // test
 app.use('/user', userRouter);       // user 관련 router
 app.use('/auth', authRouter);       // auth 관련 router
 app.use('/product', productRouter);
+app.use('/review', reviewRouter);
 
 // error handling
 app.use((req, res, next) => {

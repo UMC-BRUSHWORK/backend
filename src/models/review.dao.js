@@ -15,13 +15,14 @@ export const addReviewDB = async (productId, userId, reviewRate, reviewContent) 
 
         const [result] = await pool.query(insertReviewSql, [productId, userId, reviewContent, reviewRate]);
         
-        console.log(result);
+        console.log("addReviewDAO", result);
         
         conn.release();
 
         return result[0].review_id;
         
     }catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }

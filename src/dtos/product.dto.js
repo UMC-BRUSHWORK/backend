@@ -48,3 +48,9 @@ export const getProductListResponseDTO = (data) => {
         "cursorId": data[data.length-1].product_id
     };
 }
+
+export const dealProductResponseDTO = (data) => {
+    return {
+        "salesId": data
+    };
+}

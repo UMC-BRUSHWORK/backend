@@ -1,12 +1,15 @@
 // 후기 데이터
 export const reviewResponseDTO = (data) => {
-    return {
-        "review_id": data[0].review_id, 
-        "review_product": data[0].review_product, 
-        "review_context": data[0].review_context, 
-        "review_rate": data[0].review_rate, 
-        "cursorId": data[data.length-1].review_id
-    };
+
+    return {"null": data};
+
+    // return {
+    //     "review_id": data[0].review_id, 
+    //     "review_product": data[0].review_product, 
+    //     "review_context": data[0].review_context, 
+    //     "review_rate": data[0].review_rate, 
+    //     "cursorId": data[data.length-1].review_id
+    // };
 }
 
 // 후기 목록 조회

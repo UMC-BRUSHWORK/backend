@@ -38,3 +38,7 @@ export const selectProductList =
 
 // 작품 조횟수가 가장 큰
 // export const countViewProductSql = "SELECT COUNT(*) as viewCount from product_list";
+
+export const updateProductDealSql = "UPDATE product SET product_consumer_id = ?, product_status = 1, updated_at = CURRENT_TIMESTAMP WHERE product_id = ?; ";
+
+export const insertSalesSql = "INSERT INTO sales (sales_product_id, sales_consumer_id, sales_author_id) values (?, ?, ?);"

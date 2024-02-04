@@ -1,8 +1,8 @@
 import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
 
-import { joinReview, rejoinReview } from "../service/review.service.js";
-import { joinReviewContent, joinReviewList } from "../provider/review.provider.js";
+import { joinReview, rejoinReview } from "../services/review.service.js";
+import { joinReviewContent, joinReviewList } from "../providers/review.provider.js";
 
 // 후기 등록 관련 Controller
 export const newReviewController = async (req, res, next) => {

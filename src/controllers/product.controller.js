@@ -1,7 +1,7 @@
 import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
 
-import { joinProduct, rejoinProduct } from "../services/product.service.js";
+import { dealProduct, joinProduct, rejoinProduct } from "../services/product.service.js";
 import { joinProductInfo, joinProductList } from "../providers/product.provider.js";
 
 // 작품 등록 
@@ -22,4 +22,9 @@ export const getProductInfoController = async (req, res, next) => {
 // 작품 목록 조회
 export const getProductListController = async (req, res, next) => {
     res.send(response(status.SUCCESS, await joinProductList(req.query)));
+}
+
+// 작품 거래 상태 변경 (거래 성사)
+export const dealProductController = async (req, res, next) => {
+    res.send(response(status.SUCCESS, await dealProduct(req.body)));
 }

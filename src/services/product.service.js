@@ -1,8 +1,8 @@
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { productCommonResponseDTO } from "../dtos/product.dto"
-import { addProduct, getProduct, changeProduct, getCategory, getTag, getProductByProductId, setCategory, setTag, changeCategory } from "../models/product.dao";
+import { dealProductResponseDTO, productCommonResponseDTO } from "../dtos/product.dto"
+import { addProduct, getProduct, changeProduct, getCategory, getProductByProductId, setCategory, changeCategory, dealProductUpdateDao, dealSalesAddDao } from "../models/product.dao";
 
 // 작품 등록
 export const joinProduct = async (body, files) => {
@@ -100,4 +100,14 @@ export const rejoinProduct = async (params, body, files) => {
         // 잘못 입력했음
         throw new BaseError(status.INFO_NOT_EXIST);
     }
+}
+
+// 작품 거래 상태 변경 (거래 성사)
+export const dealProduct = async (body) => {
+    const { productId, consumerId, authorId } = body;
+
+    await dealProductUpdateDao(productId, consumerId);
+    const result = await dealSalesAddDao(productId, consumerId, authorId);
+
+    return dealProductResponseDTO(result);
 }

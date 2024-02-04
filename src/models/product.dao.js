@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct } from "./product.sql.js";
+import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct, updateProductDealSql, insertSalesSql } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
@@ -155,6 +155,34 @@ export const getProductListToDB = async (cursorId, paging, keyword) => {
         }
 
 
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const dealProductUpdateDao = async (productId, consumerId) => {
+    try {
+        const conn = await pool.getConnection();
+        await pool.query(updateProductDealSql, [consumerId, productId]);
+
+        conn.release();
+        return;
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const dealSalesAddDao = async (productId, consumerId, authorId) => {
+    try {
+        const conn = await pool.getConnection();
+        console.log(insertSalesSql);
+        const [product] = await pool.query(insertSalesSql, [productId, consumerId, authorId]);
+
+        conn.release();
+        return product.insertId;
+        
     } catch (err) {
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);

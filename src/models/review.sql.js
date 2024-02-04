@@ -1,5 +1,5 @@
 // 후기 등록(추가)
-export const insertReviewSql = "INSERT INTO review (review_product, review_consumer, review_context, review_rate) VALUES (?, ?, ?, ?);";
+export const insertReviewSql = "INSERT INTO review (review_product_id, review_consumer_id, review_context, review_rate) VALUES (?, ?, ?, ?);";
 
 // 후기 조회
 export const getReviewIdSql = "SELECT * FROM review WHERE review_id = ?";

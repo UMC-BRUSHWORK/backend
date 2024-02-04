@@ -1,5 +1,5 @@
-import { reviewResponseDTO, getReviewListResponseDTO } from "../dtos/reviewer.dto";
-import { getReviewDB, getReviewListDB } from "../models/reviewer.dao";
+import { getReviewListResponseDTO, reviewResponseDTO } from "../dtos/review.dto";
+import { getReviewDB, getReviewListDB } from "../models/review.dao";
 
 // 후기 내용 조회
 export const joinReviewContent = async () => {
