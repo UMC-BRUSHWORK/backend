@@ -2,7 +2,7 @@ paths:
   /review/register:
     post:
       tags:
-        - review
+        - Review
       summary: 후기 등록
       security:
         - Authorization: []
@@ -13,34 +13,25 @@ paths:
             schema:
               type: object
               properties:
-                reviewId:
+                userId:
                   type: integer
-                  description: 후기 아이디
+                  description: 작성자(구매자) 아이디
                 productId:
                   type: integer
                   description: 작품
-                title:
-                  type: string 
-                  description: 후기 제목
-                context:
+                reviewContent:
                   type: string
                   description: 후기 내용
                   example: I like it!
-                rate:
+                reviewRate:
                   type: integer
-                  description: 후기 점수
-                  example: 좋았어요
-                createdAt:
-                  type: DATETIME
-                  description: 생성일시
-                  example: YYYY-MM-DD
+                  description: 후기 점수 (0-좋았어요, 1-그냥 그래요, 2-별로였어요)
+                  example: 1
               required:
-                - reviewId
+                - userId
                 - productId
-                - title
-                - context
-                - rate
-                - createdAt
+                - reviewContent
+                - reviewRate
       responses:
         '200':
           description: 후기 등록 성공
@@ -64,7 +55,7 @@ paths:
                   data:
                     type: object
                     example: {
-                      "name": "swagger",
+                      "reviewId": 0,
                     }        
         '400':
           description: 잘못된 요청
@@ -118,109 +109,11 @@ paths:
                     type: string
                     example: Server error
                 
-  /review/:reviewId:
-    patch:
-      tags:
-        - review
-      summary: 후기 상태 변경
-      requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              status:
-                type: string
-                format: binary
-                description: 삭제
-              updatedAt:
-                type: DATETIME
-                description: 갱신일시
-                example: YYYY-MM-DD
-            required:
-              - status
-              - updatedAt
-      responses:
-        '200':
-          description: 후기 상태 변경 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    example: 200
-                  isSuccess:
-                    type: boolean
-                    example: true
-                  code:
-                    type: integer
-                    example: 2000
-                  message:
-                    type: string
-                    example: "Review status deltete successfully"
-                  data:
-                    type: object
-                    example: {
-                      "status": "delete"
-                    }
-        '400':
-          description: 잘못된 요청
-          schema:
-            type: object
-            properties:
-              status:
-                type: integer
-                example: 400
-              isSuccess:
-                type: boolean
-                example: false
-              code:
-                type: string
-                example: COMMON001
-              message:
-                type: string
-                example: 잘못된 요청입니다
-
-        '404':
-          description: db에 유저가 존재하지 않음
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: number
-                    example: 404
-                  message:
-                    type: string
-                    example: User not found
-        
-        '500':
-          description: 서버 에러
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    example: 500
-                  isSuccess:
-                    type: boolean
-                    example: false
-                  code:
-                    type: string
-                    example: COMMON000
-                  message:
-                    type: string
-                    example: Server error
+  /review/{reviewId}:
     get:
       tags:
-        - review
-      summary: 후기 정보 조회
+        - Review
+      summary: 후기 세부 내용 조회
       parameters:
         - in: path
           name: reviewId
@@ -228,18 +121,6 @@ paths:
           schema:
             type: string
             description: 후기 아이디
-        - in: query
-          name: cursorId
-          required: false
-          schema:
-            type: integer
-            description: 없으면 가장 최근에 등록된 후기부터 불러옴.
-        - in: query
-          name: paging
-          required: false
-          schema:
-            type: integer
-            description: 'default: 3, 한 번에 몇 개의 데이터를 불러올 지 지정'
       responses:
         '200':
           description: 후기 정보 조회
@@ -260,6 +141,18 @@ paths:
                   message:
                     type: string
                     example: "success!"
+                  result:
+                    type: object
+                    example: {
+                      "reviewId": 0,
+                      "productId": 0,
+                      "consumerId": 0,
+                      "consumerNickname": "별명",
+                      "context": "리뷰 내용",
+                      "rate": 0,
+                      "status": 1,
+                      "date": "2024-01-01 00:00:00"
+                    }
                 
         '400':
           description: 잘못된 요청
@@ -304,7 +197,7 @@ paths:
   /review/list:
     get:
       tags:
-        - review
+        - Review
       summary: 후기 목록 조회
       responses:
         '200':
@@ -326,6 +219,37 @@ paths:
                   message:
                     type: string
                     example: "success!"
+                  result:
+                    type: object
+                    example: {
+                      "categoryData": [
+                          {
+                              "productId": 100,
+                              "title": "제목1",
+                              "authorId": 0,
+                              "authorNickname": "닉네임1",
+                              "image": "imgUrl1",
+                              "status": 0
+                          },
+                          {
+                              "productId": 99,
+                              "title": "제목1",
+                              "authorId": 0,
+                              "authorNickname": "닉네임1",
+                              "image": "imgUrl1",
+                              "status": 0
+                          },
+                          {
+                              "productId": 98,
+                              "title": "제목1",
+                              "authorId": 0,
+                              "authorNickname": "닉네임1",
+                              "image": "imgUrl1",
+                              "status": 0
+                          }
+                      ],
+                      "cursorId": 98
+                    }
                 
         '400':
           description: 잘못된 요청

@@ -205,7 +205,7 @@ paths:
           description: User not found
         '500':
           description: Internal Server Error
-  auth/finduser/password:
+  /auth/finduser/password:
     post:
       tags:
         - Auth

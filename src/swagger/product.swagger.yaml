@@ -494,3 +494,105 @@ paths:
                   message:
                     type: string
                     example: 서버 에러, 관리자에게 문의 바랍니다.
+
+  /product/deal:
+    patch:
+      tags:
+        - Product
+      summary: 작품 거래 상태 변경
+      security:
+        - Authorization: []
+      application/json:
+        schema:
+          type: object
+          properties:
+            productId:
+              type: integer
+              description: 작품 아이디
+            consumerId:
+              type: integer
+              description: 소비자(구매자) 아이디
+            authorId:
+              type: integer
+              description: 작가 아이디
+          required:
+            - productId
+            - consumerId
+            - authorId
+      responses:
+        '200':
+          description: 작품 거래 상태 변경 완료
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: success!
+                  result:
+                    type: array
+                    example: {
+                      "salesId": 0,
+                    }
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: string
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '404':
+          description: db에 유저가 존재하지 않음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  message:
+                    type: string
+                    example: User not found
+        
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: Server error
+                    
