@@ -173,7 +173,7 @@ paths:
               error:
                 type: string
                 description: 서버 오류
-  /auth/finduser/email:
+  /auth/email:
     post:
       tags:
         - Auth
@@ -200,7 +200,7 @@ paths:
           description: User not found
         '500':
           description: Internal Server Error
-  auth/finduser/password:
+  /auth/password:
     post:
       tags:
         - Auth
@@ -231,3 +231,51 @@ paths:
           description: User not found
         '500':
           description: Internal Server Error
+
+  /auth/sleep:
+    patch:
+      tags:
+        - Auth
+      summary: Sleep User Operation
+      description: Endpoint to put a user to sleep.
+      requestBody:
+        description: User credentials for sleeping
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                useremail:
+                  type: string
+                  format: email
+                  description: The email of the user to sleep
+                  example: user@example.com
+                userpassword:
+                  type: string
+                  description: The password of the user
+                  example: password123
+      responses:
+        '200':
+          description: User sleep operation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: Sleep user operation successful
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
