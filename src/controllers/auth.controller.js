@@ -14,7 +14,7 @@ export const loginController = async (req, res, next) => {
 
 // 로그아웃
 export const logoutController = (req, res, next) => {
-    req.session.destroy((err) => {throw new BaseError(status.SESSION_DELETE_ERR)});
+    // req.session.destroy((err) => {throw new BaseError(status.SESSION_DELETE_ERR)});
     res.send(response(status.SUCCESS, "로그아웃 성공"))
 };
 

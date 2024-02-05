@@ -2,14 +2,14 @@ import { pool } from "../../config/db.connect";
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { createUserSql, getUserByIDSql, getUserSql, selectNicknameSql, updateAccessTime, updateUserStatus, getEmailByName, getEmailByphoneSql, getUser, changeToSleepUser, changeToActiveUser } from "./auth.sql";
-
+import { createUserSql, getUserByIDSql, getUserSql, updateAccessTime, updateUserStatus,  getEmailByphoneSql, getNicknameSql, getUser, changeToSleepUser, changeToActiveUser } from "./auth.sql.js";
 
 export const getUserByEmail = async (email) => {
     try {
         const conn = await pool.getConnection();
         const [result] = await pool.query(getUserSql, email);
         
+        console.log(result);
         conn.release();
         
         return result;
@@ -48,17 +48,18 @@ export const getUserByPhone = async (phone) =>{
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
-        // 닉네임으로 사용자 얻기
+
+// 닉네임으로 사용자 얻기
 export const getUserByNickname = async (nickname) => {
     try {
         const conn = await pool.getConnection();
-
-        const results = await pool.query(selectNicknameSql, nickname);
+        const [result] = await pool.query(getNicknameSql, nickname);
 
         conn.release();
-        return results.length > 0 ? results[0] : null;
+        return result;
+        // return results.length > 0 ? results[0] : null;
     } catch (err) {
-        console.error('inpool', null, err);
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 };

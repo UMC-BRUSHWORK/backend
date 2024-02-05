@@ -7,20 +7,18 @@ import { generateToken } from '../middleware/jwt';
 import { comparePassword, maskEmail } from '../middleware/auth';
 
 
-
-import { changeStatusByEmail, createUser, getUserByEmail, getUserByNickname, getUserByPhone, updateAccess, getUserByEmailAndName, changeSleepUser, changeActiveUser } from '../models/auth.dao';
+import { changeStatusByEmail, createUser, getUserByEmail, getUserByName, getUserByNickname, getUserByPhone, updateAccess, getUserByEmailAndName, changeSleepUser, changeActiveUser } from '../models/auth.dao';
 import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO, inLoginsleepUserResponseDTO, sleepUserResponseDTO } from '../dtos/auth.dto';
 
 
 // 로그인
-export const loginUser = async(body) => {
+export const loginUser = async (body) => {
+    const { userEmail, userPassword } = body;
 
-    const { useremail, userpassword } = body;
-
-    const user_db = await getUserByEmail(useremail);   // 사용자 존재하는지 확인
+    const user_db = await getUserByEmail(userEmail);   // 사용자 존재하는지 확인
     if (user_db.length > 0) {
         const user = user_db[0];
-        const isPasswordMatch = await comparePassword(userpassword, user.user_password);
+        const isPasswordMatch = await comparePassword(userPassword, user.user_password);
         if (isPasswordMatch) {  // 비밀번호 일치
             const lastLoginDate = new Date(user.access_at);
             const currentDate = new Date();
@@ -37,7 +35,6 @@ export const loginUser = async(body) => {
                 // 콜백 대신 직접 결과 반환
                 return loginResponseDTO(result, token);
             }
-            
         } else {    //비밀번호가 일치하지 않음
             // 콜백 대신 직접 결과 반환
             throw new BaseError(status.PASSWORD_WRONG);
@@ -51,14 +48,12 @@ export const loginUser = async(body) => {
 // 회원가입 -> DB 비밀번호 암호화
 export const registerService = async (body) => {
 
-    const {useremail, userpassword, usernickname, username, userphone} = body;
+    const {userEmail, userPassword, userNickname, userName, userPhone} = body;
 
-    const CN = await getUserByNickname(usernickname);  // 닉네임이 아니라 본명을 따져야 하지 않을까 생각..!
-    const CE = await getUserByEmail(useremail);
-    const hashedPassword = await bcrypt.hash(userpassword, 10);
+    const CN = await getUserByNickname(userNickname);  // 닉네임이 아니라 본명을 따져야 하지 않을까 생각..!
+    const CE = await getUserByEmail(userEmail);
+    const hashedPassword = await bcrypt.hash(userPassword, 10);
 
-    console.log(CN);
-    console.log(CE);
 
     if(CN.length){
         //이미 사용 중인 닉네임입니다.
@@ -70,25 +65,25 @@ export const registerService = async (body) => {
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }
 
-    const result = await createUser(useremail, hashedPassword, username, usernickname, userphone);
+    const result = await createUser(userEmail, hashedPassword, userName, userNickname, userPhone);
 
     return registerResponseDTO(result);
 }
 
 // 회원 탈퇴
 export const resignService = async (body) => {
-
-    const {useremail, userpassword} = body;
-    const user_db = await getUserByEmail(useremail);
+    const {userEmail, userPassword} = body;
+    const user_db = await getUserByEmail(userEmail);
 
     if(user_db.length > 0){
         const user = user_db[0];
-        const isPasswordMatch = await comparePassword(userpassword, user.user_password);
+        const isPasswordMatch = await comparePassword(userPassword, user.user_password);
 
         if(isPasswordMatch){
             //비밀번호가 일치, 인증완료 삭제 쿼리
-            await changeStatusByEmail(useremail);
-            const result = await getUserByEmail(useremail);
+            await changeStatusByEmail(userEmail);
+            const result = await getUserByEmail(userEmail);
+
 
             return resignResponseDTO(result[0]);
         }else{
@@ -102,8 +97,8 @@ export const resignService = async (body) => {
 
 // email 찾기
 export const findEmail = async (body) => {
-    const {userphone} = body;
-    const check_db = await getUserByPhone(userphone);
+    const {userPhone} = body;
+    const check_db = await getUserByPhone(userPhone);
     
     if (check_db.length > 0){
         const user = check_db[0];
