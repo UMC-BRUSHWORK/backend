@@ -4,6 +4,8 @@ paths:
       tags:
         - User
       summary: 선호 작품 불러오기
+      security:
+        - Authorization: []
       parameters:
         - in: path
           name: userId
@@ -110,6 +112,8 @@ paths:
       tags:
         - User
       summary: 선호 작품 등록/ 상태 변경 (좋아요 해제 혹은 재설정)
+      security:
+        - Authorization: []
       parameters:
         - in: path
           name: userId

@@ -11,7 +11,5 @@ export const getReviewListService = async (query) => {
 
     const {userId, paging = 3, cursorId = -1} = query;
 
-    console.log("provider", userId, cursorId, paging);
-
     return getReviewListResponseDTO(await getReviewListDB(parseInt(userId), parseInt(cursorId), parseInt(paging)));
 }

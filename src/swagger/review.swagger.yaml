@@ -4,6 +4,8 @@ paths:
       tags:
         - review
       summary: 후기 등록
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
@@ -215,7 +217,6 @@ paths:
                   message:
                     type: string
                     example: Server error
-                 
     get:
       tags:
         - review

@@ -8,6 +8,16 @@ const options = {
             version: '1.0.0',
             description: 'UMC-Project-BRUSHWORK API Endpoint: https://dev.brushwork.shop/',
         },
+        components: {
+            securitySchemes: {
+                Authorization: {
+                    type: "apiKey",
+                    name: "authorization",
+                    in: "header",
+                    description: "JWT Token"
+                } 
+            }
+        },
         servers: [
             {
                 url: 'https://dev.brushwork.shop',

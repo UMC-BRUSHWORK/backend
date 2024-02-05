@@ -4,6 +4,8 @@ paths:
       tags:
         - Product
       summary: 작품 등록
+      security:
+        - Authorization: []
       requestBody:
         content:
           multipart/form-data:
@@ -151,6 +153,8 @@ paths:
       tags:
         - Product
       summary: 작품 수정
+      security:
+        - Authorization: []
       requestBody:
         content:
           multipart/form-data:

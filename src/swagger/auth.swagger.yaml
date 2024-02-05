@@ -68,6 +68,8 @@ paths:
       tags:
         - Auth
       summary: "세션 파괴 및 로그아웃 처리"
+      security:
+        - Authorization: []
       responses:
         '200':
           description: "로그아웃 성공"
@@ -88,7 +90,7 @@ paths:
     post:
       tags:
         - Auth
-      summary: Register a new user
+      summary: 회원가입
       requestBody:
         required: true
         content:
@@ -137,6 +139,8 @@ paths:
       tags:
         - Auth
       summary: 유저 삭제
+      security:
+        - Authorization: []
       description: 유저 계정 삭제
       requestBody:
         required: true
@@ -154,7 +158,6 @@ paths:
                   required:
                     - userEmail
                     - userPassword
-
       responses:
         '201':
           description: 유저 삭제 성공
@@ -178,6 +181,8 @@ paths:
       tags:
         - Auth
       summary: 전화번호를 통해 사용자 이메일 찾기
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
@@ -204,7 +209,9 @@ paths:
     post:
       tags:
         - Auth
-      summary: Update user password
+      summary: 비밀번호 찾기 (비밀번호 변경)
+      security:
+        - Authorization: []
       description: Update the password of a user based on email and name
       requestBody:
         required: true
@@ -213,13 +220,13 @@ paths:
             schema:
               type: object
               properties:
-                user_email:
+                userEmail:
                   type: string
                   description: The email of the user
-                user_name:
+                userName:
                   type: string
                   description: The name of the user
-                a_password:
+                afterPassword:
                   type: string
                   description: The new password for the user
       responses:
