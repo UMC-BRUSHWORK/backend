@@ -18,6 +18,10 @@ paths:
                   type: string
                   format: binary
                   description: 작품 이미지
+                preview:
+                  type: string
+                  format: binary
+                  description: 작품 프리뷰
                 title:
                   type: string 
                   description: 작품 제목
@@ -40,6 +44,7 @@ paths:
               required:
                 - productId
                 - image
+                - preview
                 - title
                 - price
                 - delivery
@@ -143,6 +148,10 @@ paths:
                   type: string
                   format: binary
                 description: 작품 이미지[수정]
+              preview:
+                  type: string
+                  format: binary
+                description: 작품 프리뷰[수정]
               title:
                 type: string 
                 description: 작품 제목[수정]
@@ -164,6 +173,7 @@ paths:
                 example: YYYY-MM-DD
             required:
               - image
+              - preview
               - title
               - price
               - delivery

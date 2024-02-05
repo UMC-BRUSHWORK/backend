@@ -1,7 +1,7 @@
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { compareData } from '../middleware/product.data';
+import compareData from '../middleware/data.compare';
 
 import { registerResponseDTO, editResponseDTO } from "../dtos/product.dto"
 import { addProduct, getProduct, changeProduct, getCategory, getTag, getProductByProductId, setCategory, setTag } from "../models/product.dao";
@@ -16,6 +16,7 @@ export const joinProduct = async (body) => {
     const joinProductData = await addProduct({
         'productId': body.productId,
         'image': body.image,
+        'preview': body.preview,
         'title': body.title,
         'price': body.price,
         'delivery': body.delivery,
@@ -59,6 +60,7 @@ export const rejoinProduct = async (body) => {
         const rejoinProductData = await changeProduct({
             'productId': body.productId,
             'image': body.image,
+            'preview': body.preview,
             'title': body.title,
             'price': body.price,
             'delivery': body.delivery,

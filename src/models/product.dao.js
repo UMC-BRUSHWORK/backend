@@ -1,4 +1,5 @@
 // db 연결
+import bodyParser from "body-parser";
 import { pool } from "../../config/db.config";
 
 // 응답 관련
@@ -23,7 +24,7 @@ export const addProduct = async (data) => {
         const conn = await pool.getConnection();
 
         // 필수 정보
-        if(!(image || title || price || details)) {
+        if(!(image || preview || title || price || details)) {
             throw new BaseError(status.INFO_NOT_EXIST);
             return -1;
         }
@@ -32,7 +33,7 @@ export const addProduct = async (data) => {
             return -1;
         }
 
-        const result = await pool.query(insertProductSql, [body.productId, body.image, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
+        const result = await pool.query(insertProductSql, [body.productId, body.image, body.preview, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
 
         conn.release();
         return result[0].productId;
@@ -93,7 +94,7 @@ export const changeProduct = async (data) => {
     try{
         const conn = await pool.getConnection();
 
-        const update = await pool.query(updateProductInfoSql, [body.productId, body.image, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
+        const update = await pool.query(updateProductInfoSql, [body.productId, body.image, body.preview, body.title, body.price, body.delivery, body.details, createdAt, updatedAt]);
 
         conn.release();
         return update[0].productId;

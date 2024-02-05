@@ -55,7 +55,7 @@ export const getProductListResponseDTO = (data, category) => {
     for (let i = 0; i < category.length; i++) {
         products.push({
             'productId': category[i].productId,
-            'image': category[i].image,
+            'preview': category[i].preview,
             'title': category[i].title,
             'price': category[i].price,
         })
