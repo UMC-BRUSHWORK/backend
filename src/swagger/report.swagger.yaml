@@ -1,0 +1,198 @@
+paths:
+  /report/register:
+    post:
+      tags:
+        - report
+      summary: 신고 접수
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reportId:
+                  type: integer
+                  description: 신고 아이디
+                status:
+                  type: string
+                  format: binary
+                  description: 신고 유형
+                reporter:
+                  type: string 
+                  description: 신고자 아이디
+                reportee:
+                  type: integer
+                  description: 신고 대상 아이디
+                  example: 150,000
+                context:
+                  type: string
+                  description: 신고 상세내용
+                  example: This is...
+                createdAt:
+                  type: DATETIME
+                  description: 생성일시
+                  example: YYYY-MM-DD
+              required:
+                - reportId
+                - status
+                - reporter
+                - reportee
+                - context
+                - createdAt
+      responses:
+        '200':
+          description: 신고 접수 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "Report registed successfully"
+                  data:
+                    type: object
+                    example: {
+                      "reportee": reportee_id,
+                      "status": "기타",
+                    }        
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+               status:
+                  type: integer
+                  example: 400
+                isSuccess:
+                  type: boolean
+                  example: false
+                code:
+                  type: string
+                  example: COMMON001
+                message:
+                  type: string
+                  example: 잘못된 요청입니다
+
+        '404':
+          description: db에 유저가 존재하지 않음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  message:
+                    type: string
+                    example: User not found
+        
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: Server error
+paths:
+  /report/context
+    get:
+      tags:
+        - report
+      summary: 신고 정보 조회
+      parameters:
+        - in: path
+          name: reportId
+          required: true
+          schema:
+            type: string
+            description: 신고 아이디
+        - in: query
+          name: paging
+          required: false
+          schema:
+            type: integer
+            description: 'default: 3, 한 번에 몇 개의 데이터를 불러올 지 지정'
+      responses:
+        '200':
+          description: 신고 정보 조회
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "success!"
+                
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 400
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON001
+                  message:
+                    type: string
+                    example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: 서버 에러, 관리자에게 문의 바랍니다.
