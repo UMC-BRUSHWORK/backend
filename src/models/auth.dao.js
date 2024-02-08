@@ -9,7 +9,6 @@ export const getUserByEmail = async (email) => {
         const conn = await pool.getConnection();
         const [result] = await pool.query(getUserSql, email);
         
-        console.log(result);
         conn.release();
         
         return result;
@@ -98,7 +97,7 @@ export const getUserByEmailAndName = async (a_password, email, name) =>{
     try{
         const conn = await pool.getConnection();
 
-        const result = await pool.query(getUser, [a_password, email, name]);
+        const [result] = await pool.query(getUser, [a_password, email, name]);
 
         conn.release();
 
@@ -113,7 +112,7 @@ export const getUserByEmailAndName = async (a_password, email, name) =>{
 export const changeSleepUser = async (user) => {
     try{    //유저 상태으로 전환
         const conn = await pool.getConnection();
-        const result = await pool.query(changeToSleepUser, user.user_id);
+        const result = await pool.query(changeToActiveUser, user.user_id);
         conn.release();
         
         return result
@@ -127,7 +126,7 @@ export const changeSleepUser = async (user) => {
 export const changeActiveUser = async (user) => {
     try{
         const conn = await pool.getConnection();
-        const [result] = await pool.query(changeToActiveUser, user.user_id);
+        const [result] = await pool.query(changeToSleepUser, user.user_id);
         conn.release();
 
         return result;

@@ -176,7 +176,7 @@ paths:
               error:
                 type: string
                 description: 서버 오류
-  /auth/email:
+  /auth/finduser/email:
     post:
       tags:
         - Auth
@@ -205,11 +205,8 @@ paths:
           description: User not found
         '500':
           description: Internal Server Error
-<<<<<<< HEAD
+  
   /auth/finduser/password:
-=======
-  /auth/password:
->>>>>>> origin/feature/61
     post:
       tags:
         - Auth
@@ -230,7 +227,10 @@ paths:
                 userName:
                   type: string
                   description: The name of the user
-                afterPassword:
+                bPassword:
+                  type: string
+                  description: The old password for the user
+                aPassword:
                   type: string
                   description: The new password for the user
       responses:
@@ -257,12 +257,12 @@ paths:
             schema:
               type: object
               properties:
-                useremail:
+                userEmail:
                   type: string
                   format: email
                   description: The email of the user to sleep
                   example: user@example.com
-                userpassword:
+                userPassword:
                   type: string
                   description: The password of the user
                   example: password123
@@ -280,13 +280,5 @@ paths:
                     example: Sleep user operation successful
         '400':
           description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
         '500':
           description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'

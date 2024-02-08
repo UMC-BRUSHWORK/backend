@@ -26,7 +26,7 @@ export const loginUser = async (body) => {
             if(checkDate >= 365 * 24 * 60 * 60 * 1000){
                 //휴면 계정
                 await changeSleepUser(user) //유저 상태 전환
-                return inLoginsleepUserResponseDTO(user)
+                return inLoginsleepUserResponseDTO(user);
             } else {
                 //정상 계정 토큰 발급 진행
                 const token = generateToken(user.user_nickname);
@@ -63,7 +63,7 @@ export const registerService = async (body) => {
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }
 
-    const result = await createUser(useremail, hashedPassword, username, usernickname, userphone);
+    const result = await createUser(userEmail, hashedPassword, userName, userNickname, userPhone);
 
     return registerResponseDTO(result);
 }
@@ -132,17 +132,17 @@ export const changePassword = async(body) => {
 }
 
 export const sleepUserService = async(body) => {
-    const {useremail, userpassword} = body;
-    const user_db = await getUserByEmail(useremail);
+    const {userEmail, userPassword} = body;
+    const user_db = await getUserByEmail(userEmail);
 
     if(user_db.length > 0)
     {
         const user = user_db[0];
-        const isPasswordMatch = await comparePassword(userpassword, user.user_password);
+        const isPasswordMatch = await comparePassword(userPassword, user.user_password);
 
         if(isPasswordMatch){
             await changeActiveUser(user);
-            return sleepUserResponseDTO(user);
+            return sleepUserResponseDTO(await getUserByEmail(userEmail));
         } else {
             throw new BaseError(status.PASSWORD_WRONG);
         }
