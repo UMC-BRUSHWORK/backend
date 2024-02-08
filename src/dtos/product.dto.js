@@ -76,26 +76,9 @@ export const dealProductResponseDTO = (data) => {
 }
 
 // 작품 검색 조회
-export const getKeywordResponseDTO = (data, keyword) => {
-    const productKeyword = [];
-
-    for (let i = 0; i < keyword[0].length; i++) {
-        productKeyword.push(keyword[0][i].p_keyword_name);
-    }
-
-    const products = [];
-
-    for (let i = 0; i < keyword.length; i++) {
-        products.push({
-            'productId': keyword[i].productId,
-            'image': keyword[i].image,
-            'title': keyword[i].title,
-            'price': keyword[i].price,
-        })
-    }
-
+export const getKeywordResponseDTO = (data) => {
     return {
-        "keywordData": products, 
-        "cursorId": data[data.length-1].productId
+        "listData": data,
+        "cursorId": data[0].product_id
     };
 }

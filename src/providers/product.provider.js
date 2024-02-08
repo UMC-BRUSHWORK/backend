@@ -1,4 +1,4 @@
-import { getProductListResponseDTO, productCommonResponseDTO } from "../dtos/product.dto";
+import { getKeywordResponseDTO, getProductListResponseDTO, productCommonResponseDTO } from "../dtos/product.dto";
 import { getCategory, getKeyword, getProduct, getProductListToDB} from "../models/product.dao";
 
 // 작품 정보 조회
@@ -13,11 +13,18 @@ export const joinProductList = async (query) => {
 }
 
 // 작품 검색 조회
-export const joinProducteKeyword = async (query) => {
+export const joinProductKeyword = async (query) => {
 
     const {paging = 3, cursorId = -1, keyword} = query;
 
-    console.log(keyword, cursorId, paging);
+    const data = await getKeyword(keyword, parseInt(cursorId), parseInt(paging));
+    const result = data.filter((arr, index, cb) => index === cb.findIndex(t => t.product_id === arr.product_id));
 
-    return getKeywordResponseDTO(await getKeyword(keyword, parseInt(cursorId), parseInt(paging)));
+    result.sort((a, b) => {
+        if (a.product_id < b.product_id) return -1;
+        if (a.product_id > b.product_id) return 1;
+        return 0;
+    })
+
+    return getKeywordResponseDTO(result);
 }

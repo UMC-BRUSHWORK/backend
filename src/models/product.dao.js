@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { insertProductSql, getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct, updateProductDealSql, insertSalesSql } from "./product.sql.js";
+import { insertProductSql, getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct, updateProductDealSql, insertSalesSql, getKeywordTitleSql, getKeywordDescriptionSql, getKeywordHashtagSql } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
@@ -46,7 +46,7 @@ export const addProductDB = async (data) => {
 }
 
 // 작품 정보 조회
-export const getProductDB = async (productId) => {
+export const getProduct = async (productId) => {
     try {
         const conn = await pool.getConnection();
         const [product] = await pool.query(getProductIdSql, productId);
@@ -116,27 +116,30 @@ export const setCategory = async (productId, category) => {
 export const getKeyword = async (keyword, cursorId, paging) => {
     try {
         const conn = await pool.getConnection();
-        let keywordList = new Set();
+
+        const kw = '%' + keyword + '%';
 
         if(cursorId == -1){
             const [temp] = await pool.query(countProduct);
             cursorId = temp[0].productCursor + 1;
         }
-        console.log("-----DAO-----");
-        console.log(keyword, cursorId, paging);
 
-        const [temp1] = await pool.query(getKeywordTitleSql, [keyword, cursorId, paging]);
-        const [temp2] = await pool.query(getKeywordDescriptionSql, [keyword, cursorId, paging]);
-        const [temp3] = await pool.query(getKeywordHashtagSql, [keyword, cursorId, paging]);
+        // 해시태그 검색을 따로 해야 하는지?
 
-        console.log(temp1);
-        console.log(temp2);
-        console.log(temp3);
-        console.log("-----DAO-----");
-        
+        const keywordList = new Array();
+
+        const [tempHash] = await pool.query(getKeywordHashtagSql, [kw, cursorId, paging]);
+        const [tempTitle] = await pool.query(getKeywordTitleSql, [kw, cursorId, paging]);
+        const [tempDesc] = await pool.query(getKeywordDescriptionSql, [kw, cursorId, paging]);
+
+        for (let item of tempHash){ keywordList.push(item); }
+        for (let item of tempTitle){ keywordList.push(item); }
+        for (let item of tempDesc){ keywordList.push(item); }
+
         conn.release();
 
-        return 1;
+        return keywordList;
+
     } catch (err) {
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
