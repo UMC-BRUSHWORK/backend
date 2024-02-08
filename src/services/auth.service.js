@@ -7,7 +7,7 @@ import { generateToken } from '../middleware/jwt';
 import { comparePassword, maskEmail } from '../middleware/auth';
 
 import { changeStatusByEmail, createUser, getUserByEmail, getUserByNickname, getUserByPhone, updateAccess, getUserByEmailAndName } from '../models/auth.dao';
-import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO } from '../dtos/auth.dto';
+import { changePasswordResponseDTO, findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO } from '../dtos/auth.dto';
 
 
 // 로그인
@@ -108,7 +108,7 @@ export const changePassword = async (body) => {
     const check_db = await getUserByEmailAndName(hashedAfterPassword, userEmail, userName);
     
     if(check_db){
-        return check_db
+        return changePasswordResponseDTO(userEmail);
     }else{
         throw new BaseError(status.PASSWORD_CHANGE_FAILED);
     }

@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct, updateProductDealSql, insertSalesSql } from "./product.sql.js";
+import { insertProductSql, getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct, updateProductDealSql, insertSalesSql } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
@@ -106,9 +106,39 @@ export const setCategory = async (productId, category) => {
         }
 
         conn.release();
+        return 1;
+    }catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 작품 검색 조회
+export const getKeyword = async (keyword, cursorId, paging) => {
+    try {
+        const conn = await pool.getConnection();
+        let keywordList = new Set();
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(countProduct);
+            cursorId = temp[0].productCursor + 1;
+        }
+        console.log("-----DAO-----");
+        console.log(keyword, cursorId, paging);
+
+        const [temp1] = await pool.query(getKeywordTitleSql, [keyword, cursorId, paging]);
+        const [temp2] = await pool.query(getKeywordDescriptionSql, [keyword, cursorId, paging]);
+        const [temp3] = await pool.query(getKeywordHashtagSql, [keyword, cursorId, paging]);
+
+        console.log(temp1);
+        console.log(temp2);
+        console.log(temp3);
+        console.log("-----DAO-----");
         
+        conn.release();
+
         return 1;
     } catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
@@ -147,14 +177,9 @@ export const getProductListToDB = async (cursorId, paging, keyword) => {
 
         // 작품 리스트 - 커서 아이디, paging 사이즈
         // if(keyword == ""){   // 추후 검색 진행 시
-        if(1){
-            const [product_list] = await pool.query(selectProductList, [cursorId, paging]);
-            conn.release();
-            return product_list;    
-        }else{
-            // 검색!!! -> 검색 기준 이런거 물어봐야겠음
-        }
-
+        const [product_list] = await pool.query(selectProductList, [cursorId, paging]);
+        conn.release();
+        return product_list;    
 
     } catch (err) {
         console.error(err);
@@ -162,6 +187,7 @@ export const getProductListToDB = async (cursorId, paging, keyword) => {
     }
 }
 
+// --- 작품 거래 상태 변경(거래 성사)
 export const dealProductUpdateDao = async (productId, consumerId) => {
     try {
         const conn = await pool.getConnection();
@@ -188,3 +214,4 @@ export const dealSalesAddDao = async (productId, consumerId, authorId) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
+// --- 작품 거래 상태 변경(거래 성사)

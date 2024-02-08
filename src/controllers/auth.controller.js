@@ -4,7 +4,6 @@ import { status } from "../../config/response.status";
 
 import { findEmail, loginUser, registerService, resignService, changePassword } from "../services/auth.service";
 
-
 // 로그인
 export const loginController = async (req, res, next) => {
     res.send(response(status.SUCCESS, await loginUser(req.body)));

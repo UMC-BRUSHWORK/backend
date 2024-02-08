@@ -19,6 +19,11 @@ export const getCategoryIdSql = "SELECT pc.pc_id, pc.pc_product_id, pc.pc_catego
 " WHERE pc_product_id = ? and pc.pc_status = 1";
 export const getCategoryItem = "SELECT pc_status FROM product_category WHERE pc_product_id = ? and pc_category_id = ?";
 
+// 검색
+export const getKeywordTitleSql = "SELECT product_id, product_name, product_author_id, product_author_nickname, product_status, product_preview_img FROM product WHERE product_name LIKE '%?%' and product_id < ? ORDER BY product_id DESC LIMIT ?";
+export const getKeywordDescriptionSql = "SELECT product_id, product_name, product_author_id, product_author_nickname, product_status, product_preview_img FROM product WHERE product_description LIKE '%?%' and product_id < ? ORDER BY product_id DESC LIMIT ?";
+export const getKeywordHashtagSql = "SELECT product_id, product_name, product_author_id, product_author_nickname, product_status, product_preview_img FROM product WHERE product_hashtag LIKE '%?%' and product_id < ? ORDER BY product_id DESC LIMIT ?";
+
 // 작품 정보 수정
 export const updateProductInfoSql = "UPDATE product " 
 + "SET p_img = ?, product_name = ?, product_price = ?, product_delivery = ?, product_description = ?, product_hashtag = ?, updated_at = CURRENT_TIMESTAMP() " 

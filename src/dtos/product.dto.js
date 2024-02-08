@@ -42,6 +42,24 @@ export const getProductListResponseDTO = (data) => {
             "authorNickname": data[i].product_author_nickname,
             "image": (data[i].p_img.split(','))[0],
             "status": data[i].product_status    // 상태 추가
+    // for (let i = 0; i < category[0].length; i++) {
+    //     productCategory.push(category[0][i].p_category_name);
+    })}
+
+    const productTag = [];
+    
+    for (let i = 0; i < tag[0].length; i++) {
+        productTag.push(tag[0][i].p_tags_name);
+    }
+
+    const products = [];
+
+    for (let i = 0; i < category.length; i++) {
+        products.push({
+            'productId': category[i].productId,
+            'image': category[i].image,
+            'title': category[i].title,
+            'price': category[i].price,
         })
     }
 
@@ -54,5 +72,30 @@ export const getProductListResponseDTO = (data) => {
 export const dealProductResponseDTO = (data) => {
     return {
         "salesId": data
+    };
+}
+
+// 작품 검색 조회
+export const getKeywordResponseDTO = (data, keyword) => {
+    const productKeyword = [];
+
+    for (let i = 0; i < keyword[0].length; i++) {
+        productKeyword.push(keyword[0][i].p_keyword_name);
+    }
+
+    const products = [];
+
+    for (let i = 0; i < keyword.length; i++) {
+        products.push({
+            'productId': keyword[i].productId,
+            'image': keyword[i].image,
+            'title': keyword[i].title,
+            'price': keyword[i].price,
+        })
+    }
+
+    return {
+        "keywordData": products, 
+        "cursorId": data[data.length-1].productId
     };
 }
