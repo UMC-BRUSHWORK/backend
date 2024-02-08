@@ -11,4 +11,7 @@ export const getUser = 'UPDATE user SET user_password = ? WHERE user_email = ? A
 export const getEmailByphoneSql = 'SELECT * FROM user WHERE user_phone = ?';
 export const updateUserStatus = 'UPDATE user SET access_at = CURRENT_TIMESTAMP(), user_status = 2 WHERE user_email = ?';
 
+export const changeToSleepUser = 'UPDATE user SET user_status = 3 WHERE user_id = ?';
+export const changeToActiveUser = 'UPDATE user SET user_status = 1 WHERE user_id = ?';
+
 export const createUserSql = 'INSERT INTO user (user_name, user_password, user_email, user_nickname, user_phone) VALUES (?, ?, ?, ?, ?)';

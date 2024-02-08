@@ -35,5 +35,21 @@ export const findEmailResponseDTO = (result) => {
 }
 
 export const changePasswordResponseDTO = (result) => {
-    return {"email": result};
+    return {"email": result.user_email};
+}
+
+export const inLoginsleepUserResponseDTO = (result) => {
+    return {
+        "userId" : result.user_id,
+        "nickname" : result.user_nickname,
+        "status": (result.user_status === 1) ? "active" : (result.user_status === 2) ? "inactive" : (result.user_status === 3) ? "sleep" : "unknown"
+    };
+}
+
+export const sleepUserResponseDTO = (result) => {
+    return {
+        "userId" : result.userId,
+        "nickname" : result.user_nickname,
+        "status": (result.user_status === 1) ? "active" : (result.user_status === 2) ? "inactive" : (result.user_status === 3) ? "sleep" : "unknown"
+    };
 }

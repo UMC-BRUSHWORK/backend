@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 
 import { jwtAuthenticationMiddleware } from '../middleware/jwt.auth';
 
-import { loginController, logoutController, findEmailController, resignController, registerController, changepasswordController } from '../controllers/auth.controller';
+import { loginController, logoutController, findEmailController, resignController, registerController, changepasswordController, sleepUserController } from '../controllers/auth.controller';
 
 export const authRouter = express.Router();
 
@@ -15,4 +15,5 @@ authRouter.patch('/resign', jwtAuthenticationMiddleware, asyncHandler(resignCont
 
 authRouter.post('/finduser/email', jwtAuthenticationMiddleware, jwtAuthenticationMiddleware, asyncHandler(findEmailController));  // 이메일 찾기 (아이디 찾기)
 authRouter.post('/finduser/password', jwtAuthenticationMiddleware, asyncHandler(changepasswordController)); // 비밀번호 변경
-// authRouter.patch('/resign', resign);
+
+authRouter.patch('/sleep', asyncHandler(sleepUserController)); //휴먼계정 관리
