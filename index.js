@@ -5,6 +5,7 @@ import SwaggerUi from "swagger-ui-express"
 import { specs } from './config/swagger.config.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
 // 응답 관련
 import { response } from './config/response.js';
@@ -18,11 +19,11 @@ import { userRouter } from './src/routes/user.route.js';
 import { authRouter } from './src/routes/auth.route.js';
 import { productRouter } from './src/routes/product.route.js';
 import { reviewRouter } from './src/routes/review.route.js';
+import { reportRouter } from './src/routes/report.route.js';
 
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
 const app = express();
-const bodyParser = require('body-parser');
 
 // server setting - veiw, static, body-parser etc..
 app.set('port', process.env.PORT || 3000)   // 서버 포트 지정
@@ -43,6 +44,7 @@ app.use('/user', userRouter);       // user 관련 router
 app.use('/auth', authRouter);       // auth 관련 router
 app.use('/product', productRouter); // 작품 관련 router
 app.use('/review', reviewRouter);   // 리뷰 관련 router
+app.use('/report', reportRouter);   // 신고 관련 router
 
 // error handling
 app.use((req, res, next) => {

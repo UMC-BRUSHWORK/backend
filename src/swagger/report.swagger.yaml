@@ -1,9 +1,11 @@
 paths:
-  /report/register:
+  /report/receive:
     post:
       tags:
-        - report
+        - Report
       summary: 신고 접수
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
@@ -11,35 +13,23 @@ paths:
             schema:
               type: object
               properties:
-                reportId:
-                  type: integer
-                  description: 신고 아이디
                 status:
-                  type: string
-                  format: binary
+                  type: integer
                   description: 신고 유형
-                reporter:
-                  type: string 
+                reporterId:
+                  type: integer 
                   description: 신고자 아이디
-                reportee:
+                reporteeId:
                   type: integer
                   description: 신고 대상 아이디
-                  example: 150,000
                 context:
                   type: string
                   description: 신고 상세내용
-                  example: This is...
-                createdAt:
-                  type: DATETIME
-                  description: 생성일시
-                  example: YYYY-MM-DD
+                  example: 신고내용
               required:
-                - reportId
                 - status
-                - reporter
-                - reportee
-                - context
-                - createdAt
+                - reporterId
+                - reporteeId
       responses:
         '200':
           description: 신고 접수 성공
@@ -63,26 +53,25 @@ paths:
                   data:
                     type: object
                     example: {
-                      "reportee": reportee_id,
-                      "status": "기타",
+                      "reportId": 1
                     }        
         '400':
           description: 잘못된 요청
           schema:
             type: object
             properties:
-               status:
+              status:
                   type: integer
                   example: 400
-                isSuccess:
-                  type: boolean
-                  example: false
-                code:
-                  type: string
-                  example: COMMON001
-                message:
-                  type: string
-                  example: 잘못된 요청입니다
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: string
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
 
         '404':
           description: db에 유저가 존재하지 않음

@@ -1,0 +1,1 @@
+export const addReportSql = "INSERT INTO complaint (reporter_id, reportee_id, complaint_status_id, complaint_context) VALUES (?, ?, ?, ?)";
