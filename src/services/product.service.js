@@ -25,7 +25,8 @@ export const joinProduct = async (body, files) => {
         'price': parseInt(body.price),        // 가격
         'details': body.details,    // 상세 설명
         'hashtag': body.hashtag,     // 해시태그 string
-        'image': stringFiles        // 사진
+        'image': stringFiles,        // 사진
+        'previewImg': files[0].location
     });
     // productId 중복 불가
     if(joinProductData == -1){

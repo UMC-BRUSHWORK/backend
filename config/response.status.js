@@ -23,7 +23,8 @@ export const status = {
     PRODUCT_ALREADY_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PRODUCT4001", "message": "이미 존재하는 작품입니다."},
     INFO_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PRODUCT4002", "message": "작품 이미지, 이름, 가격, 설명은 필수입니다."},
     NO_SALES_HISTORY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PRODUCT4003", "message": "판매되지 않았거나 다른 사람에게 판매된 작품입니다."},
-
+    RESULT_NOT_FOUND : {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PRODUCT4004", "message": "요청하신 조건에 맞는 작품이 존재하지 않습니다."},
+    
     // review err
     STATUS_CHANGE_ERR: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "REVIEW4001", "message": "상태 변경 중 에러가 발생했습니다."},
     ALREADY_EXIST_REVIEW: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "REVIEW4002", "message": "이미 리뷰가 존재하는 작품입니다."},

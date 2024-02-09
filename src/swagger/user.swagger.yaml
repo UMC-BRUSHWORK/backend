@@ -27,7 +27,7 @@ paths:
             description: 'default: 3, 한 번에 몇 개의 데이터를 불러올 지 지정'
       responses:
         '200':
-          description: 사진 등록 성공
+          description: 선호 작품 불러오기 성공
           content:
             application/json:
               schema:
@@ -52,18 +52,22 @@ paths:
                         {
                             "fv_id": 1,
                             "userId": 2,
-                            "status": 1,
+                            "favorStatus": 1,
                             "productId": 1,
                             "productName": "작품명",
-                            "productAuthor": "작가명"
+                            "productAuthor": "작가명",
+                            "productStatus": 1,
+                            "productImg": "imgURL"
                         },
                         {
                             "fv_id": 1,
                             "userId": 2,
-                            "status": 1,
+                            "favorStatus": 1,
                             "productId": 1,
                             "productName": "작품명2",
-                            "productAuthor": "작가명2"
+                            "productAuthor": "작가명2",
+                            "productStatus": 0,
+                            "productImg": "imgURL2"
                         }
                       ],
                       "cursorId": 2

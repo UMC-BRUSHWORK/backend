@@ -23,6 +23,7 @@ export const productCommonResponseDTO = (data, category) => {
         "delivery": data.product_delivery,
         "hashtag": data.product_hashtag,
         "image": imageList,
+        "previewImg": data.product_preview_img,
         "createdAt": moment.utc(data.created_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
         "favor": data.favor_count,
         "category": categoryList
@@ -40,31 +41,13 @@ export const getProductListResponseDTO = (data) => {
             "title": data[i].product_name,
             "authorId": data[i].product_author_id,
             "authorNickname": data[i].product_author_nickname,
-            "image": (data[i].p_img.split(','))[0],
-            "status": data[i].product_status    // 상태 추가
-    // for (let i = 0; i < category[0].length; i++) {
-    //     productCategory.push(category[0][i].p_category_name);
+            "image": data[i].product_preview_img,
+            "status": data[i].product_status,    // 상태 추가
+            "favorStatus": data[i].favorStatus ? data[i].favorStatus : 0
     })}
 
-    const productTag = [];
-    
-    for (let i = 0; i < tag[0].length; i++) {
-        productTag.push(tag[0][i].p_tags_name);
-    }
-
-    const products = [];
-
-    for (let i = 0; i < category.length; i++) {
-        products.push({
-            'productId': category[i].productId,
-            'image': category[i].image,
-            'title': category[i].title,
-            'price': category[i].price,
-        })
-    }
-
     return {
-        "categoryData": productList, 
+        "productListData": productList, 
         "cursorId": data[data.length-1].product_id
     };
 }
@@ -89,12 +72,13 @@ export const getKeywordResponseDTO = (data) => {
             "authorNickname": item.product_author_nickname,
             "image": item.product_preview_img,
             "hashtag": item.product_hashtag,
-            "status": item.product_status
+            "status": item.product_status,
+            "favorStatus": item.favorStatus ? item.favorStatus : 0
         })
     }
 
     return {
         "searchResult": productList,
-        "cursorId": data[0].product_id
+        "cursorId": data[0].product_id ? data[0].product_id : -1
     };
 }
