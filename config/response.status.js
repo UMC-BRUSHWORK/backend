@@ -27,6 +27,11 @@ export const status = {
     // review err
     STATUS_CHANGE_ERR: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "REVIEW4001", "message": "상태 변경 중 에러가 발생했습니다."},
     ALREADY_EXIST_REVIEW: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "REVIEW4002", "message": "이미 리뷰가 존재하는 작품입니다."},
+    
+    // tos err
+    TOS_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "TOS4001", "message": "존재하지 않는 약관입니다."},
+    TOS_NOT_CHANGE: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "TOS4002", "message": "약관 동의 변동사항이 없습니다."},
+    MUST_AGREE: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "TOS4003", "message": "해당 약관은 동의가 필수입니다."},
 
     // db error
     PARAMETER_IS_WRONG: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "DATABASE4001", "message": "쿼리 실행 시 전달되는 파라미터가 잘못되었습니다. 파라미터 개수 혹은 파라미터 형식을 확인해주세요."},
