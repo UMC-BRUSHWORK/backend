@@ -14,10 +14,10 @@ export const joinTos = async (body) => {
 }
 
 // 약관 동의
-export const rejoinTos = async (body) => {
-    const {utId, agree} = body;
+export const rejoinTos = async (utId, body) => {
+    const {agree} = body;
     // 수정된 데이터
-    const rejoinTosData = await changeTos(utId, agree);
+    const rejoinTosData = await changeTos(parseInt(utId), agree);
 
     return editTosResponseDTO(rejoinTosData);
 }
