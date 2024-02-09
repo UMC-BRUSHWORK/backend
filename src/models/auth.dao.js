@@ -1,19 +1,18 @@
 import { pool } from "../../config/db.connect";
+
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { createUserSql, getUserByIDSql, getUserSql, updateAccessTime, updateUserStatus,  getEmailByphoneSql, getNicknameSql } from "./auth.sql.js";
+import { createUserSql, getUserByIDSql, getUserSql, updateAccessTime, updateUserStatus,  getEmailByphoneSql, getNicknameSql, getUser, changeToSleepUser, changeToActiveUser } from "./auth.sql.js";
 
 export const getUserByEmail = async (email) => {
     try {
         const conn = await pool.getConnection();
         const [result] = await pool.query(getUserSql, email);
         
-        console.log(result);
         conn.release();
         
         return result;
-
     }catch (err) {
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
@@ -93,4 +92,47 @@ export const changeStatusByEmail = async (email) =>{
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
+}
+
+export const getUserByEmailAndName = async (a_password, email, name) =>{
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(getUser, [a_password, email, name]);
+
+        conn.release();
+
+        return result;
+    } catch (err) {
+        conn.release();
+
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const changeSleepUser = async (user) => {
+    try{    //유저 상태으로 전환
+        const conn = await pool.getConnection();
+        const result = await pool.query(changeToActiveUser, user.user_id);
+        conn.release();
+        
+        return result
+        
+    } catch (err) {
+        conn.release();
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const changeActiveUser = async (user) => {
+    try{
+        const conn = await pool.getConnection();
+        const [result] = await pool.query(changeToSleepUser, user.user_id);
+        conn.release();
+
+        return result;
+    } catch (err) {
+        conn.release();
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }  
 }

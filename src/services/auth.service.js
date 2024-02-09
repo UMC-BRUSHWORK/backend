@@ -6,24 +6,34 @@ import { status } from '../../config/response.status';
 import { generateToken } from '../middleware/jwt';
 import { comparePassword, maskEmail } from '../middleware/auth';
 
-import { changeStatusByEmail, createUser, getUserByEmail, getUserByName, getUserByNickname, getUserByPhone, updateAccess } from '../models/auth.dao';
-import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO } from '../dtos/auth.dto';
+import { changeStatusByEmail, createUser, getUserByEmail, getUserByNickname, getUserByPhone, updateAccess, getUserByEmailAndName, changeSleepUser, changeActiveUser } from '../models/auth.dao';
+import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO, inLoginsleepUserResponseDTO, sleepUserResponseDTO, changePasswordResponseDTO } from '../dtos/auth.dto';
+
 
 // 로그인
 export const loginUser = async (body) => {
-
     const { userEmail, userPassword } = body;
 
     const user_db = await getUserByEmail(userEmail);   // 사용자 존재하는지 확인
     if (user_db.length > 0) {
         const user = user_db[0];
         const isPasswordMatch = await comparePassword(userPassword, user.user_password);
-
-        if (isPasswordMatch) {      // 비밀번호 일치
-            const token = generateToken(user.user_nickname);
-            const result = await updateAccess(user.user_id);
-            // 콜백 대신 직접 결과 반환
-            return loginResponseDTO(result, token);
+        if (isPasswordMatch) {  // 비밀번호 일치
+            const lastLoginDate = new Date(user.access_at);
+            const currentDate = new Date();
+            const checkDate = currentDate - lastLoginDate;
+            
+            if(checkDate >= 365 * 24 * 60 * 60 * 1000){
+                //휴면 계정
+                await changeSleepUser(user) //유저 상태 전환
+                return inLoginsleepUserResponseDTO(user);
+            } else {
+                //정상 계정 토큰 발급 진행
+                const token = generateToken(user.user_nickname);
+                const result = await updateAccess(user.user_id);
+                // 콜백 대신 직접 결과 반환
+                return loginResponseDTO(result, token);
+            }
         } else {    //비밀번호가 일치하지 않음
             // 콜백 대신 직접 결과 반환
             throw new BaseError(status.PASSWORD_WRONG);
@@ -60,7 +70,6 @@ export const registerService = async (body) => {
 
 // 회원 탈퇴
 export const resignService = async (body) => {
-
     const {userEmail, userPassword} = body;
     const user_db = await getUserByEmail(userEmail);
 
@@ -95,3 +104,49 @@ export const findEmail = async (body) => {
         return findEmailResponseDTO(maskedEmail);
     }
 }
+
+//비밀번호 변경
+export const changePassword = async(body) => {
+    const {userEmail, userName } = body;
+    const beforePassword = body.bPassword;  //현재 비밀번호
+    const afterPassword = body.aPassword;   //변경할 비밀번호
+
+    const hashedAfterPassword = await bcrypt.hash(afterPassword, 10);
+    const user_db = await getUserByEmail(userEmail);   // 사용자 존재하는지 확인
+    if (user_db.length > 0) {
+        const user = user_db[0];
+        const isPasswordMatch = await comparePassword(beforePassword, user.user_password);
+        if (isPasswordMatch) {
+            const check_db = await getUserByEmailAndName(hashedAfterPassword, userEmail, userName);
+            if(check_db.length != 0){
+                return changePasswordResponseDTO(check_db);
+            }else{
+                throw new BaseError(status.PASSWORD_CHANGE_FAILED);
+            }
+        } else {
+            throw new BaseError(status.PASSWORD_WRONG);
+        }
+    } else {
+        throw new BaseError(status.LOGIN_PARAM_NOT_EXIST);
+    }
+}
+
+export const sleepUserService = async(body) => {
+    const {userEmail, userPassword} = body;
+    const user_db = await getUserByEmail(userEmail);
+
+    if(user_db.length > 0)
+    {
+        const user = user_db[0];
+        const isPasswordMatch = await comparePassword(userPassword, user.user_password);
+
+        if(isPasswordMatch){
+            await changeActiveUser(user);
+            return sleepUserResponseDTO(await getUserByEmail(userEmail));
+        } else {
+            throw new BaseError(status.PASSWORD_WRONG);
+        }
+    } else{
+        throw new BaseError(status.LOGIN_PARAM_NOT_EXIST);
+    }
+};

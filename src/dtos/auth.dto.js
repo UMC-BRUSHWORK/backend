@@ -33,3 +33,23 @@ export const resignResponseDTO = (result) => {
 export const findEmailResponseDTO = (result) => {
     return {"email": result};
 }
+
+export const changePasswordResponseDTO = (result) => {
+    return {"email": result.user_email};
+}
+
+export const inLoginsleepUserResponseDTO = (result) => {
+    return {
+        "userId" : result[0].user_id,
+        "nickname" : result[0].user_nickname,
+        "status": (result[0].user_status === 1) ? "active" : (result[0].user_status === 2) ? "inactive" : (result[0].user_status === 3) ? "sleep" : "unknown"
+    };
+}
+
+export const sleepUserResponseDTO = (result) => {
+    return {
+        "userId" : result[0].userId,
+        "nickname" : result[0].user_nickname,
+        "status": (result[0].user_status === 1) ? "active" : (result[0].user_status === 2) ? "inactive" : (result[0].user_status === 3) ? "sleep" : "unknown"
+    };
+}

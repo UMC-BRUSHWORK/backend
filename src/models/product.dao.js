@@ -1,5 +1,4 @@
 // db 연결
-import { Lightsail } from "aws-sdk";
 import { pool } from "../../config/db.connect";
 
 // 응답 관련
@@ -7,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct } from "./product.sql.js";
+import { getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct, updateProductDealSql, insertSalesSql, getKeywordTitleSql, getKeywordDescriptionSql, getKeywordHashtagSql, selectProductAuthorList, addProductSql, getKeywordHashtagAuthSql, getKeywordTitleToAuthSql, getKeywordDescriptionAuthSql, selectProductListForAuthUser, selectProductAuthorListForAuth, getKeywordAuthorAuthSql, getKeywordAuthorSql } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
@@ -23,6 +22,7 @@ export const getProductByProductId = async (productId) => {
             return confirm[0].product_id;
         }
     }catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 
@@ -33,9 +33,12 @@ export const addProduct = async (data) => {
     try{
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(insertProductSql,
+        console.log(data.previewImg);
+        console.log(addProductSql);
+
+        const [result] = await pool.query(addProductSql,
             [ data.title, data.authorId, data.authorNickname, data.delivery,
-                data.price, data.details, data.hashtag, data.authorId, data.image]);
+                data.price, data.details, data.hashtag, data.authorId, data.image, data.previewImg ]);
 
         conn.release();
         return result.insertId;
@@ -106,9 +109,77 @@ export const setCategory = async (productId, category) => {
         }
 
         conn.release();
-        
         return 1;
+    }catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 작품 검색 조회
+export const getKeyword = async (keyword, cursorId, paging) => {
+    try {
+        const conn = await pool.getConnection();
+
+        const kw = '%' + keyword + '%';
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(countProduct);
+            cursorId = temp[0].productCursor + 1;
+        }
+
+        const keywordList = new Array();
+
+        const [tempHash] = await pool.query(getKeywordHashtagSql, [kw, cursorId, paging]);
+        const [tempTitle] = await pool.query(getKeywordTitleSql, [kw, cursorId, paging]);
+        const [tempDesc] = await pool.query(getKeywordDescriptionSql, [kw, cursorId, paging]);
+        const [tempAuthor] = await pool.query(getKeywordAuthorSql, [kw, cursorId, paging]);
+
+        for (let item of tempHash){ keywordList.push(item); }
+        for (let item of tempTitle){ keywordList.push(item); }
+        for (let item of tempDesc){ keywordList.push(item); }
+        for (let item of tempAuthor){ keywordList.push(item); }
+
+        console.log(keywordList);
+
+        conn.release();
+
+        return keywordList;
+
     } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getKeywordAuth = async (keyword, cursorId, paging, userId) => {
+    try {
+        const conn = await pool.getConnection();
+
+        const kw = '%' + keyword + '%';
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(countProduct);
+            cursorId = temp[0].productCursor + 1;
+        }
+
+        const keywordList = new Array();
+
+        const [tempHash] = await pool.query(getKeywordHashtagAuthSql, [userId, kw, cursorId, paging]);
+        const [tempTitle] = await pool.query(getKeywordTitleToAuthSql, [userId, kw, cursorId, paging]);
+        const [tempDesc] = await pool.query(getKeywordDescriptionAuthSql, [userId, kw, cursorId, paging]);
+        const [tempAuthor] = await pool.query(getKeywordAuthorAuthSql, [userId, kw, cursorId, paging]);
+
+        for (let item of tempHash){ keywordList.push(item); }
+        for (let item of tempTitle){ keywordList.push(item); }
+        for (let item of tempDesc){ keywordList.push(item); }
+        for (let item of tempAuthor){ keywordList.push(item); }
+
+        conn.release();
+
+        return keywordList;
+
+    } catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
@@ -136,7 +207,7 @@ export const changeCategory = async (productId, changeList, addList) => {
     }
 }
 
-export const getProductListToDB = async (cursorId, paging, keyword) => {
+export const getProductListToDB = async (cursorId, paging, author) => {
     try {
         const conn = await pool.getConnection();
 
@@ -146,18 +217,73 @@ export const getProductListToDB = async (cursorId, paging, keyword) => {
         }
 
         // 작품 리스트 - 커서 아이디, paging 사이즈
-        // if(keyword == ""){   // 추후 검색 진행 시
-        if(1){
+        if(author){   // 특정 작가 리스트
+            const [product_list] = await pool.query(selectProductAuthorList, [cursorId, author, paging]);
+            conn.release();
+            return product_list;        
+        }else{
             const [product_list] = await pool.query(selectProductList, [cursorId, paging]);
             conn.release();
-            return product_list;    
-        }else{
-            // 검색!!! -> 검색 기준 이런거 물어봐야겠음
+            return product_list;        
         }
-
 
     } catch (err) {
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
+
+export const getProductListToAuthDB = async (userId, cursorId, paging, author) => {
+    try {
+        const conn = await pool.getConnection();
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(countProduct);
+            cursorId = temp[0].productCursor + 1;
+        }
+
+        // 작품 리스트 - 커서 아이디, paging 사이즈
+        if(author){   // 특정 작가 리스트
+            const [product_list] = await pool.query(selectProductAuthorListForAuth, [userId, cursorId, author, paging]);
+            conn.release();
+            return product_list;        
+        }else{
+            const [product_list] = await pool.query(selectProductListForAuthUser, [userId, cursorId, paging]);
+            conn.release();
+            return product_list;        
+        }
+
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// --- 작품 거래 상태 변경(거래 성사)
+export const dealProductUpdateDao = async (productId, consumerId) => {
+    try {
+        const conn = await pool.getConnection();
+        await pool.query(updateProductDealSql, [consumerId, productId]);
+
+        conn.release();
+        return;
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const dealSalesAddDao = async (productId, consumerId, authorId) => {
+    try {
+        const conn = await pool.getConnection();
+        const [product] = await pool.query(insertSalesSql, [productId, consumerId, authorId]);
+
+        conn.release();
+        return product.insertId;
+        
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+// --- 작품 거래 상태 변경(거래 성사)
