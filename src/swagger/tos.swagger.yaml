@@ -103,11 +103,18 @@ paths:
                     type: string
                     example: Server error
                 
-  /tos/:utId:
+  /tos/{utId}:
     patch:
       tags:
         - Tos
       summary: 추후 약관 동의 수정
+      parameters:
+        - in: path
+          name: utId
+          required: true
+          schema:
+            type: string
+            description: 사용자 약관 Id sequence Number
       requestBody:
         required: true
         content:
@@ -115,15 +122,11 @@ paths:
             schema:
               type: object
               properties:
-                utId:
-                  type: integer
-                  description: 사용자 약관 아이디
                 agree:
                   type: integer
                   description: 약관 동의 여부
                   example: 1
               required:
-                - utId
                 - agree
       responses:
         '200':
