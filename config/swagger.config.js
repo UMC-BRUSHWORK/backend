@@ -6,7 +6,7 @@ const options = {
         info: {
             title: 'BRUSHWORK',
             version: '1.0.0',
-            description: 'UMC-Project-BRUSHWORK API Endpoint: https://dev.brushwork.shop/',
+            description: 'UMC-Project-BRUSHWORK API Endpoint: https://dev.brushwork.shop/ ',
         },
         components: {
             securitySchemes: {
