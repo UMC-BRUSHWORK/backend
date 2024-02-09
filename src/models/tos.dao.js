@@ -12,7 +12,7 @@ import { getTosSql, getUserTosSql, insertTosSql, updateTosInfoSql } from "./tos.
 export const getTos = async () => {
     try{
         const conn = await pool.getConnection();
-        const [result] = await pool.query(getTosSql, utId);
+        const [result] = await pool.query(getTosSql);
 
         conn.release();
         return result;

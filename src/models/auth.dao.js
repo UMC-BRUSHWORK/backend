@@ -1,4 +1,5 @@
 import { pool } from "../../config/db.connect";
+
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
