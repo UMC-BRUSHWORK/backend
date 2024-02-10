@@ -34,3 +34,22 @@ export const addOrChangeUserLikeResponseDTO = (data) => {
         "status": data.favor_status
     };
 }
+
+export const updateUserInfoResponseDTO = (data) => {
+    return {
+        "userId": data.user_id,
+        "userNickname": data.user_nickname,
+        "userIntroduce": data.user_introduce,
+        "userProfile": data.user_profile
+    };
+}
+
+export const getUserInfoResponseDTO = (data) => {
+    return {
+        "userId": data.user_id,
+        "nickname": data.user_nickname,
+        "profile": data.user_profile,
+        "introduce": data.user_introduce,
+        "rate": data.user_rate
+    };
+}
