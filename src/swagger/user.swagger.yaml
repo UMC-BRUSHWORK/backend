@@ -199,3 +199,109 @@ paths:
                   message:
                     type: string
                     example: 서버 에러, 관리자에게 문의 바랍니다.
+
+/user/{userId}:
+    patch:
+      tags:
+        - User
+      summary: 사용자 정보 수정
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            description: 사용자 sequence Number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: 이미지 파일 - 1개만 가능
+                  required: false
+                userNickname:
+                  type: string
+                  format: text
+                  description: 수정할 닉네임
+                  example: 수정할 닉네임
+                  required: false
+                userIntroduce:
+                  type: string
+                  format: text
+                  description: 수정할 소개글
+                  example: 수정할 소개글
+                  required: false
+      responses:
+        '200':
+          description: 사용자 수정 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "success!"
+                  data:
+                    type: array
+                    example: {
+                      "userId": 00,
+                      "userNickname": "닉네임",
+                      "userIntroduce": "소개글",
+                      "userProfile": "profileImgUrl"
+                    }
+                
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 400
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON001
+                  message:
+                    type: string
+                    example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: 서버 에러, 관리자에게 문의 바랍니다.

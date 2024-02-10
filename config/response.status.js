@@ -18,6 +18,7 @@ export const status = {
     NICKNAME_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "MEMBER4002", "message": "닉네임은 필수입니다."},
     EMAIL_ALREADY_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "MEMBER4003", "message": "이미 가입된 이메일이 존재합니다."},
     NICKNAME_ALREADY_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "MEMBER4003", "message": "이미 사용 중인 닉네임입니다."},
+    MEMBER_NOT_FOUND_OR_INACTIVE: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "MEMBER4004", "message": "사용자가 없거나 휴면계정 입니다."},
 
     // product err
     PRODUCT_ALREADY_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PRODUCT4001", "message": "이미 존재하는 작품입니다."},
