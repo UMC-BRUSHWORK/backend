@@ -449,7 +449,7 @@ paths:
                   result:
                     type: object
                     example: {
-                        "productListData": [
+                        "categoryData": [
                             {
                                 "productId": 0,
                                 "title": "제목",

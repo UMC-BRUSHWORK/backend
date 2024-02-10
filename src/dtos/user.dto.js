@@ -43,3 +43,13 @@ export const updateUserInfoResponseDTO = (data) => {
         "userProfile": data.user_profile
     };
 }
+
+export const getUserInfoResponseDTO = (data) => {
+    return {
+        "userId": data.user_id,
+        "nickname": data.user_nickname,
+        "profile": data.user_profile,
+        "introduce": data.user_introduce,
+        "rate": data.user_rate
+    };
+}

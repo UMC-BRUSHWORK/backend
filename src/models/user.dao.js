@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { countUserLike, findUserLikeCount, getUserByUserIdSql, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateProductLikeCount, updateUserInfoSql, updateUserLike } from "./user.sql";
+import { countUserLike, findUserLikeCount, getUserByUserIdSql, getUserInfoSql, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateProductLikeCount, updateUserInfoSql, updateUserLike } from "./user.sql";
 
 
 export const getUserLikeListToDB = async (userId, cursorId, paging) => {
@@ -96,6 +96,20 @@ export const updateUserInfoDao = async (updateInfo) => {
 
         await pool.query(updateUserInfoSql, [updateInfo.nickname, updateInfo.profile, updateInfo.introduce, updateInfo.userId]);
         const [result] = await pool.query(getUserByUserIdSql, updateInfo.userId);
+
+        conn.release();
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getUserInfoDao = async (userId) => {
+    try {
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(getUserInfoSql, userId);
 
         conn.release();
         return result[0];

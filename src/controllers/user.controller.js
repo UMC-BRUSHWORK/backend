@@ -1,7 +1,7 @@
 import { response } from "../../config/response.js";
 import { status } from "../../config/response.status"
 
-import { getUserLikeList } from "../providers/user.provider.js";
+import { getUserInfoProvider, getUserLikeList } from "../providers/user.provider.js";
 import { addOrChangeUserLikeCon, updateUserInfoService } from "../services/user.service.js";
 
 export const getUserLike = async (req, res, next) => {
@@ -17,4 +17,9 @@ export const addOrChangeUserLike = async (req, res, next) => {
 export const updateUserInfoController = async (req, res, next) => {
     // 사용자 정보 수정 Controller
     res.send(response(status.SUCCESS, await updateUserInfoService(req.params.userId, req.body, req.file)));
+}
+
+export const getUserInfoController = async (req, res, next) => {
+    // 사용자 정보 조회 Controller
+    res.send(response(status.SUCCESS, await getUserInfoProvider(req.params.userId)));
 }

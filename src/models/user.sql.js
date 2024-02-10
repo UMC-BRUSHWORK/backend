@@ -24,4 +24,6 @@ export const updateProductLikeCount =
 
 export const getUserByUserIdSql = "SELECT user_id, user_nickname, user_profile, user_introduce FROM user WHERE user_id = ? and user_status = 1";
 
-export const updateUserInfoSql = "UPDATE user SET user_nickname = ?, user_profile = ?, user_introduce = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?"
+export const updateUserInfoSql = "UPDATE user SET user_nickname = ?, user_profile = ?, user_introduce = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?";
+
+export const getUserInfoSql = "SELECT user_id, user_nickname, user_profile, user_introduce, user_rate FROM user WHERE user_id = ?";

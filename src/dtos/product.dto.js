@@ -47,7 +47,7 @@ export const getProductListResponseDTO = (data) => {
     })}
 
     return {
-        "productListData": productList, 
+        "categoryData": productList, 
         "cursorId": data[data.length-1].product_id
     };
 }
