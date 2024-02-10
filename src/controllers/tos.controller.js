@@ -11,7 +11,7 @@ export const tosController = async (req, res, next) => {
 
 // (추후 선택)약관 동의(수정) 관련 Controller
 export const tosOptionController = async (req, res, next) => {
-    res.send(response(status.SUCCESS, await rejoinTos(req.body)));
+    res.send(response(status.SUCCESS, await rejoinTos(req.params.utId, req.body)));
 }
 
 export const tosListController = async (req, res, next) => {
