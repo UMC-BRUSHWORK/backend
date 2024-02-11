@@ -1,14 +1,11 @@
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { compareData } from '../middleware/product.data';
-
-import { editResponseDTO, productCommonResponseDTO } from "../dtos/product.dto"
-import { addProduct, getProduct, changeProduct, getCategory, getTag, getProductByProductId, setCategory, setTag, changeCategory } from "../models/product.dao";
+import { dealProductResponseDTO, productCommonResponseDTO } from "../dtos/product.dto"
+import { addProduct, getProduct, changeProduct, getCategory, getProductByProductId, setCategory, changeCategory, dealProductUpdateDao, dealSalesAddDao } from "../models/product.dao";
 
 // 작품 등록
 export const joinProduct = async (body, files) => {
-
     // imageFiles 변환
     const imageFiles = [];
     for (let i = 0; i < files.length; i++) {
@@ -28,7 +25,8 @@ export const joinProduct = async (body, files) => {
         'price': parseInt(body.price),        // 가격
         'details': body.details,    // 상세 설명
         'hashtag': body.hashtag,     // 해시태그 string
-        'image': stringFiles        // 사진
+        'image': stringFiles,        // 사진
+        'previewImg': files[0].location
     });
     // productId 중복 불가
     if(joinProductData == -1){
@@ -45,7 +43,6 @@ export const joinProduct = async (body, files) => {
 export const rejoinProduct = async (params, body, files) => {
     // 작품 존재 확인
     const productId = parseInt(params);
-    console.log(productId);
     const product_db = await getProductByProductId(productId);
 
     // imageFiles 변환
@@ -103,4 +100,14 @@ export const rejoinProduct = async (params, body, files) => {
         // 잘못 입력했음
         throw new BaseError(status.INFO_NOT_EXIST);
     }
+}
+
+// 작품 거래 상태 변경 (거래 성사)
+export const dealProduct = async (body) => {
+    const { productId, consumerId, authorId } = body;
+
+    await dealProductUpdateDao(productId, consumerId);
+    const result = await dealSalesAddDao(productId, consumerId, authorId);
+
+    return dealProductResponseDTO(result);
 }

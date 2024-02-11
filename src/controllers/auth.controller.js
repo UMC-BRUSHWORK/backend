@@ -2,10 +2,7 @@ import { BaseError } from "../../config/error";
 import { response } from "../../config/response";
 import { status } from "../../config/response.status";
 
-
-
 import { findEmail, loginUser, registerService, resignService, changePassword, sleepUserService } from "../services/auth.service";
-
 
 // 로그인
 export const loginController = async (req, res, next) => {
@@ -33,10 +30,12 @@ export const findEmailController = async (req, res) => {
     res.send(response(status.SUCCESS, await findEmail(req.body)));
 };
 
+// 비밀번호 변경(비밀번호 찾기)
 export const  changepasswordController = async (req, res) => {
     res.send(response(status.SUCCESS, await changePassword(req.body)));
 }
 
+// 휴면 계정
 export const sleepUserController = async (req, res) => {
     res.send(response(status.SUCCESS, await sleepUserService(req.body)));
 }

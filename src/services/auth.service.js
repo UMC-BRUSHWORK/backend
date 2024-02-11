@@ -6,9 +6,8 @@ import { status } from '../../config/response.status';
 import { generateToken } from '../middleware/jwt';
 import { comparePassword, maskEmail } from '../middleware/auth';
 
-
-import { changeStatusByEmail, createUser, getUserByEmail, getUserByName, getUserByNickname, getUserByPhone, updateAccess, getUserByEmailAndName, changeSleepUser, changeActiveUser } from '../models/auth.dao';
-import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO, inLoginsleepUserResponseDTO, sleepUserResponseDTO } from '../dtos/auth.dto';
+import { changeStatusByEmail, createUser, getUserByEmail, getUserByNickname, getUserByPhone, updateAccess, getUserByEmailAndName, changeSleepUser, changeActiveUser } from '../models/auth.dao';
+import { findEmailResponseDTO, loginResponseDTO, registerResponseDTO, resignResponseDTO, inLoginsleepUserResponseDTO, sleepUserResponseDTO, changePasswordResponseDTO } from '../dtos/auth.dto';
 
 
 // 로그인
@@ -25,9 +24,9 @@ export const loginUser = async (body) => {
             const checkDate = currentDate - lastLoginDate;
             
             if(checkDate >= 365 * 24 * 60 * 60 * 1000){
-                //휴먼 계정
+                //휴면 계정
                 await changeSleepUser(user) //유저 상태 전환
-                return inLoginsleepUserResponseDTO(user)
+                return inLoginsleepUserResponseDTO(user);
             } else {
                 //정상 계정 토큰 발급 진행
                 const token = generateToken(user.user_nickname);
@@ -53,7 +52,6 @@ export const registerService = async (body) => {
     const CN = await getUserByNickname(userNickname);  // 닉네임이 아니라 본명을 따져야 하지 않을까 생각..!
     const CE = await getUserByEmail(userEmail);
     const hashedPassword = await bcrypt.hash(userPassword, 10);
-
 
     if(CN.length){
         //이미 사용 중인 닉네임입니다.
@@ -84,7 +82,6 @@ export const resignService = async (body) => {
             await changeStatusByEmail(userEmail);
             const result = await getUserByEmail(userEmail);
 
-
             return resignResponseDTO(result[0]);
         }else{
             //비밀번호가 일치하지 않아 회원을 삭제할 수 없습니다!
@@ -110,22 +107,21 @@ export const findEmail = async (body) => {
 
 //비밀번호 변경
 export const changePassword = async(body) => {
-    const {useremail, username } = body;
-    const beforePassword = body.bpassword;  //현재 비밀번호
-    const afterPassword = body.apassword;   //변경할 비밀번호
+    const {userEmail, userName } = body;
+    const beforePassword = body.bPassword;  //현재 비밀번호
+    const afterPassword = body.aPassword;   //변경할 비밀번호
 
     const hashedAfterPassword = await bcrypt.hash(afterPassword, 10);
-    const user_db = await getUserByEmail(useremail);   // 사용자 존재하는지 확인
+    const user_db = await getUserByEmail(userEmail);   // 사용자 존재하는지 확인
     if (user_db.length > 0) {
         const user = user_db[0];
         const isPasswordMatch = await comparePassword(beforePassword, user.user_password);
         if (isPasswordMatch) {
-            console.log('1-1');
-            const check_db = await getUserByEmailAndName(hashedAfterPassword, useremail, username);
-            if(check_db){
-                return check_db
+            const check_db = await getUserByEmailAndName(hashedAfterPassword, userEmail, userName);
+            if(check_db.length != 0){
+                return changePasswordResponseDTO(check_db);
             }else{
-                throw new BaseError 
+                throw new BaseError(status.PASSWORD_CHANGE_FAILED);
             }
         } else {
             throw new BaseError(status.PASSWORD_WRONG);
@@ -136,17 +132,17 @@ export const changePassword = async(body) => {
 }
 
 export const sleepUserService = async(body) => {
-    const {useremail, userpassword} = body;
-    const user_db = await getUserByEmail(useremail);
+    const {userEmail, userPassword} = body;
+    const user_db = await getUserByEmail(userEmail);
 
     if(user_db.length > 0)
     {
         const user = user_db[0];
-        const isPasswordMatch = await comparePassword(userpassword, user.user_password);
+        const isPasswordMatch = await comparePassword(userPassword, user.user_password);
 
         if(isPasswordMatch){
             await changeActiveUser(user);
-            return sleepUserResponseDTO(user);
+            return sleepUserResponseDTO(await getUserByEmail(userEmail));
         } else {
             throw new BaseError(status.PASSWORD_WRONG);
         }

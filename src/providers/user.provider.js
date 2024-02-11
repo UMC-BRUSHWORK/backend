@@ -1,15 +1,21 @@
+<<<<<<< HEAD
 import { getUserLikeListResponseDTO, getUserHistoryResponseDTO, getUserHistoryOneResponseDTO } from "../dtos/user.dto";
 import { getUserLikeListToDB, getUserHistoryToDB } from "../models/user.dao";
+=======
+import { BaseError } from "../../config/error";
+import { status } from "../../config/response.status";
+import { getUserInfoResponseDTO, getUserLikeListResponseDTO } from "../dtos/user.dto";
+import { getUserInfoDao, getUserLikeListToDB } from "../models/user.dao";
+>>>>>>> develop
 
 export const getUserLikeList = async (userId, query) => {
 
     const {paging = 3, cursorId = -1} = query;
 
-    console.log("provider", userId, cursorId, paging);
-
     return getUserLikeListResponseDTO(await getUserLikeListToDB(parseInt(userId), parseInt(cursorId), parseInt(paging)));
 }
 
+<<<<<<< HEAD
 export const getUserHistory = async (userId, query) => {
     const {paging = 3, cursorId = -1} = query;
     
@@ -34,4 +40,13 @@ export const getUserHistory = async (userId, query) => {
     console.log("auth :  " + auth);
 
     return getUserHistoryResponseDTO(consume, auth);
+=======
+export const getUserInfoProvider = async (userId) => {
+
+    const result = await getUserInfoDao(parseInt(userId));
+
+    if(!result){ throw new BaseError(status.MEMBER_NOT_FOUND); }
+
+    return getUserInfoResponseDTO(result);
+>>>>>>> develop
 }
