@@ -1,5 +1,5 @@
-import { getUserLikeListResponseDTO } from "../dtos/user.dto";
-import { getUserLikeListToDB } from "../models/user.dao";
+import { getUserLikeListResponseDTO, getUserHistoryResponseDTO, getUserHistoryOneResponseDTO } from "../dtos/user.dto";
+import { getUserLikeListToDB, getUserHistoryToDB } from "../models/user.dao";
 
 export const getUserLikeList = async (userId, query) => {
 
@@ -8,4 +8,30 @@ export const getUserLikeList = async (userId, query) => {
     console.log("provider", userId, cursorId, paging);
 
     return getUserLikeListResponseDTO(await getUserLikeListToDB(parseInt(userId), parseInt(cursorId), parseInt(paging)));
+}
+
+export const getUserHistory = async (userId, query) => {
+    const {paging = 3, cursorId = -1} = query;
+    
+    console.log("provider", userId, cursorId, paging);
+    const result = await getUserHistoryToDB(parseInt(userId), parseInt(cursorId), parseInt(paging), parseInt(cursorId), parseInt(paging));
+
+    const consume = result[0]
+    const auth = result[1]
+
+    if(auth == "")
+    {
+        return getUserHistoryOneResponseDTO(consume, 1);
+    }
+    if(consume == "")
+    {
+        return getUserHistoryOneResponseDTO(auth, 2);
+    }
+
+    //판매내역인지 구매내역인지 구분 필요..
+
+    console.log("consume :  " + consume);
+    console.log("auth :  " + auth);
+
+    return getUserHistoryResponseDTO(consume, auth);
 }

@@ -26,3 +26,64 @@ export const addOrChangeUserLikeResponseDTO = (data) => {
         "status": data.favor_status
     };
 }
+
+export const getUserHistoryResponseDTO = (consume, auth) => {
+
+    const consumeList = [];
+    const authList = [];
+
+    for(let i = 0; i < consume.length; i++) {
+        consumeList.push({
+            "sales_id" : consume[i].sales_id,
+            "sales_product_id" : consume[i].sales_product_id,
+            "sales_author_id" : consume[i].sales_author_id,
+            "productName": consume[i].product_name,
+            "productAuthor": consume[i].product_author_nickname
+        })
+    }
+
+    for(let k = 0; k < auth.length; k++) {
+        authList.push({
+            "sales_id" : auth[k].sales_id,
+            "sales_product_id" : auth[k].sales_product_id,
+            "sales_consume_id" : auth[k].sales_consume_id,
+            "productName": auth[k].product_name,
+            "productAuthor": auth[k].product_author_nickname
+        })
+    }
+    return {"consumeList": consumeList, "consume_cursorId": consume[consume.length-1].sales_id, "authList": authList, "auth_corsorId" :auth[auth.length-1].sales_id};
+}
+
+export const getUserHistoryOneResponseDTO = (data, n) => {
+    const consumeList = [];
+    const authList = [];
+
+    if(n == 1){
+        for(let i = 0; i < data.length; i++) {
+            consumeList.push({
+                "sales_id" : data[i].sales_id,
+                "sales_product_id" : data[i].sales_product_id,
+                "sales_author_id" : data[i].sales_author_id,
+                "productName": data[i].product_name,
+                "productAuthor": data[i].product_author_nickname
+            })
+        }
+
+        return {"consumeList": "구매목록", consumeList, "authList" : "","corsorId" :data[data.length-1].sales_id};
+    }
+
+    if(n == 2){
+        for(let i = 0; i < data.length; i++) {
+            authList.push({
+                "sale_number" : i+1,
+                "sales_id" : data[i].sales_id,
+                "sales_product_id" : data[i].sales_product_id,
+                "sales_consume_id" : data[i].sales_consume_id,
+                "productName": data[i].product_name,
+                "productAuthor": data[i].product_author_nickname
+            })
+        }
+
+        return {"consumeList": "", "authList" : "판매목록",  authList, "corsorId" :data[data.length-1].sales_id};
+    }
+}

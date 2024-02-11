@@ -6,28 +6,10 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { countUserLike, findUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike } from "./user.sql";
+import { countUserLike, findUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, getUserHistoryToIndexId, countUserConsume, selectUserConsumeList, countUserAuth, selectUserAuthList } from "./user.sql";
 
 
-export const getUserLikeListToDB = async (userId, cursorId, paging) => {
-    try{
-        const conn = await pool.getConnection();
-        
-        if(cursorId == -1){
-            const [temp] = await pool.query(countUserLike);
-            cursorId = temp[0].likeCount + 1;
-        }
-        // 사용자 관심 작품 - 사용자 아이디, 커서 아이디, paging 사이즈
-        const [prefer_list] = await pool.query(selectUserLikeList, [userId, cursorId, paging]);
 
-        conn.release();
-        return prefer_list;
-
-    }catch (err) {
-        console.error(err);
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
 
 export const addOrChangeUserLikeToDB = async (userId, productId) => {
     try{
@@ -65,6 +47,57 @@ export const getUserLikeToDB = async (indexId) => {
 
     }catch (err) {
         console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getUserLikeListToDB = async (userId, cursorId, paging) => {
+    try{
+        const conn = await pool.getConnection();
+        
+        if(cursorId == -1){
+            const [temp] = await pool.query(countUserLike);
+            cursorId = temp[0].likeCount + 1;
+        }
+        // 사용자 관심 작품 - 사용자 아이디, 커서 아이디, paging 사이즈
+        const [prefer_list] = await pool.query(selectUserLikeList, [userId, cursorId, paging]);
+
+        conn.release();
+        return prefer_list;
+
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getUserHistoryToDB = async (userId, c_cursorId, c_paging, a_cursorId, a_paging) => {
+    try{
+        const conn = await pool.getConnection();
+        
+
+        if(c_cursorId == -1){
+            const [c_temp] = await pool.query(countUserConsume);
+            c_cursorId = c_temp[0].consumeCount + 1;
+        }
+
+        if(a_cursorId == -1){
+            const [a_temp] = await pool.query(countUserAuth);
+            a_cursorId = a_temp[0].authCount + 1;
+        }
+        
+
+        const [consume_list] = await pool.query(selectUserConsumeList, [userId, c_cursorId, c_paging]);
+
+        const [auth_list] = await pool.query(selectUserAuthList, [userId, a_cursorId, a_paging]);
+
+        console.log(consume_list, auth_list);
+
+        conn.release();
+        return [consume_list, auth_list]
+
+    }catch (err) {
+        console.log(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
