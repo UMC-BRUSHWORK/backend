@@ -34,7 +34,7 @@ const server = createServer(app);
 const io = new Server(server, {
     cors: {
         // origin: process.env.ENDPOINT,
-        origin: "http://localhost:3001",    // front Endpoint (프론트 엔드포인트로 진행해야 함..!)
+        origin: "*",    // front Endpoint (프론트 엔드포인트로 진행해야 함..!) -> 추후 변경 필요
         methods: ['GET', 'POST'],
         credentials: true,
         },
