@@ -2,7 +2,7 @@ import express from "express";
 
 import asyncHandler from 'express-async-handler';
 
-import { newProductController, editProductInfoController, getProductInfoController, getProductListController } from "../controllers/product.controller.js";
+import { newProductController, editProductInfoController, getProductInfoController, getProductListController, getProductLikesController } from "../controllers/product.controller.js";
 
 export const productRouter = express.Router();
 
@@ -17,3 +17,6 @@ productRouter.get('/:productId', asyncHandler(getProductInfoController));
 
 // 작품 리스트 조회
 productRouter.get('/list', asyncHandler(getProductListController));
+
+// 작품 수요 조회
+productRouter.get('/likes', asyncHandler(getProductLikesController));

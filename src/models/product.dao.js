@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql } from "./product.sql.js";
+import { insertProductSql, getProductIdSql, getCategoryIdSql, getTagIdSql, connectProductCategorySql, connectProductTagSql, confirmProductIdSql, updateProductInfoSql, getFavorCountSql, getFavorListSql } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
@@ -126,6 +126,28 @@ export const setTag = async (productId, productTagId) => {
         conn.release();
         
         return;
+    } catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 작품 수요 조회
+export const getLikeCount = async (productId) => {
+    try {
+        const conn = await pool.getConnection();
+        const [count] = await pool.query(getFavorCountSql, productId);
+        // const [liker] = await pool.query(getFavorListSql, productId);
+
+        console.log(count[0].favor_count);
+
+        if(product.length == 0){
+            return -1;
+        }
+
+        conn.release();
+        return count[0].favor_count;
+        // return liker.user_id;
+        
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }

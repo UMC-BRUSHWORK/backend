@@ -3,7 +3,7 @@ import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
 
 import { joinProduct, rejoinProduct } from "../service/product.service.js";
-import { joinProductInfo, joinProductList } from "../provider/product.provider.js";
+import { joinProductInfo, joinProductList, joinProductLike } from "../provider/product.provider.js";
 
 // 작품 등록 또는 상태 변경(숨기기 또는 삭제) 관련 Controller
 export const newProductController = async (req, res, next) => {
@@ -23,4 +23,9 @@ export const getProductInfoController = async (req, res, next) => {
 // 작품 목록 조회 관련 Controller
 export const getProductListController = async (req, res, next) => {
     res.send(response(status.SUCCESS, await joinProductList(req.body)));
+}
+
+// 작품 수요 조회 관련 Controller
+export const getProductLikesController = async (req, res, next) => {
+    res.send(response(status.SUCCESS, await joinProductLike(req.body)));
 }

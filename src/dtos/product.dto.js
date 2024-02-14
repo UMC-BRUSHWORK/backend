@@ -66,3 +66,11 @@ export const getProductListResponseDTO = (data, category) => {
         "cursorId": data[data.length-1].productId
     };
 }
+
+// 작품 수요 조회
+export const getProductLikeResponseDTO = (data) => {
+    return {
+        "userData": data[0].userId, 
+        "favorCount": data[0].favorCount, 
+    };
+}
