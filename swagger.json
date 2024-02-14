@@ -519,6 +519,399 @@
           }
         }
       }
+    },
+    "auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "user_password": {
+                    "type": "string"
+                  },
+                  "user_nickname": {
+                    "type": "string"
+                  },
+                  "user_name": {
+                    "type": "string"
+                  },
+                  "user_phone": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user_email",
+                  "user_password",
+                  "user_nickname",
+                  "user_name",
+                  "user_phone"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully registered",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "회원 가입 성공"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Duplicate nickname or email",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "이미 사용 중인 닉네임입니다." 
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "서버 에러"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/resign": {
+      "patch": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "유저 삭제",
+        "description": "유저 계정 삭제",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "유저 삭제를 위한 메일과 비밀번호",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_email": {
+                  "type": "string",
+                  "description": "유저 삭제를 위한 메일"
+                },
+                "user_password": {
+                  "type": "string",
+                  "description": "유저 삭제를 위한 비밀번호"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "유저 삭제 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "유저 삭제 성공"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 오류",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "서버 오류"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/email": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Find user email by name",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_name": {
+                    "type": "string",
+                    "description": "The username to find the email for",
+                    "example": "john_doe"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "example": {
+                  "maskedEmail": "masked_email@example.com"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Update user password",
+        "description": "Update the password of a user based on email and name",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_email": {
+                    "type": "string",
+                    "description": "The email of the user"
+                  },
+                  "user_name": {
+                    "type": "string",
+                    "description": "The name of the user"
+                  },
+                  "a_password": {
+                    "type": "string",
+                    "description": "The new password for the user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User password updated successfully"
+          },
+          "400": {
+            "description": "Bad request - Invalid input parameters"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Explanation of the error"
+                    }
+                  },
+                  "example": {
+                    "message": "User not found for the given email and name"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/sleep": {
+      "patch": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Sleep User Operation",
+        "description": "Endpoint to put a user to sleep.",
+        "requestBody": {
+          "description": "User credentials for sleeping",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "useremail": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The email of the user to sleep",
+                    "example": "user@example.com"
+                  },
+                  "userpassword": {
+                    "type": "string",
+                    "description": "The password of the user",
+                    "example": "password123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User sleep operation successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Success message",
+                      "example": "Sleep user operation successful"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/BadRequest"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/InternalServerError"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{userId}/history": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Retrieve user history",
+        "description": "This endpoint retrieves user history data based on the provided user ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The ID of the user whose history is being retrieved."
+          },
+          {
+            "in": "query",
+            "name": "cursorId",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Cursor ID for pagination (default: -1)."
+          },
+          {
+            "in": "query",
+            "name": "paging",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of records to retrieve per page (default: 3)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "consumeList": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ConsumeItem"
+                      }
+                    },
+                    "authList": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AuthItem"
+                      }
+                    },
+                    "cursorId": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "examples": {
+                  "application/json": {
+                    "consumeList": [
+                      {
+                        "sales_id": 1,
+                        "sales_product_id": 101,
+                        "sales_author_id": 201,
+                        "productName": "Product 1",
+                        "productAuthor": "Author 1"
+                      }
+                    ],
+                    "authList": [
+                      {
+                        "sales_id": 1,
+                        "sales_product_id": 101,
+                        "sales_consumer_id": 301,
+                        "productName": "Product 1",
+                        "productAuthor": "Author 1"
+                      }
+                    ],
+                    "cursorId": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {},

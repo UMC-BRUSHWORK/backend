@@ -1,0 +1,390 @@
+paths:
+  /tos/register:
+    post:
+      tags:
+        - Tos
+      summary: 약관 등록
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tosId:
+                  type: integer
+                  format: binary
+                  description: 약관 아이디
+                userId:
+                  type: integer 
+                  description: 사용자 아이디
+                agree:
+                  type: integer
+                  description: 약관 동의 여부
+                  example: 1
+              required:
+                - tosId
+                - userId
+                - agree
+      responses:
+        '200':
+          description: 약관 등록 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "Tos registed successfully"
+                  data:
+                    type: object
+                    example: {
+                      "insertUserTosId": 00,
+                    }        
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: string
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '404':
+          description: db에 유저가 존재하지 않음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  message:
+                    type: string
+                    example: User not found
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: Server error               
+  /tos/{utId}:
+    patch:
+      tags:
+        - Tos
+      summary: 추후 약관 동의 수정
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: utId
+          required: true
+          schema:
+            type: string
+            description: 사용자 약관 Id sequence Number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agree:
+                  type: integer
+                  description: 약관 동의 여부
+                  example: 1
+              required:
+                - agree
+      responses:
+        '200':
+          description: 약관 동의 수정 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "Tos edited successfully"
+                  data:
+                    type: object
+                    example: {
+                      "updateUserTosId": 00
+                    }   
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: string
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '404':
+          description: db에 유저가 존재하지 않음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  message:
+                    type: string
+                    example: User not found
+        
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: Server error
+  /tos/list:
+    get:
+      tags:
+        - Tos
+      summary: 약관 리스트 전달
+      responses:
+        '200':
+          description: 약관 등록 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "Tos registed successfully"
+                  data:
+                    type: object
+                    example: [
+                        {
+                            "tosId": 0,
+                            "title": "Title",
+                            "context": "Context"
+                        },
+                        (...)
+                    ]       
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: string
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '404':
+          description: db에 유저가 존재하지 않음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  message:
+                    type: string
+                    example: User not found
+        
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: Server error
+  /tos/{userId}:
+    get:
+      tags:
+        - Tos
+      summary: 사용자 약관 기록 전달
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            description: 사용자 아이디
+      responses:
+        '200':
+          description: 약관 등록 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "Tos registed successfully"
+                  data:
+                    type: object
+                    example: [
+                        {
+                            "utId": 00,
+                            "tosId": 00,
+                            "userId": 00,
+                            "agree": 1,
+                            "title": "Title",
+                            "context": "Context"
+                        },
+                        (...)
+                    ]
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: string
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '404':
+          description: db에 유저가 존재하지 않음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  message:
+                    type: string
+                    example: User not found
+        
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: Server error

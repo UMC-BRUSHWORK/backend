@@ -16,7 +16,7 @@ export const generateToken = (user_nickname) => {
             process.env.JWT_SECRET_KEY,
             {
                 algorithm: process.env.JWT_ALGORITHM,
-                expiresIn: '15m',
+                expiresIn: '1H',
                 issuer: "malibu",
             }
         );
