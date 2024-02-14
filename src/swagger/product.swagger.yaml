@@ -248,7 +248,7 @@ paths:
                     type: string
                     example: Server error
                  
-                    
+  /product/:productId:                  
     get:
       tags:
         - product
@@ -332,15 +332,81 @@ paths:
                   message:
                     type: string
                     example: 서버 에러, 관리자에게 문의 바랍니다.
-                    
+
   /product/list:
     get:
       tags:
         - product
       summary: 작품 목록 조회
-     responses:
+      responses:
         '200':
           description: 작품 목록
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  isSuccess:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 2000
+                  message:
+                    type: string
+                    example: "success!"
+                
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 400
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON001
+                  message:
+                    type: string
+                    example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 500
+                  isSuccess:
+                    type: boolean
+                    example: false
+                  code:
+                    type: string
+                    example: COMMON000
+                  message:
+                    type: string
+                    example: 서버 에러, 관리자에게 문의 바랍니다.
+                    
+  /product/likes:
+    get:
+      tags:
+        - product
+      summary: 작품 수요 조회
+      responses:
+        '200':
+          description: 작품 수요
           content:
             application/json:
               schema:
