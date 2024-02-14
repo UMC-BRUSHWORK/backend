@@ -35,7 +35,6 @@ export const addOrChangeUserLikeResponseDTO = (data) => {
     };
 }
 
-<<<<<<< HEAD
 export const getUserHistoryResponseDTO = (consume, auth) => {
 
     const consumeList = [];
@@ -61,6 +60,30 @@ export const getUserHistoryResponseDTO = (consume, auth) => {
         })
     }
     return {"consumeList": consumeList, "consume_cursorId": consume[consume.length-1].sales_id, "authList": authList, "auth_corsorId" :auth[auth.length-1].sales_id};
+}
+
+export const getUserRecentListResponseDTO = (data) => {
+    const userRecentList = [];
+
+    if(data.length > 0){
+        for(let i = 0; i < data.length; i++){
+            userRecentList.push({
+                "product_id": data[i].product_id,
+                "product_name": data[i].product_name,
+                "productAuthor": data[i].user_nickname,
+                "productStatus": data[i].product_status,
+                "productPrice": data[i].product_price,
+                "productDescription": data[i].product_description,
+                "productDelivery": data[i].product_delivery
+            })
+        }
+
+        return {"userRecentList": userRecentList, "cursorId": data[data.length-1].product_id ? data[data.length-1].product_id : -1};
+
+    }
+
+    return {"userRecentList": userRecentList, "cursorId": -1};
+    
 }
 
 export const getUserHistoryOneResponseDTO = (data, n) => {
@@ -96,7 +119,8 @@ export const getUserHistoryOneResponseDTO = (data, n) => {
         return {"consumeList": "", "authList" : "판매목록",  authList, "corsorId" :data[data.length-1].sales_id};
     }
 }
-=======
+
+
 export const updateUserInfoResponseDTO = (data) => {
     return {
         "userId": data.user_id,
@@ -115,4 +139,3 @@ export const getUserInfoResponseDTO = (data) => {
         "rate": data.user_rate
     };
 }
->>>>>>> develop

@@ -6,11 +6,10 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-<<<<<<< HEAD
-import { countUserLike, findUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, getUserHistoryToIndexId, countUserConsume, selectUserConsumeList, countUserAuth, selectUserAuthList } from "./user.sql";
-=======
-import { countUserLike, findUserLikeCount, getUserByUserIdSql, getUserInfoSql, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateProductLikeCount, updateUserInfoSql, updateUserLike } from "./user.sql";
->>>>>>> develop
+import {  findUserLike, getUserHistoryToIndexId} from "./user.sql";
+
+import { countUserLike, findUserLikeCount, getUserByUserIdSql, getUserInfoSql, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateProductLikeCount, updateUserInfoSql, updateUserLike, countUserConsume, selectUserConsumeList, countUserAuth, selectUserAuthList, counstUserRecent, selectUserRecentList } from "./user.sql";
+
 
 
 
@@ -62,7 +61,6 @@ export const getUserLikeToDB = async (indexId) => {
     }
 }
 
-<<<<<<< HEAD
 export const getUserLikeListToDB = async (userId, cursorId, paging) => {
     try{
         const conn = await pool.getConnection();
@@ -78,7 +76,11 @@ export const getUserLikeListToDB = async (userId, cursorId, paging) => {
         return prefer_list;
 
     }catch (err) {
-=======
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
 export const getUserByUserId = async (userId) => {
     try {
         const conn = await pool.getConnection();
@@ -88,13 +90,31 @@ export const getUserByUserId = async (userId) => {
         conn.release();
         return result[0];
     } catch (err) {
->>>>>>> develop
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
 
-<<<<<<< HEAD
+export const getUserRecentToDB = async (userId, cursorId, paging) => {
+    try{
+        const conn = await pool.getConnection();
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(counstUserRecent);
+            cursorId = temp[0].recentCount + 1;
+        }
+        // 사용자 관심 작품 - 사용자 아이디, 커서 아이디, paging 사이즈
+        const [recent_list] = await pool.query(selectUserRecentList, [userId, cursorId, paging]);
+
+        conn.release();
+        return recent_list;
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+
 export const getUserHistoryToDB = async (userId, c_cursorId, c_paging, a_cursorId, a_paging) => {
     try{
         const conn = await pool.getConnection();
@@ -122,7 +142,10 @@ export const getUserHistoryToDB = async (userId, c_cursorId, c_paging, a_cursorI
 
     }catch (err) {
         console.log(err);
-=======
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
 export const updateUserInfoDao = async (updateInfo) => {
     try {
         const conn = await pool.getConnection();
@@ -148,7 +171,6 @@ export const getUserInfoDao = async (userId) => {
         return result[0];
     } catch (err) {
         console.error(err);
->>>>>>> develop
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }

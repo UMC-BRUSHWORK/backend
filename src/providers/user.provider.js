@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-import { getUserLikeListResponseDTO, getUserHistoryResponseDTO, getUserHistoryOneResponseDTO } from "../dtos/user.dto";
-import { getUserLikeListToDB, getUserHistoryToDB } from "../models/user.dao";
-=======
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
-import { getUserInfoResponseDTO, getUserLikeListResponseDTO } from "../dtos/user.dto";
-import { getUserInfoDao, getUserLikeListToDB } from "../models/user.dao";
->>>>>>> develop
+import { getUserInfoResponseDTO, getUserLikeListResponseDTO, getUserHistoryResponseDTO, getUserHistoryOneResponseDTO, getUserRecentListResponseDTO } from "../dtos/user.dto";
+import { getUserInfoDao, getUserLikeListToDB, getUserHistoryToDB, getUserRecentToDB } from "../models/user.dao";
+
 
 export const getUserLikeList = async (userId, query) => {
 
@@ -15,7 +11,12 @@ export const getUserLikeList = async (userId, query) => {
     return getUserLikeListResponseDTO(await getUserLikeListToDB(parseInt(userId), parseInt(cursorId), parseInt(paging)));
 }
 
-<<<<<<< HEAD
+export const getUserRecent = async (userId, query) => {
+    const {paging = 3, cursorId = -1} = query;
+
+    return getUserRecentListResponseDTO(await getUserRecentToDB(parseInt(userId), parseInt(cursorId), parseInt(paging)));
+}
+
 export const getUserHistory = async (userId, query) => {
     const {paging = 3, cursorId = -1} = query;
     
@@ -40,7 +41,8 @@ export const getUserHistory = async (userId, query) => {
     console.log("auth :  " + auth);
 
     return getUserHistoryResponseDTO(consume, auth);
-=======
+}
+
 export const getUserInfoProvider = async (userId) => {
 
     const result = await getUserInfoDao(parseInt(userId));
@@ -48,5 +50,4 @@ export const getUserInfoProvider = async (userId) => {
     if(!result){ throw new BaseError(status.MEMBER_NOT_FOUND); }
 
     return getUserInfoResponseDTO(result);
->>>>>>> develop
 }
