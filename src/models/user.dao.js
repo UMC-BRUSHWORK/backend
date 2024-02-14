@@ -6,14 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-<<<<<<< HEAD
-import { countUserLike, findUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, getUserHistoryToIndexId, countUserConsume, selectUserConsumeList, countUserAuth, selectUserAuthList } from "./user.sql";
-=======
-import { countUserLike, findUserLikeCount, getUserByUserIdSql, getUserInfoSql, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateProductLikeCount, updateUserInfoSql, updateUserLike } from "./user.sql";
->>>>>>> develop
-
-
-
+import { countUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, countUserConsume, selectUserConsumeList, countUserAuth, selectUserAuthList, getUserByUserIdSql, updateUserInfoSql, getUserInfoSql } from "./user.sql";
 
 export const addOrChangeUserLikeToDB = async (userId, productId) => {
     try{
@@ -62,7 +55,6 @@ export const getUserLikeToDB = async (indexId) => {
     }
 }
 
-<<<<<<< HEAD
 export const getUserLikeListToDB = async (userId, cursorId, paging) => {
     try{
         const conn = await pool.getConnection();
@@ -78,7 +70,11 @@ export const getUserLikeListToDB = async (userId, cursorId, paging) => {
         return prefer_list;
 
     }catch (err) {
-=======
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
 export const getUserByUserId = async (userId) => {
     try {
         const conn = await pool.getConnection();
@@ -88,27 +84,24 @@ export const getUserByUserId = async (userId) => {
         conn.release();
         return result[0];
     } catch (err) {
->>>>>>> develop
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
 
-<<<<<<< HEAD
-export const getUserHistoryToDB = async (userId, c_cursorId, c_paging, a_cursorId, a_paging) => {
+export const getUserHistoryToDB = async (userId, cursorId, paging) => {
     try{
         const conn = await pool.getConnection();
         
+        // if(c_cursorId == -1){
+        //     const [c_temp] = await pool.query(countUserConsume);
+        //     c_cursorId = c_temp[0].consumeCount + 1;
+        // }
 
-        if(c_cursorId == -1){
-            const [c_temp] = await pool.query(countUserConsume);
-            c_cursorId = c_temp[0].consumeCount + 1;
-        }
-
-        if(a_cursorId == -1){
-            const [a_temp] = await pool.query(countUserAuth);
-            a_cursorId = a_temp[0].authCount + 1;
-        }
+        // if(a_cursorId == -1){
+        //     const [a_temp] = await pool.query(countUserAuth);
+        //     a_cursorId = a_temp[0].authCount + 1;
+        // }
         
 
         const [consume_list] = await pool.query(selectUserConsumeList, [userId, c_cursorId, c_paging]);
@@ -121,8 +114,11 @@ export const getUserHistoryToDB = async (userId, c_cursorId, c_paging, a_cursorI
         return [consume_list, auth_list]
 
     }catch (err) {
-        console.log(err);
-=======
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
 export const updateUserInfoDao = async (updateInfo) => {
     try {
         const conn = await pool.getConnection();
@@ -148,7 +144,6 @@ export const getUserInfoDao = async (userId) => {
         return result[0];
     } catch (err) {
         console.error(err);
->>>>>>> develop
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
