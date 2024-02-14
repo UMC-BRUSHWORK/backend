@@ -1,6 +1,6 @@
 
 // 사용자 관심 작품 중 가장 최근 index가 무엇인지 확인
-export const countUserLike = "SELECT fv_id as likeCount from favor_product order by fv_id DESC limit 1;";
+export const countUserLike = "SELECT fv_id as likeCount from favor_product order by fv_id DESC limit 1;"
 
 // 사용자 관심 작품 - 사용자 아이디, 커서 아이디, paging 사이즈 -> 변수로 필요
 export const selectUserLikeList =
@@ -16,6 +16,25 @@ export const getUserLikeToIndexId = "SELECT * FROM favor_product WHERE fv_id = ?
 
 export const insertUserLike = "INSERT INTO favor_product (favor_user_id, favor_product_id) VALUES (?, ?);"
 
+<<<<<<< HEAD
+export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;"
+
+export const countUserConsume = "SELECT sales_id as consumeCount from sales order by sales_id DESC limit 1;";
+
+export const selectUserConsumeList =
+"SELECT s.sales_id, s.sales_product_id, s.sales_author_id, p.product_name, p.product_author_nickname " +
+"FROM sales s JOIN product p on s.sales_product_id = p.product_id " +
+"WHERE s.sales_consumer_id = ? AND s.sales_id < ? " +
+"ORDER BY s.sales_id DESC LIMIT ?";
+
+export const countUserAuth = "SELECT sales_id as authCount from sales order by sales_id DESC limit 1;"
+
+export const selectUserAuthList = 
+"SELECT s.sales_id, s.sales_product_id, s.sales_consumer_id, p.product_name, p.product_author_nickname " +
+"FROM sales s JOIN product p on s.sales_product_id = p.product_id " +
+"WHERE s.sales_author_id = ? AND s.sales_id < ? " +
+"ORDER BY s.sales_id DESC LIMIT ?";
+=======
 export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;";
 export const updateProductLikeCount =
 "UPDATE product SET favor_count = (SELECT COUNT(*) FROM favor_product WHERE "+
@@ -27,3 +46,4 @@ export const getUserByUserIdSql = "SELECT user_id, user_nickname, user_profile, 
 export const updateUserInfoSql = "UPDATE user SET user_nickname = ?, user_profile = ?, user_introduce = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?";
 
 export const getUserInfoSql = "SELECT user_id, user_nickname, user_profile, user_introduce, user_rate FROM user WHERE user_id = ?";
+>>>>>>> develop
