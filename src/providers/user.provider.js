@@ -1,3 +1,5 @@
+import { getUserLikeListResponseDTO, getUserHistoryResponseDTO, getUserHistoryOneResponseDTO } from "../dtos/user.dto";
+import { getUserLikeListToDB, getUserHistoryToDB } from "../models/user.dao";
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
@@ -13,7 +15,7 @@ export const getUserLikeList = async (userId, query) => {
 
 export const getUserHistory = async (userId, query) => {
     const {paging = 3, cursorId = -1, type } = query;   // type: 판매 내역인지, 구매 내역인지 구분을 위함
-
+    
     console.log("provider", userId, cursorId, paging);
     const result = await getUserHistoryToDB(parseInt(userId), parseInt(cursorId), parseInt(paging), parseInt(type));
 
