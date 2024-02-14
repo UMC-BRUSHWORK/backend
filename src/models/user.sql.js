@@ -16,7 +16,6 @@ export const getUserLikeToIndexId = "SELECT * FROM favor_product WHERE fv_id = ?
 
 export const insertUserLike = "INSERT INTO favor_product (favor_user_id, favor_product_id) VALUES (?, ?);"
 
-<<<<<<< HEAD
 export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;"
 
 export const countUserConsume = "SELECT sales_id as consumeCount from sales order by sales_id DESC limit 1;";
@@ -34,8 +33,7 @@ export const selectUserAuthList =
 "FROM sales s JOIN product p on s.sales_product_id = p.product_id " +
 "WHERE s.sales_author_id = ? AND s.sales_id < ? " +
 "ORDER BY s.sales_id DESC LIMIT ?";
-=======
-export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;";
+
 export const updateProductLikeCount =
 "UPDATE product SET favor_count = (SELECT COUNT(*) FROM favor_product WHERE "+
 "favor_product_id = ? and favor_status = 1) "+
@@ -46,4 +44,3 @@ export const getUserByUserIdSql = "SELECT user_id, user_nickname, user_profile, 
 export const updateUserInfoSql = "UPDATE user SET user_nickname = ?, user_profile = ?, user_introduce = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?";
 
 export const getUserInfoSql = "SELECT user_id, user_nickname, user_profile, user_introduce, user_rate FROM user WHERE user_id = ?";
->>>>>>> develop

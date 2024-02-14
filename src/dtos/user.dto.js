@@ -35,7 +35,6 @@ export const addOrChangeUserLikeResponseDTO = (data) => {
     };
 }
 
-<<<<<<< HEAD
 export const getUserHistoryResponseDTO = (consume, auth) => {
 
     const consumeList = [];
@@ -96,7 +95,7 @@ export const getUserHistoryOneResponseDTO = (data, n) => {
         return {"consumeList": "", "authList" : "판매목록",  authList, "corsorId" :data[data.length-1].sales_id};
     }
 }
-=======
+
 export const updateUserInfoResponseDTO = (data) => {
     return {
         "userId": data.user_id,
@@ -115,4 +114,3 @@ export const getUserInfoResponseDTO = (data) => {
         "rate": data.user_rate
     };
 }
->>>>>>> develop
