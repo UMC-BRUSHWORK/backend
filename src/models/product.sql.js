@@ -20,9 +20,6 @@ export const updateProductInfoSql =
 export const connectProductCategorySql = "INSERT INTO pc_id (pc_category_id, product_id) VALUES (?, ?);";
 export const connectProductTagSql = "INSERT INTO pt_id (pc_tag_id, product_id) VALUES (?, ?);";
 
-// 작품 조횟수가 가장 큰
-// export const countViewProductSql = "SELECT COUNT(*) as viewCount from product_list";
-
 // 작품 수요 조회
 export const getFavorCountSql = "SELECT COUNT(*) AS favor_count FROM product WHERE product_id = ?";
 
