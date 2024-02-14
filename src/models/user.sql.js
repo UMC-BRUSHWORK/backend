@@ -18,20 +18,19 @@ export const insertUserLike = "INSERT INTO favor_product (favor_user_id, favor_p
 
 export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;"
 
-export const countUserConsume = "SELECT sales_id as consumeCount from sales order by sales_id DESC limit 1;";
-
 export const selectUserConsumeList =
-"SELECT s.sales_id, s.sales_product_id, s.sales_author_id, p.product_name, p.product_author_nickname " +
-"FROM sales s JOIN product p on s.sales_product_id = p.product_id " +
-"WHERE s.sales_consumer_id = ? AND s.sales_id < ? " +
+"SELECT s.sales_id, s.sales_product_id, s.sales_author_id, p.product_name, p.product_author_nickname, p.product_price, p.product_preview_img, s.review_status, s.sales_consumer_id "+
+"FROM sales s JOIN product p on s.sales_product_id = p.product_id "+
+"WHERE s.sales_consumer_id = ? AND s.sales_id < ? "+
 "ORDER BY s.sales_id DESC LIMIT ?";
 
-export const countUserAuth = "SELECT sales_id as authCount from sales order by sales_id DESC limit 1;"
+export const countSales = "SELECT sales_id as salesCount from sales order by sales_id DESC limit 1;"
 
-export const selectUserAuthList = 
-"SELECT s.sales_id, s.sales_product_id, s.sales_consumer_id, p.product_name, p.product_author_nickname " +
-"FROM sales s JOIN product p on s.sales_product_id = p.product_id " +
-"WHERE s.sales_author_id = ? AND s.sales_id < ? " +
+
+export const selectUserAuthorList = 
+"SELECT s.sales_id, s.sales_product_id, s.sales_author_id, p.product_name, p.product_author_nickname, p.product_price, p.product_preview_img, s.review_status, s.sales_consumer_id "+
+"FROM sales s JOIN product p on s.sales_product_id = p.product_id "+
+"WHERE s.sales_author_id = ? AND s.sales_id < ? "+
 "ORDER BY s.sales_id DESC LIMIT ?";
 
 export const updateProductLikeCount =

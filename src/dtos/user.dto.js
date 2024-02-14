@@ -35,31 +35,27 @@ export const addOrChangeUserLikeResponseDTO = (data) => {
     };
 }
 
-export const getUserHistoryResponseDTO = (consume, auth) => {
+export const getUserHistoryResponseDTO = (data, type) => {
+    const historyList = [];
 
-    const consumeList = [];
-    const authList = [];
-
-    for(let i = 0; i < consume.length; i++) {
-        consumeList.push({
-            "sales_id" : consume[i].sales_id,
-            "sales_product_id" : consume[i].sales_product_id,
-            "sales_author_id" : consume[i].sales_author_id,
-            "productName": consume[i].product_name,
-            "productAuthor": consume[i].product_author_nickname
+    for (let item of data) {
+        historyList.push({
+            "salesId": item.sales_id,
+            "productId": item.sales_product_id,
+            "proudctName": item.product_name,
+            "productPrice": item.product_price,
+            "productImg": item.product_preview_img,
+            "consumerId": item.sales_consumer_id,
+            "authorId": item.sales_author_id,
+            "authorNickname": item.product_author_nickname,
+            "reviewStatus": item.review_status
         })
     }
 
-    for(let k = 0; k < auth.length; k++) {
-        authList.push({
-            "sales_id" : auth[k].sales_id,
-            "sales_product_id" : auth[k].sales_product_id,
-            "sales_consume_id" : auth[k].sales_consume_id,
-            "productName": auth[k].product_name,
-            "productAuthor": auth[k].product_author_nickname
-        })
-    }
-    return {"consumeList": consumeList, "consume_cursorId": consume[consume.length-1].sales_id, "authList": authList, "auth_corsorId" :auth[auth.length-1].sales_id};
+    return {
+        "type": parseInt(type),
+        "historyList": historyList
+    };
 }
 
 export const getUserHistoryOneResponseDTO = (data, n) => {

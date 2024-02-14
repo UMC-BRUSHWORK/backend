@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { countUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, countUserConsume, selectUserConsumeList, countUserAuth, selectUserAuthList, getUserByUserIdSql, updateUserInfoSql, getUserInfoSql } from "./user.sql";
+import { countUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, selectUserConsumeList, getUserByUserIdSql, updateUserInfoSql, getUserInfoSql, selectUserAuthorList, countSales } from "./user.sql";
 
 export const addOrChangeUserLikeToDB = async (userId, productId) => {
     try{
@@ -89,29 +89,26 @@ export const getUserByUserId = async (userId) => {
     }
 }
 
-export const getUserHistoryToDB = async (userId, cursorId, paging) => {
+export const getUserHistoryToDB = async (userId, cursorId, paging, type) => {
     try{
         const conn = await pool.getConnection();
-        
-        // if(c_cursorId == -1){
-        //     const [c_temp] = await pool.query(countUserConsume);
-        //     c_cursorId = c_temp[0].consumeCount + 1;
-        // }
 
-        // if(a_cursorId == -1){
-        //     const [a_temp] = await pool.query(countUserAuth);
-        //     a_cursorId = a_temp[0].authCount + 1;
-        // }
-        
+        if(cursorId == -1){
+            const [temp] = await pool.query(countSales);
+            cursorId = temp[0].salesCount + 1;
+        }
 
-        const [consume_list] = await pool.query(selectUserConsumeList, [userId, c_cursorId, c_paging]);
+        if(type == 0){  //  판매 내역
+            const [result] = await pool.query(selectUserAuthorList, [userId, cursorId, paging]);
+            conn.release();
+            return result;
+        }
 
-        const [auth_list] = await pool.query(selectUserAuthList, [userId, a_cursorId, a_paging]);
-
-        console.log(consume_list, auth_list);
-
-        conn.release();
-        return [consume_list, auth_list]
+        if(type == 1){  // 구매 내역
+            const [result] = await pool.query(selectUserConsumeList, [userId, cursorId, paging]);
+            conn.release();
+            return result;
+        }
 
     }catch (err) {
         console.error(err);
