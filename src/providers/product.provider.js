@@ -1,31 +1,54 @@
-import { getProductInfoResponseDTO, getProductListResponseDTO, getProductLikeResponseDTO } from "../dtos/product.dto";
-import { getProduct, getCategory, getTag, getLikeCount } from "../models/product.dao";
+import { BaseError } from "../../config/error";
+import { status } from "../../config/response.status";
+import { getKeywordResponseDTO, getProductListResponseDTO, productCommonResponseDTO } from "../dtos/product.dto";
+import { getCategory, getKeyword, getKeywordAuth, getProduct, getProductListToAuthDB, getProductListToDB} from "../models/product.dao";
 
 // 작품 정보 조회
-export const joinProductInfo = async () => {
-
-    return getProductInfoResponseDTO(await getProduct());
+export const joinProductInfo = async (productId) => {
+    return productCommonResponseDTO(await getProduct(parseInt(productId)), await getCategory(parseInt(productId)));
 }
 
-// 작품 카테고리 및 태그 조회
-export const joinProductCategory = async (categoryId, query) => {
+// 작품 목록 조회
+export const joinProductList = async (query) => {
+    const { paging = 3, cursorId = -1, author = "", userId } = query;
+    let result;
 
-    const {paging = 3, cursorId = -1} = query;
+    if(userId){
+        result = await getProductListToAuthDB(parseInt(userId), parseInt(cursorId), parseInt(paging), parseInt(author))
+    }else{
+        result = await getProductListToDB(parseInt(cursorId), parseInt(paging), parseInt(author));
+    }
 
-    console.log(categoryId, cursorId, paging);
+    if(result.length < 0){
+        throw new BaseError(status.RESULT_NOT_FOUND);
+    }
 
-    return getProductListResponseDTO(await getCategory(parseInt(categoryId), parseInt(cursorId), parseInt(paging)));
+    return getProductListResponseDTO(result);
 }
-export const joinProductTag = async (tagId, query) => {
 
-    const {paging = 3, cursorId = -1} = query;
+// 작품 검색 조회
+export const joinProductKeyword = async (query) => {
 
-    console.log(tagId, cursorId, paging);
+    const {paging = 3, cursorId = -1, keyword, userId} = query;
+    let data, result;
 
-    return getProductListResponseDTO(await getTag(parseInt(tagId), parseInt(cursorId), parseInt(paging)));
-}
+    if(userId){
+        data = await getKeywordAuth(keyword, parseInt(cursorId), parseInt(paging), parseInt(userId));
+        result = data.filter((arr, index, cb) => index === cb.findIndex(t => t.product_id === arr.product_id));
+    }else{
+        data = await getKeyword(keyword, parseInt(cursorId), parseInt(paging));
+        result = data.filter((arr, index, cb) => index === cb.findIndex(t => t.product_id === arr.product_id));
+    }
 
-// 작품 수요 조회
-export const joinProductLike = async () => {
-    return getProductLikeResponseDTO(await getLikeCount());
+    if(result.length == 0){
+        throw new BaseError(status.RESULT_NOT_FOUND);
+    }
+
+    result.sort((a, b) => {
+        if (a.product_id < b.product_id) return -1;
+        if (a.product_id > b.product_id) return 1;
+        return 0;
+    })
+
+    return getKeywordResponseDTO(result);
 }

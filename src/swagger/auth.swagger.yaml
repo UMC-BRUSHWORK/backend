@@ -11,15 +11,15 @@ paths:
             schema:
               type: object
               properties:
-                user_email:
+                userEmail:
                   type: string
                   description: 유저 이메일
-                user_password:
+                userPassword:
                   type: string
                   description: 유저 비밀번호
               required:
-                - user_email
-                - user_password
+                - userEmail
+                - userPassword
       responses:
         '200':
           description: 토큰 발급에 성공
@@ -68,6 +68,8 @@ paths:
       tags:
         - Auth
       summary: "세션 파괴 및 로그아웃 처리"
+      security:
+        - Authorization: []
       responses:
         '200':
           description: "로그아웃 성공"
@@ -84,3 +86,199 @@ paths:
                   message:
                     type: string
                     example: "세션 삭제 중 에러"
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: 회원가입
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userEmail:
+                  type: string
+                  format: email
+                userPassword:
+                  type: string
+                userNickname:
+                  type: string
+                userName:
+                  type: string
+                userPhone:
+                  type: string
+              required:
+                - userEmail
+                - userPassword
+                - userNickname
+                - userName
+                - userPhone
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              example:
+                message: '회원 가입 성공'
+        '400':
+          description: Bad request - Duplicate nickname or email
+          content:
+            application/json:
+              example:
+                error: '이미 사용 중인 닉네임입니다.' # or '이미 등록된 이메일 주소입니다.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: '서버 에러'
+  /auth/resign:
+    patch:
+      tags:
+        - Auth
+      summary: 유저 삭제
+      security:
+        - Authorization: []
+      description: 유저 계정 삭제
+      requestBody:
+        required: true
+        content:
+          application/json:
+                schema:
+                  type: object
+                  properties:
+                    userEmail:
+                      type: string
+                      description: 유저 이메일
+                    userPassword:
+                      type: string
+                      description: 유저 비밀번호
+                  required:
+                    - userEmail
+                    - userPassword
+      responses:
+        '201':
+          description: 유저 삭제 성공
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: 유저 삭제 성공
+
+        '500':
+          description: 서버 오류
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: 서버 오류
+  /auth/finduser/email:
+    post:
+      tags:
+        - Auth
+      summary: 전화번호를 통해 사용자 이메일 찾기
+      security:
+        - Authorization: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userPhone:
+                  type: string
+                  description: 전화번호 입력
+                  example: 010-0000-0000
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                maskedEmail: masked_email@example.com
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
+  
+  /auth/finduser/password:
+    post:
+      tags:
+        - Auth
+      summary: 비밀번호 찾기 (비밀번호 변경)
+      security:
+        - Authorization: []
+      description: Update the password of a user based on email and name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userEmail:
+                  type: string
+                  description: The email of the user
+                userName:
+                  type: string
+                  description: The name of the user
+                bPassword:
+                  type: string
+                  description: The old password for the user
+                aPassword:
+                  type: string
+                  description: The new password for the user
+      responses:
+        '200':
+          description: User password updated successfully
+        '400':
+          description: Bad request - Invalid input parameters
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
+
+  /auth/sleep:
+    patch:
+      tags:
+        - Auth
+      summary: Sleep User Operation
+      description: Endpoint to put a user to sleep.
+      requestBody:
+        description: User credentials for sleeping
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userEmail:
+                  type: string
+                  format: email
+                  description: The email of the user to sleep
+                  example: user@example.com
+                userPassword:
+                  type: string
+                  description: The password of the user
+                  example: password123
+      responses:
+        '200':
+          description: User sleep operation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: Sleep user operation successful
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error

@@ -31,6 +31,7 @@ export const imageUploader = multer({
             const extension = path.extname(file.originalname);  // 파일 이름 얻어오기
             const uuid = createUUID();
             // extension 확인을 위한 코드 (확장자 검사용!)
+            console.log(file);
             if(!allowedExtensions.includes(extension)){
                 return callback(new BaseError(status.WRONG_EXTENSION));
             }
@@ -38,6 +39,6 @@ export const imageUploader = multer({
         },
         acl: 'public-read-write'
     }),
-    // 이미지 용량 제한 (5MB)
-    limits: { fileSize: 5 * 1024 * 1024},
+    // 이미지 용량 제한 (20MB)
+    limits: { fileSize: 20 * 1024 * 1024},
 });

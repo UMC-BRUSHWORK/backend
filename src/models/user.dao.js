@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { countUserLike, findUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike } from "./user.sql";
+import { countUserLike, findUserLikeCount, getUserByUserIdSql, getUserInfoSql, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateProductLikeCount, updateUserInfoSql, updateUserLike } from "./user.sql";
 
 
 export const getUserLikeListToDB = async (userId, cursorId, paging) => {
@@ -32,6 +32,7 @@ export const getUserLikeListToDB = async (userId, cursorId, paging) => {
 export const addOrChangeUserLikeToDB = async (userId, productId) => {
     try{
         const conn = await pool.getConnection();
+        let favorCount = 0;
         
         // 사용자가 찜 한 작품이 존재하는지 여부 확인
         const [existence] = await pool.query(findUserLikeCount, [userId, productId]);
@@ -43,7 +44,13 @@ export const addOrChangeUserLikeToDB = async (userId, productId) => {
             return insertLike.insertId;
         }else{
             // 있으면 Status 변경을 통해 관심 상태 변경 (1 - 관심, 0 - 관심 해제)
+            if(existence[0].favor_status){
+                favorCount = -1;
+            }else{
+                favorCount = 1
+            }
             const [updateLike] = await pool.query(updateUserLike, [!existence[0].favor_status, existence[0].fv_id]);
+            await pool.query(updateProductLikeCount, [productId, productId]);
             
             conn.release();
             return existence[0].fv_id;
@@ -64,6 +71,49 @@ export const getUserLikeToDB = async (indexId) => {
         return userLike[0];
 
     }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getUserByUserId = async (userId) => {
+    try {
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(getUserByUserIdSql, userId);
+
+        conn.release();
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const updateUserInfoDao = async (updateInfo) => {
+    try {
+        const conn = await pool.getConnection();
+
+        await pool.query(updateUserInfoSql, [updateInfo.nickname, updateInfo.profile, updateInfo.introduce, updateInfo.userId]);
+        const [result] = await pool.query(getUserByUserIdSql, updateInfo.userId);
+
+        conn.release();
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getUserInfoDao = async (userId) => {
+    try {
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(getUserInfoSql, userId);
+
+        conn.release();
+        return result[0];
+    } catch (err) {
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }

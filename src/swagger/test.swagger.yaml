@@ -1,6 +1,8 @@
 paths:
   /test/s3:
     post:
+      tags:
+        - Test
       summary: 파일 업로드 테스트용
       parameters:
         - in: query
@@ -80,6 +82,8 @@ paths:
 
   /test/db:
     get:
+      tags:
+        - Test
       summary: DB 조회 테스트용
       responses:
         '200':
