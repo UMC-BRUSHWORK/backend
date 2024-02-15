@@ -16,7 +16,10 @@ export const getUserLikeToIndexId = "SELECT * FROM favor_product WHERE fv_id = ?
 
 export const insertUserLike = "INSERT INTO favor_product (favor_user_id, favor_product_id) VALUES (?, ?);"
 
+<<<<<<< HEAD
 export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;"
+=======
+>>>>>>> origin/feature/85
 
 export const selectUserConsumeList =
 "SELECT s.sales_id, s.sales_product_id, s.sales_author_id, p.product_name, p.product_author_nickname, p.product_price, p.product_preview_img, s.review_status, s.sales_consumer_id "+
@@ -33,6 +36,22 @@ export const selectUserAuthorList =
 "WHERE s.sales_author_id = ? AND s.sales_id < ? "+
 "ORDER BY s.sales_id DESC LIMIT ?";
 
+<<<<<<< HEAD
+=======
+//constUserRecent, selectUserRecentList 두개 디비 설정 완료되면 손보기
+
+export const counstUserRecent = "SELECT * as recentCount from recently_viewed order by * DESC limit 1;"
+
+export const selectUserRecentList = 
+"SELECT p.product_id, p.product_name, p.product_author_id, u.user_id, u.user_nickname, p.product_status, p.product_price, p.product_description, p.product_delivery" +
+"FROM product p JOIN user u on p.product_author_id = u.user_id " +
+"WHERE s.sales_author_id = ? AND s.sales_id < ? " +
+"ORDER BY s.sales_id DESC LIMIT ?";
+
+export const updateUserLike = "UPDATE favor_product SET favor_status = ? WHERE fv_id = ?;";
+
+
+>>>>>>> origin/feature/85
 export const updateProductLikeCount =
 "UPDATE product SET favor_count = (SELECT COUNT(*) FROM favor_product WHERE "+
 "favor_product_id = ? and favor_status = 1) "+
