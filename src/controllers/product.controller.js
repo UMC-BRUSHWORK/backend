@@ -1,7 +1,7 @@
 import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
 
-import { joinProduct, rejoinProduct } from "../services/product.service.js";
+import { dealProduct, joinProduct, rejoinProduct } from "../services/product.service.js";
 import { joinProductInfo, joinProductKeyword, joinProductList } from "../providers/product.provider.js";
 
 // 작품 등록 

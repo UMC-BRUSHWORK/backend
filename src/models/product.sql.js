@@ -70,4 +70,6 @@ export const selectProductAuthorListForAuth =
 
 export const updateProductDealSql = "UPDATE product SET product_consumer_id = ?, product_status = 1, updated_at = CURRENT_TIMESTAMP WHERE product_id = ?; ";
 
-export const insertSalesSql = "INSERT INTO sales (sales_product_id, sales_consumer_id, sales_author_id) values (?, ?, ?);"
+export const insertSalesSql = "INSERT INTO sales (sales_product_id, sales_consumer_id, sales_author_id) values (?, ?, ?);";
+
+export const insertPurchaseSql = "INSERT INTO purchase (purchase_product_id, purchase_consumer_id, purchase_author_id) values (?, ?, ?);";
