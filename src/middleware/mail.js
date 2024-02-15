@@ -12,12 +12,12 @@ const transporter = nodemailer.createTransport({
 });
 
 // BW 계정에 보내는 메일
-export const sendMailToBW = (data) => {
+export const sendMailToBW = (data, id) => {
     // data - 신고 사유
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: process.env.EMAIL_USER,
-        subject: '[BRUSHWORK] 신고 메일',
+        subject: '[BRUSHWORK] #' + id +' 신고 메일',
         text: data.context
     };
 
