@@ -89,6 +89,7 @@ export const getUserByUserId = async (userId) => {
     }
 }
 
+// 사용자 판매/구매 목록 조회
 export const getUserHistoryToDB = async (userId, cursorId, paging, type) => {
     try{
         const conn = await pool.getConnection();
@@ -116,6 +117,7 @@ export const getUserHistoryToDB = async (userId, cursorId, paging, type) => {
     }
 }
 
+// 사용자 정보 업데이트
 export const updateUserInfoDao = async (updateInfo) => {
     try {
         const conn = await pool.getConnection();
@@ -131,6 +133,7 @@ export const updateUserInfoDao = async (updateInfo) => {
     }
 }
 
+// 사용자 정보 조회
 export const getUserInfoDao = async (userId) => {
     try {
         const conn = await pool.getConnection();
@@ -144,3 +147,4 @@ export const getUserInfoDao = async (userId) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
+
