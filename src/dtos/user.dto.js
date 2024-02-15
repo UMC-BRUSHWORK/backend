@@ -27,6 +27,9 @@ export const getUserLikeListResponseDTO = (data) => {
 }
 
 export const addOrChangeUserLikeResponseDTO = (data) => {
+
+    console.log(data);
+
     return {
         "id": data.fv_id,
         "userId": data.favor_user_id,

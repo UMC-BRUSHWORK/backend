@@ -35,8 +35,6 @@ export const getProductListResponseDTO = (data) => {
 
     const productList = [];
 
-    console.log(data[i].favorStatus);
-
     for (let i = 0; i < data.length; i++) {
         productList.push({
             "productId": data[i].product_id,

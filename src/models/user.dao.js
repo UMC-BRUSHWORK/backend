@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { countUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, selectUserConsumeList, getUserByUserIdSql, updateUserInfoSql, getUserInfoSql, selectUserAuthorList, countSales } from "./user.sql";
+import { countUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, selectUserConsumeList, getUserByUserIdSql, updateUserInfoSql, getUserInfoSql, selectUserAuthorList, countSales, updateProductLikeCount } from "./user.sql";
 
 export const addOrChangeUserLikeToDB = async (userId, productId) => {
     try{

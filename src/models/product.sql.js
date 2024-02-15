@@ -34,15 +34,15 @@ export const getKeywordHashtagAuthSql = "SELECT product_id, product_name, produc
 export const getKeywordAuthorAuthSql = "SELECT product_id, product_name, product_author_id, product_author_nickname, product_status, product_hashtag, product_preview_img, IFNULL(fp.favor_status, 0) as favorStatus FROM product left join favor_product fp on fp.favor_product_id = product_id and fp.favor_user_id = ? WHERE product_author_nickname LIKE ? and product_id < ? ORDER BY product_id DESC LIMIT ?";
 
 // 작품 정보 수정
-export const updateProductInfoSql = "UPDATE product " 
-+ "SET p_img = ?, product_name = ?, product_price = ?, product_delivery = ?, product_description = ?, product_hashtag = ?, updated_at = CURRENT_TIMESTAMP() " 
-+ "WHERE product_id = ?;"
-export const updateCategorySql = "UPDATE product_category " 
-+ "SET pc_status = ?, updated_at = CURRENT_TIMESTAMP() " 
-+ "WHERE pc_product_id = ? and pc_category_id = ?;"
+export const updateProductInfoSql = "UPDATE product " +
+"SET p_img = ?, product_name = ?, product_price = ?, product_delivery = ?, product_description = ?, product_hashtag = ?, updated_at = CURRENT_TIMESTAMP() " +
+"WHERE product_id = ?;"
+
+export const updateCategorySql = "UPDATE product_category " +
+"SET pc_status = ?, updated_at = CURRENT_TIMESTAMP() " +
+"WHERE pc_product_id = ? and pc_category_id = ?;"
 
 export const selectProductList =
-"SELECT * FROM product "
 "SELECT product_id, product_name, product_author_id, product_author_nickname, product_preview_img, product_status FROM product "
 +"WHERE product_id < ? "
 +"ORDER BY product_id DESC LIMIT ?";

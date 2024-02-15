@@ -216,10 +216,6 @@ export const getProductListToDB = async (cursorId, paging, author) => {
             cursorId = temp[0].productCursor + 1;
         }
 
-        console.log(cursorId, paging, author);
-        console.log(selectProductList);
-        console.log(selectProductAuthorList);
-
         // 작품 리스트 - 커서 아이디, paging 사이즈
         if(author){   // 특정 작가 리스트
             const [product_list] = await pool.query(selectProductAuthorList, [cursorId, author, paging]);
