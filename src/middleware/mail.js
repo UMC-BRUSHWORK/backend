@@ -23,7 +23,6 @@ export const sendMailToBW = (data, id) => {
 
     transporter.sendMail(mailOptions, (error, info) => {
         if(error) {console.error(error);}
-        console.log(info);
     })
 }
 

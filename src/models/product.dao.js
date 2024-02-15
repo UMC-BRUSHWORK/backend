@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct, updateProductDealSql, insertSalesSql, getKeywordTitleSql, getKeywordDescriptionSql, getKeywordHashtagSql, selectProductAuthorList, addProductSql, getKeywordHashtagAuthSql, getKeywordTitleToAuthSql, getKeywordDescriptionAuthSql, selectProductListForAuthUser, selectProductAuthorListForAuth, getKeywordAuthorAuthSql, getKeywordAuthorSql, insertPurchaseSql } from "./product.sql.js";
+import { getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, countProduct, updateProductDealSql, insertSalesSql, getKeywordTitleSql, getKeywordDescriptionSql, getKeywordHashtagSql, selectProductAuthorList, addProductSql, getKeywordHashtagAuthSql, getKeywordTitleToAuthSql, getKeywordDescriptionAuthSql, selectProductListForAuthUser, selectProductAuthorListForAuth, getKeywordAuthorAuthSql, getKeywordAuthorSql, insertPurchaseSql, selectProductList } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
@@ -215,6 +215,10 @@ export const getProductListToDB = async (cursorId, paging, author) => {
             const [temp] = await pool.query(countProduct);
             cursorId = temp[0].productCursor + 1;
         }
+
+        console.log(cursorId, paging, author);
+        console.log(selectProductList);
+        console.log(selectProductAuthorList);
 
         // 작품 리스트 - 커서 아이디, paging 사이즈
         if(author){   // 특정 작가 리스트

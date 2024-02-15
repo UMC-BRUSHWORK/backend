@@ -41,13 +41,33 @@ export const updateCategorySql = "UPDATE product_category "
 + "SET pc_status = ?, updated_at = CURRENT_TIMESTAMP() " 
 + "WHERE pc_product_id = ? and pc_category_id = ?;"
 
+export const selectProductList =
+"SELECT * FROM product "
+"SELECT product_id, product_name, product_author_id, product_author_nickname, product_preview_img, product_status FROM product "
++"WHERE product_id < ? "
++"ORDER BY product_id DESC LIMIT ?";
+
+export const selectProductListForAuthUser =
+"SELECT p.product_id, p.product_name, p.product_author_id, p.product_author_nickname, p.product_preview_img, p.product_status, IFNULL(fp.favor_status, 0) as favorStatus "+
+"FROM product p left join favor_product fp on fp.favor_product_id = p.product_id and fp.favor_user_id = ? " +
+"WHERE p.product_id < ? ORDER BY p.product_id DESC LIMIT ?"
+
+export const selectProductAuthorList =
+"SELECT product_id, product_name, product_author_id, product_author_nickname, product_preview_img, product_status FROM product "
++"WHERE product_id < ? and product_author_id = ? "
++"ORDER BY product_id DESC LIMIT ?";
+
+export const selectProductAuthorListForAuth =
+"SELECT product_id, product_name, product_author_id, product_author_nickname, product_preview_img, product_status FROM product left join favor_product fp on fp.favor_product_id = product_id and fp.favor_user_id = ? "
++"WHERE product_id < ? and product_author_id = ? "
++"ORDER BY product_id DESC LIMIT ?";
+
 // 작품 카테고리 및 태그 연결
 export const connectProductCategorySql = "INSERT INTO pc_id (pc_category_id, product_id) VALUES (?, ?);";
 export const connectProductTagSql = "INSERT INTO pt_id (pc_tag_id, product_id) VALUES (?, ?);";
 
 // 작품 수요 조회
 export const getFavorCountSql = "SELECT COUNT(*) AS favor_count FROM product WHERE product_id = ?";
-
 
 export const updateProductDealSql = "UPDATE product SET product_consumer_id = ?, product_status = 1, updated_at = CURRENT_TIMESTAMP WHERE product_id = ?; ";
 
