@@ -287,4 +287,3 @@ export const dealSalesAddDao = async (productId, consumerId, authorId) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
-// --- 작품 거래 상태 변경(거래 성사)
