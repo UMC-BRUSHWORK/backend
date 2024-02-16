@@ -6,28 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { countUserLike, findUserLikeCount, getUserByUserIdSql, getUserInfoSql, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateProductLikeCount, updateUserInfoSql, updateUserLike } from "./user.sql";
-
-
-export const getUserLikeListToDB = async (userId, cursorId, paging) => {
-    try{
-        const conn = await pool.getConnection();
-        
-        if(cursorId == -1){
-            const [temp] = await pool.query(countUserLike);
-            cursorId = temp[0].likeCount + 1;
-        }
-        // 사용자 관심 작품 - 사용자 아이디, 커서 아이디, paging 사이즈
-        const [prefer_list] = await pool.query(selectUserLikeList, [userId, cursorId, paging]);
-
-        conn.release();
-        return prefer_list;
-
-    }catch (err) {
-        console.error(err);
-        throw new BaseError(status.PARAMETER_IS_WRONG);
-    }
-}
+import { countUserLike, findUserLikeCount, getUserLikeToIndexId, insertUserLike, selectUserLikeList, updateUserLike, selectUserConsumeList, getUserByUserIdSql, updateUserInfoSql, getUserInfoSql, selectUserAuthorList, countSales, updateProductLikeCount } from "./user.sql";
 
 export const addOrChangeUserLikeToDB = async (userId, productId) => {
     try{
@@ -76,6 +55,26 @@ export const getUserLikeToDB = async (indexId) => {
     }
 }
 
+export const getUserLikeListToDB = async (userId, cursorId, paging) => {
+    try{
+        const conn = await pool.getConnection();
+        
+        if(cursorId == -1){
+            const [temp] = await pool.query(countUserLike);
+            cursorId = temp[0].likeCount + 1;
+        }
+        // 사용자 관심 작품 - 사용자 아이디, 커서 아이디, paging 사이즈
+        const [prefer_list] = await pool.query(selectUserLikeList, [userId, cursorId, paging]);
+
+        conn.release();
+        return prefer_list;
+
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
 export const getUserByUserId = async (userId) => {
     try {
         const conn = await pool.getConnection();
@@ -90,6 +89,35 @@ export const getUserByUserId = async (userId) => {
     }
 }
 
+// 사용자 판매/구매 목록 조회
+export const getUserHistoryToDB = async (userId, cursorId, paging, type) => {
+    try{
+        const conn = await pool.getConnection();
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(countSales);
+            cursorId = temp[0].salesCount + 1;
+        }
+
+        if(type == 0){  //  판매 내역
+            const [result] = await pool.query(selectUserAuthorList, [userId, cursorId, paging]);
+            conn.release();
+            return result;
+        }
+
+        if(type == 1){  // 구매 내역
+            const [result] = await pool.query(selectUserConsumeList, [userId, cursorId, paging]);
+            conn.release();
+            return result;
+        }
+
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 사용자 정보 업데이트
 export const updateUserInfoDao = async (updateInfo) => {
     try {
         const conn = await pool.getConnection();
@@ -105,6 +133,7 @@ export const updateUserInfoDao = async (updateInfo) => {
     }
 }
 
+// 사용자 정보 조회
 export const getUserInfoDao = async (userId) => {
     try {
         const conn = await pool.getConnection();
@@ -118,3 +147,4 @@ export const getUserInfoDao = async (userId) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
+

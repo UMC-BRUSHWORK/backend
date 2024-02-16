@@ -2,7 +2,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 import { addOrChangeUserLikeResponseDTO, updateUserInfoResponseDTO } from "../dtos/user.dto";
-import { addOrChangeUserLikeToDB, getUserByUserId, getUserLikeToDB, updateUserInfoDao } from "../models/user.dao";
+import { addOrChangeUserLikeToDB, getUserLikeToDB, updateUserInfoDao } from "../models/user.dao";
 
 export const addOrChangeUserLikeCon = async (userId, query) => {
 
@@ -10,7 +10,10 @@ export const addOrChangeUserLikeCon = async (userId, query) => {
 
     const indexId = await addOrChangeUserLikeToDB(parseInt(userId), parseInt(productId));
 
-    return addOrChangeUserLikeResponseDTO(await getUserLikeToDB(indexId));
+    const data = await getUserLikeToDB(indexId);
+
+    return addOrChangeUserLikeResponseDTO(data);
+    // return addOrChangeUserLikeResponseDTO(await getUserLikeToDB(indexId));
 }
 
 export const updateUserInfoService = async (userId, body, file) => {

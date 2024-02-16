@@ -34,17 +34,14 @@ export const getKeywordHashtagAuthSql = "SELECT product_id, product_name, produc
 export const getKeywordAuthorAuthSql = "SELECT product_id, product_name, product_author_id, product_author_nickname, product_status, product_hashtag, product_preview_img, IFNULL(fp.favor_status, 0) as favorStatus FROM product left join favor_product fp on fp.favor_product_id = product_id and fp.favor_user_id = ? WHERE product_author_nickname LIKE ? and product_id < ? ORDER BY product_id DESC LIMIT ?";
 
 // 작품 정보 수정
-export const updateProductInfoSql = "UPDATE product " 
-+ "SET p_img = ?, product_name = ?, product_price = ?, product_delivery = ?, product_description = ?, product_hashtag = ?, updated_at = CURRENT_TIMESTAMP() " 
-+ "WHERE product_id = ?;"
-export const updateCategorySql = "UPDATE product_category " 
-+ "SET pc_status = ?, updated_at = CURRENT_TIMESTAMP() " 
-+ "WHERE pc_product_id = ? and pc_category_id = ?;"
+export const updateProductInfoSql = "UPDATE product " +
+"SET p_img = ?, product_name = ?, product_price = ?, product_delivery = ?, product_description = ?, product_hashtag = ?, updated_at = CURRENT_TIMESTAMP() " +
+"WHERE product_id = ?;"
 
-// 작품 카테고리 및 태그 연결
-export const connectProductCategorySql = "INSERT INTO product_category (pc_product_id, pc_category_id) VALUES (?, ?);";
+export const updateCategorySql = "UPDATE product_category " +
+"SET pc_status = ?, updated_at = CURRENT_TIMESTAMP() " +
+"WHERE pc_product_id = ? and pc_category_id = ?;"
 
-// 작품 리스트 조회
 export const selectProductList =
 "SELECT product_id, product_name, product_author_id, product_author_nickname, product_preview_img, product_status FROM product "
 +"WHERE product_id < ? "
@@ -65,9 +62,15 @@ export const selectProductAuthorListForAuth =
 +"WHERE product_id < ? and product_author_id = ? "
 +"ORDER BY product_id DESC LIMIT ?";
 
-// 작품 조횟수가 가장 큰
-// export const countViewProductSql = "SELECT COUNT(*) as viewCount from product_list";
+// 작품 카테고리 및 태그 연결
+export const connectProductCategorySql = "INSERT INTO pc_id (pc_category_id, product_id) VALUES (?, ?);";
+export const connectProductTagSql = "INSERT INTO pt_id (pc_tag_id, product_id) VALUES (?, ?);";
+
+// 작품 수요 조회
+export const getFavorCountSql = "SELECT COUNT(*) AS favor_count FROM product WHERE product_id = ?";
 
 export const updateProductDealSql = "UPDATE product SET product_consumer_id = ?, product_status = 1, updated_at = CURRENT_TIMESTAMP WHERE product_id = ?; ";
 
-export const insertSalesSql = "INSERT INTO sales (sales_product_id, sales_consumer_id, sales_author_id) values (?, ?, ?);"
+export const insertSalesSql = "INSERT INTO sales (sales_product_id, sales_consumer_id, sales_author_id) values (?, ?, ?);";
+
+export const insertPurchaseSql = "INSERT INTO purchase (purchase_product_id, purchase_consumer_id, purchase_author_id) values (?, ?, ?);";

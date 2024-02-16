@@ -27,11 +27,37 @@ export const getUserLikeListResponseDTO = (data) => {
 }
 
 export const addOrChangeUserLikeResponseDTO = (data) => {
+
+    console.log(data);
+
     return {
         "id": data.fv_id,
         "userId": data.favor_user_id,
         "productId": data.favor_product_id,
         "status": data.favor_status
+    };
+}
+
+export const getUserHistoryResponseDTO = (data, type) => {
+    const historyList = [];
+
+    for (let item of data) {
+        historyList.push({
+            "salesId": item.sales_id,
+            "productId": item.sales_product_id,
+            "proudctName": item.product_name,
+            "productPrice": item.product_price,
+            "productImg": item.product_preview_img,
+            "consumerId": item.sales_consumer_id,
+            "authorId": item.sales_author_id,
+            "authorNickname": item.product_author_nickname,
+            "reviewStatus": item.review_status
+        })
+    }
+
+    return {
+        "type": parseInt(type),
+        "historyList": historyList
     };
 }
 

@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, selectProductList, countProduct, updateProductDealSql, insertSalesSql, getKeywordTitleSql, getKeywordDescriptionSql, getKeywordHashtagSql, selectProductAuthorList, addProductSql, getKeywordHashtagAuthSql, getKeywordTitleToAuthSql, getKeywordDescriptionAuthSql, selectProductListForAuthUser, selectProductAuthorListForAuth, getKeywordAuthorAuthSql, getKeywordAuthorSql } from "./product.sql.js";
+import { getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, countProduct, updateProductDealSql, insertSalesSql, getKeywordTitleSql, getKeywordDescriptionSql, getKeywordHashtagSql, selectProductAuthorList, addProductSql, getKeywordHashtagAuthSql, getKeywordTitleToAuthSql, getKeywordDescriptionAuthSql, selectProductListForAuthUser, selectProductAuthorListForAuth, getKeywordAuthorAuthSql, getKeywordAuthorSql, insertPurchaseSql, selectProductList } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
@@ -277,6 +277,7 @@ export const dealSalesAddDao = async (productId, consumerId, authorId) => {
     try {
         const conn = await pool.getConnection();
         const [product] = await pool.query(insertSalesSql, [productId, consumerId, authorId]);
+        await pool.query(insertPurchaseSql, [productId, consumerId, authorId]);
 
         conn.release();
         return product.insertId;
@@ -286,4 +287,3 @@ export const dealSalesAddDao = async (productId, consumerId, authorId) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
-// --- 작품 거래 상태 변경(거래 성사)
