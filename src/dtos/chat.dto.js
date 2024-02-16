@@ -38,20 +38,20 @@ export const getChatLogResponseDTO = (data) => {
 
     const chatLogList = [];
 
-    for (let i = 0; i < data.length; i++) {
+    for (let item of data) {
         chatLogList.push({
-            "msgId": data[i].cm_id,
-            "senderId": data[i].cm_sender_id,
-            "receiverId": data[i].cm_receiver_id,
-            "msg": data[i].cm_content,
-            "isRead": data[i].cm_is_read,
-            "date": moment.utc(data[i].created_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
-            "isMedia": data[i].cm_is_media
+            "msgId": item.cm_id,
+            "senderId": item.cm_sender_id,
+            "receiverId": item.cm_receiver_id,
+            "msg": item.cm_content,
+            "isRead": item.cm_is_read,
+            "date": moment.utc(item.created_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
+            "isMedia": item.cm_is_media
         });
     }
     
     return {
         "chatLogListData": chatLogList,
-        "cursorId": data[data.length-1].cm_id
+        "cursorId": (data.length > 0) ? data[data.length-1].cm_id : -1
     };
 }
