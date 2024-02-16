@@ -17,6 +17,12 @@ export const getChatLogService = async (body, query) => {
     const { roomId } = body;
     const { paging = 10, cursorId = -1} = query;
 
+    console.log("body", body);
+    console.log("query", query);
+
     const result = await getChatLogDao(roomId, parseInt(paging), parseInt(cursorId));
+
+    console.log("resultData", result);
+
     return getChatLogResponseDTO(result);
 }
