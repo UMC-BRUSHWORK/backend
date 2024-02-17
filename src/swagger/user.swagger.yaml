@@ -50,7 +50,7 @@ paths:
                     example: {
                       "userLikeList": [
                         {
-                            "fv_id": 1,
+                            "fvId": 1,
                             "userId": 2,
                             "favorStatus": 1,
                             "productId": 1,
@@ -60,7 +60,7 @@ paths:
                             "productImg": "imgURL"
                         },
                         {
-                            "fv_id": 1,
+                            "fvId": 1,
                             "userId": 2,
                             "favorStatus": 1,
                             "productId": 1,
@@ -154,10 +154,10 @@ paths:
                   data:
                     type: object
                     example: {
-                      "id": 1,
+                      "fvId": 1,
                       "userId": 2,
                       "productId": 1,
-                      "status": 1
+                      "favorStatus": 1
                     }
                 
         '400':
@@ -342,10 +342,10 @@ paths:
                     type: array
                     example: {
                         "userId": 00,
-                        "nickname": "닉네임",
-                        "profile": "profileImgUrl",
-                        "introduce": "소개글입니다.",
-                        "rate": 0
+                        "userNickname": "닉네임",
+                        "userProfile": "profileImgUrl",
+                        "userIntroduce": "소개글입니다.",
+                        "userRate": 0
                     }
                 
         '400':
@@ -448,7 +448,7 @@ paths:
                           {
                               "salesId": 0,
                               "productId": 0,
-                              "proudctName": "제목",
+                              "productName": "제목",
                               "productPrice": 10000,
                               "productImg": "imgUrl",
                               "consumerId": 0,
@@ -459,7 +459,7 @@ paths:
                           {
                               "salesId": 02,
                               "productId": 02,
-                              "proudctName": "제목2",
+                              "productName": "제목2",
                               "productPrice": 100002,
                               "productImg": "imgUrl2",
                               "consumerId": 02,
