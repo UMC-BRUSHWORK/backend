@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 export const createRoomResponseDTO = (data, status) => {
 
     return {
-        "roomId": data.cr_id,
+        "roomId": data.cr_id || data,
         "isAlreadyExist": status
     }
 }
