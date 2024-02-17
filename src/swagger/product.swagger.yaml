@@ -98,6 +98,7 @@ paths:
                       "delivery": 1,
                       "hashtag": "#test1,#test2,#test3, (...)",
                       "image": ["imageUrl1, imageUrl2, (...)"],
+                      "previewImg": "previewImgUrl",
                       "createdAt": "2024.1.28",
                       "favor": 0,
                       "category": [
@@ -242,6 +243,7 @@ paths:
                       "delivery": 1,
                       "hashtag": "#test1,#test2,#test3, (...)",
                       "image": ["imageUrl1, imageUrl2, (...)"],
+                      "previewImg": "previewImgUrl",
                       "createdAt": "2024.1.28",
                       "favor": 0,
                       "category": [
@@ -346,6 +348,7 @@ paths:
                       "delivery": 1,
                       "hashtag": "#test1,#test2,#test3, (...)",
                       "image": ["imageUrl1, imageUrl2, (...)"],
+                      "previewImg": "previewImgUrl",
                       "createdAt": "2024.1.28",
                       "favor": 0,
                       "category": [
@@ -456,7 +459,8 @@ paths:
                                 "authorId": 1,
                                 "authorNickname": "별명",
                                 "image": "imgUrl",
-                                "status": 1
+                                "status": 1,
+                                "favorStatus": 0
                             },
                             {
                                 "productId": 0,
@@ -464,7 +468,8 @@ paths:
                                 "authorId": 1,
                                 "authorNickname": "별명",
                                 "image": "imgUrl",
-                                "status": 0
+                                "status": 0,
+                                "favorStatus": 1
                             },
                             {
                                 "productId": 0,
@@ -472,7 +477,8 @@ paths:
                                 "authorId": 1,
                                 "authorNickname": "별명",
                                 "image": "imgUrl",
-                                "status": 1
+                                "status": 1,
+                                "favorStatus": 0
                             }
                         ],
                         "cursorId": 8
@@ -525,23 +531,25 @@ paths:
       summary: 작품 거래 상태 변경
       security:
         - Authorization: []
-      application/json:
-        schema:
-          type: object
-          properties:
-            productId:
-              type: integer
-              description: 작품 아이디
-            consumerId:
-              type: integer
-              description: 소비자(구매자) 아이디
-            authorId:
-              type: integer
-              description: 작가 아이디
-          required:
-            - productId
-            - consumerId
-            - authorId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: integer
+                  description: 작품 아이디
+                consumerId:
+                  type: integer
+                  description: 소비자(구매자) 아이디
+                authorId:
+                  type: integer
+                  description: 작가 아이디
+              required:
+                - productId
+                - consumerId
+                - authorId
       responses:
         '200':
           description: 작품 거래 상태 변경 완료
@@ -672,7 +680,7 @@ paths:
                   result:
                     type: array
                     example: {
-                      "listData": [
+                      "searchResult": [
                           {
                               "productId": 00,
                               "title": "제목",
@@ -680,7 +688,8 @@ paths:
                               "authorNickname": "별명",
                               "image": "imageUrl1",
                               "hashtag": "#test1,#test2,#test3",
-                              "status": 0
+                              "status": 0,
+                              "favorStatus": 0
                           },
                           {
                               "productId": 01,
@@ -689,7 +698,8 @@ paths:
                               "authorNickname": "별명2",
                               "image": "imageUrl2",
                               "hashtag": "#test1,#test2,#test3, (...)",
-                              "status": 1
+                              "status": 1,
+                              "favorStatus": 0
                           }
                       ],
                       "cursorId": 15

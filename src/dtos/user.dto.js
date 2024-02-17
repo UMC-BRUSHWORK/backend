@@ -6,7 +6,7 @@ export const getUserLikeListResponseDTO = (data) => {
     if(data.length>0){
         for (let i = 0; i < data.length; i++) {
             userLikeList.push({
-                "fv_id": data[i].fv_id,
+                "fvId": data[i].fv_id,
                 "userId": data[i].favor_user_id,
                 "favorStatus": data[i].favor_status,
                 "productId": data[i].favor_product_id,
@@ -28,13 +28,11 @@ export const getUserLikeListResponseDTO = (data) => {
 
 export const addOrChangeUserLikeResponseDTO = (data) => {
 
-    console.log(data);
-
     return {
-        "id": data.fv_id,
+        "fvId": data.fv_id,
         "userId": data.favor_user_id,
         "productId": data.favor_product_id,
-        "status": data.favor_status
+        "favorStatus": data.favor_status
     };
 }
 
@@ -45,7 +43,7 @@ export const getUserHistoryResponseDTO = (data, type) => {
         historyList.push({
             "salesId": item.sales_id,
             "productId": item.sales_product_id,
-            "proudctName": item.product_name,
+            "productName": item.product_name,
             "productPrice": item.product_price,
             "productImg": item.product_preview_img,
             "consumerId": item.sales_consumer_id,
@@ -73,9 +71,9 @@ export const updateUserInfoResponseDTO = (data) => {
 export const getUserInfoResponseDTO = (data) => {
     return {
         "userId": data.user_id,
-        "nickname": data.user_nickname,
-        "profile": data.user_profile,
-        "introduce": data.user_introduce,
-        "rate": data.user_rate
+        "userNickname": data.user_nickname,
+        "userProfile": data.user_profile,
+        "userIntroduce": data.user_introduce,
+        "userRate": data.user_rate
     };
 }

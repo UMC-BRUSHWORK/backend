@@ -15,12 +15,12 @@ export const getChatResponseDTO = (data) => {
     for (let i = 0; i < data.length; i++) {
         chatList.push({
             "roomId": data[i].cr_id,
-            "status": data[i].cr_status,
+            "roomStatus": data[i].cr_status,
             "buyerId": data[i].cr_buyer_id,
-            "buyerName": data[i].buyerName,
+            "buyerNickname": data[i].buyerName,
             "buyerProfile": data[i].buyerProfile,
             "sellerId": data[i].cr_seller_id,
-            "sellerName": data[i].sellerName,
+            "sellerNickname": data[i].sellerName,
             "sellerProfile": data[i].sellerProfile,
             "latestMsg": data[i].cr_latest_msg,
             "latestMsgDate": moment.utc(data[i].cr_latest_msg_date).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
@@ -40,10 +40,10 @@ export const getChatLogResponseDTO = (data) => {
 
     for (let item of data) {
         chatLogList.push({
-            "msgId": item.cm_id,
+            "messageId": item.cm_id,
             "senderId": item.cm_sender_id,
             "receiverId": item.cm_receiver_id,
-            "msg": item.cm_content,
+            "message": item.cm_content,
             "isRead": item.cm_is_read,
             "date": moment.utc(item.created_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
             "isMedia": item.cm_is_media
