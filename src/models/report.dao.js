@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { addReportSql } from "./report.sql";
+import { addReportSql, getReportSql } from "./report.sql";
 
 export const receiveReport = async (data) => {
     try {
@@ -24,3 +24,17 @@ export const receiveReport = async (data) => {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 };
+
+export const getReport = async (reportId) => {
+    try {
+        const conn = await pool.getConnection();
+        const [result] = await pool.query(getReportSql, reportId);
+        
+        conn.release();
+
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}

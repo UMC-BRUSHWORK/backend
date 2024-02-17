@@ -1,6 +1,6 @@
 import { registerReportResponseDTO } from "../dtos/report.dto"
 import { sendMailToBW } from "../middleware/mail";
-import { receiveReport } from "../models/report.dao";
+import { getReport, receiveReport } from "../models/report.dao";
 
 // 신고 접수
 export const joinReport = async (body) => {
@@ -15,8 +15,8 @@ export const joinReport = async (body) => {
     console.log(reportData);
 
     const joinReportData = await receiveReport(reportData);
-
-    sendMailToBW(reportData);   // 신고 메일 전송
+    const result = await getReport(joinReportData)
+    sendMailToBW(result);   // 신고 메일 전송
 
     return registerReportResponseDTO(joinReportData);
     
