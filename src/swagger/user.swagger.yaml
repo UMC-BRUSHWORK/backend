@@ -309,8 +309,6 @@ paths:
       tags:
         - User
       summary: 사용자 정보 조회
-      security:
-        - Authorization: []
       parameters:
         - in: path
           name: userId

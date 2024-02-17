@@ -10,7 +10,7 @@ userRouter.get('/:userId/like', jwtAuthenticationMiddleware, asyncHandler(getUse
 userRouter.post('/:userId/like', jwtAuthenticationMiddleware, asyncHandler(addOrChangeUserLike));   // 사용자 관심 작품 등록/상태 변경 API
 
 userRouter.patch('/:userId', jwtAuthenticationMiddleware, imageUploader.single('image'), asyncHandler(updateUserInfoController));
-userRouter.get('/:userId', jwtAuthenticationMiddleware, asyncHandler(getUserInfoController));
+userRouter.get('/:userId', asyncHandler(getUserInfoController));
 
 userRouter.get('/:userId/history', jwtAuthenticationMiddleware, asyncHandler(getHistory));  //구매, 판매 내역 조회 API
 
