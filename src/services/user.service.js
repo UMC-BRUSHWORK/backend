@@ -28,7 +28,7 @@ export const updateUserInfoService = async (userId, body, file) => {
     const updateInfo = {
         "userId": befInfo.user_id,
         "nickname": userNickname ? userNickname : befInfo.user_nickname,
-        "introduce": userIntroduce ? userIntroduce : (befInfo.user_introduce ? befInfo.user_introduce : null),
+        "introduce": userIntroduce ? userIntroduce : (befInfo.user_introduce ? befInfo.user_introduce : ""),
         "profile": file ? file.location: befInfo.user_profile,
     }
 
