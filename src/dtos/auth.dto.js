@@ -6,7 +6,10 @@ export const loginResponseDTO = (result, token) => {
         // userId, 닉네임
         "userId": result.user_id,
         "nickname": result.user_nickname,
-        "AccessTime": moment.utc(result.access_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
+        "rate": result.user_rate,
+        "profile": result.user_profile,
+        "introduce": result.user_introduce,
+        "accessTime": moment.utc(result.access_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
         "token": token
     };
 }
@@ -16,7 +19,7 @@ export const registerResponseDTO = (result) => {
     return {
         "userId": result.user_id,
         "nickname": result.user_nickname,
-        "AccessTime": moment.utc(result.access_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss')
+        "accessTime": moment.utc(result.access_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss')
     };
 }
 

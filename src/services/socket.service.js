@@ -2,7 +2,6 @@ import { connectRoomResponseDTO, readMessageResponseDTO, sendMessageResponseDTO 
 import { addMessageDao, getChatRoomToRIdDao, readMessageDao } from "../models/socket.dao";
 
 export const connectRoomService = async (roomId) => {
-    console.log(roomId);
     return connectRoomResponseDTO(await getChatRoomToRIdDao(roomId));
 }
 
