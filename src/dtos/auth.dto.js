@@ -9,6 +9,7 @@ export const loginResponseDTO = (result, token) => {
         "rate": result.user_rate,
         "profile": result.user_profile,
         "introduce": result.user_introduce,
+        "status": result.user_status,
         "accessTime": moment.utc(result.access_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
         "token": token
     };

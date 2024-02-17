@@ -1,5 +1,5 @@
 export const getUserSql = 'SELECT * FROM user WHERE user_email = ?';
-export const getUserByIDSql = 'SELECT user_id, user_nickname, access_at, user_rate, user_profile, user_introduce FROM user WHERE user_id = ?';
+export const getUserByIDSql = 'SELECT user_id, user_nickname, access_at, user_rate, user_profile, user_introduce, user_status FROM user WHERE user_id = ?';
 export const getNicknameSql = 'SELECT * FROM user WHERE user_nickname = ?';
 
 export const updateAccessTime = 'UPDATE user SET access_at = CURRENT_TIMESTAMP() WHERE user_id = ?';
