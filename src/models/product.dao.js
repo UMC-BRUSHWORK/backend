@@ -105,12 +105,13 @@ export const setCategory = async (productId, category) => {
         const conn = await pool.getConnection();
 
         for (let i = 0; i < category.length; i++) {
-            await pool.query(connectProductCategorySql, [productId, category[i]]);
+            await pool.query(connectProductCategorySql, [category[i], productId]);
         }
 
         conn.release();
         return 1;
     }catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
