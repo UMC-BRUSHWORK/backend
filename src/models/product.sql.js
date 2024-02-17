@@ -63,8 +63,7 @@ export const selectProductAuthorListForAuth =
 +"ORDER BY product_id DESC LIMIT ?";
 
 // 작품 카테고리 및 태그 연결
-export const connectProductCategorySql = "INSERT INTO pc_id (pc_category_id, product_id) VALUES (?, ?);";
-export const connectProductTagSql = "INSERT INTO pt_id (pc_tag_id, product_id) VALUES (?, ?);";
+export const connectProductCategorySql = "INSERT INTO product_category (pc_category_id, pc_product_id) VALUES (?, ?);";
 
 // 작품 수요 조회
 export const getFavorCountSql = "SELECT COUNT(*) AS favor_count FROM product WHERE product_id = ?";
