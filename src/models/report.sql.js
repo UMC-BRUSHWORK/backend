@@ -1,1 +1,3 @@
 export const addReportSql = "INSERT INTO complaint (reporter_id, reportee_id, complaint_status_id, complaint_context) VALUES (?, ?, ?, ?)";
+
+export const getReportSql = "SELECT c.complaint_id, c.complaint_status_id, c.reporter_id, u.user_nickname as reporterName, c.reportee_id, u1.user_nickname as reporteeName, c.complaint_context, c.created_at FROM complaint c INNER JOIN user u ON c.reporter_id = u.user_id INNER JOIN user u1 ON c.reportee_id = u1.user_id WHERE c.complaint_id = ?";

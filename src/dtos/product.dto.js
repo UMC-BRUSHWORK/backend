@@ -78,7 +78,7 @@ export const getKeywordResponseDTO = (data) => {
     }
 
     return {
-        "listData": productList,
+        "searchResult": productList,
         "cursorId": data[0].product_id ? data[0].product_id : -1
     };
 }
