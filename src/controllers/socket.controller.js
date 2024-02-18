@@ -4,6 +4,7 @@ import { connectRoomService, readMessageService, sendMessageService } from "../s
 export const connectRoom = async (info, socket, io) => {
     // 채팅방 접속을 위한 컨트롤러
     socket.join(info.roomId);
+    console.log(info);
     io.to(info.roomId).emit('connect-info', {result: await connectRoomService(info.roomId)})
 }
 
@@ -12,6 +13,8 @@ export const sendMessageController = async (message, socket, io) => {
 
     const { roomId } = message;
     const result = await sendMessageService(message);
+
+    console.log(result);
 
     if (result) io.to(roomId.toString()).emit('received-message', {result: result});
 }
