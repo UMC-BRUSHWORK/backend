@@ -23,7 +23,7 @@ export const getChatResponseDTO = (data) => {
             "sellerNickname": data[i].sellerName,
             "sellerProfile": data[i].sellerProfile,
             "latestMsg": data[i].cr_latest_msg,
-            "latestMsgDate": moment.utc(data[i].cr_latest_msg_date).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
+            "latestMsgDate": moment.utc(data[i].cr_latest_msg_date).add(9,'h').format('YYYY-MM-DD HH:mm:ss'),
             "notReadCount": (data[i].notReadCount ? data[i].notReadCount : 0)
         });
     }
@@ -37,6 +37,7 @@ export const getChatResponseDTO = (data) => {
 export const getChatLogResponseDTO = (data) => {
 
     const chatLogList = [];
+    let cursorId = -1;
 
     for (let item of data) {
         chatLogList.push({
@@ -45,13 +46,17 @@ export const getChatLogResponseDTO = (data) => {
             "receiverId": item.cm_receiver_id,
             "message": item.cm_content,
             "isRead": item.cm_is_read,
-            "date": moment.utc(item.created_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
+            "date": moment.utc(item.created_at).add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
             "isMedia": item.cm_is_media
         });
+    }
+
+    if(data.length){
+        cursorId = data[data.length-1].cm_id;
     }
     
     return {
         "chatLogListData": chatLogList,
-        "cursorId": (data.length > 0) ? data[data.length-1].cm_id : -1
+        "cursorId": cursorId
     };
 }
