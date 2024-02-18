@@ -9,7 +9,6 @@ export const getChatService = async (body, query) => {
     const result = await getChatListDao(userId, parseInt(paging), parseInt(cursorId));
 
     return getChatResponseDTO(result);
-    // return addNewMessageResponseDTO(await addNewMessageDao(roomId, userId, message, not_read));
 }
 
 export const getChatLogService = async (body, query) => {

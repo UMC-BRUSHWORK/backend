@@ -28,7 +28,7 @@ export const sendMessageResponseDTO = (data) => {
         "isMedia": data.cm_is_media,
         "receiverId": data.cm_receiver_id,
         "senderId": data.cm_sender_id,
-        "date": moment.utc(data.created_at).tz("Asia/Seoul").add(9,'h').format('YYYY-MM-DD HH:mm:ss'),
+        "date": moment.utc(data.created_at).add(9,'h').format('YYYY-MM-DD HH:mm:ss'),
     };
 }
 
