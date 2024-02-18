@@ -11,6 +11,7 @@ export const createRoomResponseDTO = (data, status) => {
 export const getChatResponseDTO = (data) => {
 
     const chatList = [];
+    let cursorId = -1;
 
     for (let i = 0; i < data.length; i++) {
         chatList.push({
@@ -27,10 +28,14 @@ export const getChatResponseDTO = (data) => {
             "notReadCount": (data[i].notReadCount ? data[i].notReadCount : 0)
         });
     }
+
+    if(data.length){
+        cursorId = data[data.length-1].cr_id;
+    }
     
     return {
         "chatListData": chatList,
-        "cursorId": data[data.length-1].cr_id
+        "cursorId": cursorId
     };
 }
 
@@ -57,6 +62,33 @@ export const getChatLogResponseDTO = (data) => {
     
     return {
         "chatLogListData": chatLogList,
+        "cursorId": cursorId
+    };
+}
+
+export const getProductChatListResponseDTO = (data) => {
+
+    const productChatList =[];
+    let cursorId = -1;
+
+    for (let item of data){
+        productChatList.push({
+            "roomId": item.cr_id,
+            "buyerId": item.cr_buyer_id,
+            "buyerNickname": item.user_nickname,
+            "buyerProfile": item.user_profile,
+            "sellerId": item.cr_seller_id,
+            "productId": item.cr_product_id,
+            "latestMsgDate": moment.utc(item.cr_latest_msg_date).add(9,'h').format('YYYY-MM-DD HH:mm:ss'),
+        })
+    }
+
+    if(data.length){
+        cursorId = data[data.length-1].cr_id;
+    }
+
+    return {
+        "productChatList": productChatList,
         "cursorId": cursorId
     };
 }

@@ -2,7 +2,7 @@ import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
 
 import { createChatRoomService } from "../services/chat.service.js";
-import { getChatLogService, getChatService } from "../providers/chat.provider.js";
+import { getChatLogService, getChatService, getProductChatListProvider } from "../providers/chat.provider.js";
 
 export const createChatRoomController = async (req, res, next) => {
     // 채팅방 생성을 위한 컨트롤러
@@ -17,4 +17,8 @@ export const getChatController = async (req, res) => {
 export const getChatLogController = async (req, res, next) => {
     // 채팅 열람 시간 갱신 및 열람 시간 리턴, 읽음 여부 업데이트
     res.send(response(status.SUCCESS, await getChatLogService(req.body, req.query)));
+}
+
+export const getProductChatListController = async (req, res, next) => {
+    res.send(response(status.SUCCESS, await getProductChatListProvider(req.params.authorId, req.query)));
 }
