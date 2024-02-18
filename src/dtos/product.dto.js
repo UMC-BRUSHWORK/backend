@@ -24,7 +24,7 @@ export const productCommonResponseDTO = (data, category) => {
         "hashtag": data.product_hashtag,
         "image": imageList,
         "previewImg": data.product_preview_img,
-        "createdAt": moment.utc(data.created_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
+        "createdAt": moment.utc(data.created_at).add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
         "favor": data.favor_count,
         "category": categoryList
     };
@@ -34,6 +34,7 @@ export const productCommonResponseDTO = (data, category) => {
 export const getProductListResponseDTO = (data) => {
 
     const productList = [];
+    let cursorId = -1;
 
     for (let i = 0; i < data.length; i++) {
         productList.push({
@@ -46,9 +47,13 @@ export const getProductListResponseDTO = (data) => {
             "favorStatus": data[i].favorStatus ? data[i].favorStatus : 0
     })}
 
+    if(data.length){
+        cursorId = data[data.length-1].product_id;
+    }
+
     return {
         "categoryData": productList, 
-        "cursorId": data[data.length-1].product_id
+        "cursorId": cursorId
     };
 }
 
@@ -62,7 +67,7 @@ export const dealProductResponseDTO = (data) => {
 export const getKeywordResponseDTO = (data) => {
 
     const productList = [];
-
+    let cursorId = -1;
 
     for (let item of data) {
         productList.push({
@@ -77,8 +82,12 @@ export const getKeywordResponseDTO = (data) => {
         })
     }
 
+    if(data.length){
+        cursorId = data[data.length-1].product_id;
+    }
+
     return {
         "searchResult": productList,
-        "cursorId": data[0].product_id ? data[0].product_id : -1
+        "cursorId": cursorId
     };
 }

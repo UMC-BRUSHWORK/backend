@@ -10,7 +10,7 @@ export const loginResponseDTO = (result, token) => {
         "profile": result.user_profile,
         "introduce": result.user_introduce,
         "status": result.user_status,
-        "accessTime": moment.utc(result.access_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
+        "accessTime": moment.utc(result.access_at).add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
         "token": token
     };
 }
@@ -20,7 +20,7 @@ export const registerResponseDTO = (result) => {
     return {
         "userId": result.user_id,
         "nickname": result.user_nickname,
-        "accessTime": moment.utc(result.access_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss')
+        "accessTime": moment.utc(result.access_at).add(9, 'h').format('YYYY-MM-DD HH:mm:ss')
     };
 }
 
@@ -30,7 +30,7 @@ export const resignResponseDTO = (result) => {
         "userId": result.user_id,
         "nickname": result.user_nickname,
         "status": (result.user_status == 2) ? "inactive" : "active",
-        "resignTime": moment.utc(result.resign_at).tz("Asia/Seoul").add(9, 'h').format('YYYY-MM-DD HH:mm:ss')
+        "resignTime": moment.utc(result.resign_at).add(9, 'h').format('YYYY-MM-DD HH:mm:ss')
     };
 }
 

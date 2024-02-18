@@ -1,8 +1,6 @@
 
 export const dbTestResponseDTO = (data) => {
 
-    console.log("full-data", data);
-
     const result = data[0];
 
     return {
