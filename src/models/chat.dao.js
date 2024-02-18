@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 
 // sql
-import { countChatLog, countChatRoom, getChatListSql, getChatLogSql, getCreateChatRoomToIDsSql, insertChatRoomSql, isRoomExistSql } from "./chat.sql.js";
+import { countChatLog, countChatRoom, getChatListSql, getChatLogSql, getCreateChatRoomToIDsSql, getProductChatListSql, insertChatRoomSql, isRoomExistSql } from "./chat.sql.js";
 
 // 채팅방 찾기
 export const findChatRoom = async (buyerId, sellerId, productId) => {
@@ -87,6 +87,27 @@ export const getChatLogDao = async (roomId, paging, cursorId) => {
         }
 
         const [result] = await pool.query(getChatLogSql, [roomId, cursorId, paging]);
+        conn.release();
+
+        return result;
+
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 상품 별 채팅방 리스트
+export const getProductChatListDao = async (authorId, productId, paging, cursorId) => {
+    try{
+        const conn = await pool.getConnection();
+        
+        if(cursorId == -1){
+            const [temp] = await pool.query(countChatRoom);
+            cursorId = temp[0].chatRoomCursor + 1;
+        }
+
+        const [result] = await pool.query(getProductChatListSql, [productId, authorId, cursorId, paging]);
         conn.release();
 
         return result;

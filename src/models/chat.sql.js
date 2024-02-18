@@ -22,3 +22,8 @@ export const getChatListSql =
 export const getChatLogSql =
 "select cm.cm_id, cm.cm_sender_id, cm.cm_receiver_id, cm.cm_content, cm.cm_is_read, cm.created_at, cm.cm_is_media "+
 "from chat_message cm where cm.cm_room_id = ? and cm.cm_id < ? order by cm.created_at desc limit ?";
+
+export const getProductChatListSql =
+"SELECT cr.cr_id, cr.cr_buyer_id, cr.cr_seller_id, cr.cr_product_id, cr.cr_latest_msg_date, u.user_profile, u.user_nickname "+
+"FROM chat_room cr INNER JOIN user u ON cr.cr_buyer_id = u.user_id "+
+"WHERE cr.cr_product_id = ? and cr.cr_seller_id = ? and cr.cr_id < ? ORDER BY cr.cr_latest_msg_date DESC LIMIT ?;";
