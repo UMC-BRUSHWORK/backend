@@ -1,5 +1,8 @@
 // 후기 등록(추가)
 export const findExistSalesSql = "SELECT EXISTS (SELECT 1 FROM sales WHERE sales_product_id = ? and sales_consumer_id = ? ) as isExist";
+
+export const getSalesIdSql = "SELECT sales_id FROM sales WHERE sales_product_id = ? and sales_consumer_id = ?";
+
 export const findAlreadyRegisterReviewSql = "SELECT EXISTS (SELECT 1 FROM review WHERE review_product_id = ? and review_consumer_id = ? ) as isAlreadyRegister";
 export const insertReviewSql = "INSERT INTO review (review_product_id, review_consumer_id, review_context, review_rate) VALUES (?, ?, ?, ?);";
 
@@ -19,3 +22,6 @@ export const getUserReviewListSql = "SELECT review_id, review_product_id, review
 "FROM review JOIN user on review_consumer_id = user_id "+
 "WHERE review_product_id IN (SELECT sales_product_id FROM sales WHERE sales_consumer_id = ?) and review_id < ? "+
 "ORDER BY review_id DESC LIMIT ?";
+
+// reviewStatus 업데이트
+export const updateReviewStatusSql = "UPDATE sales SET review_status = 1 WHERE sales_id = ?";
