@@ -91,3 +91,32 @@ export const getKeywordResponseDTO = (data) => {
         "cursorId": cursorId
     };
 }
+
+// 작품 카테고리 검색 조회
+export const searchCategoryResponseDTO = (data) => {
+    const productCategoryList = [];
+    let cursorId = -1;
+
+    for (let item of data) {
+        productCategoryList.push({
+            "productCategoryId": item.pc_id,
+            "categoryId": item.pc_category_id,
+            "productId": item.product_id,
+            "title": item.product_name,
+            "authorId": item.product_author_id,
+            "authorNickname": item.product_author_nickname,
+            "image": item.product_preview_img,
+            "status": item.product_status,
+            "favorStatus": item.favorStatus ? item.favorStatus : 0
+        })
+    }
+
+    if(data.length){
+        cursorId = data[data.length-1].pc_id;
+    }
+
+    return {
+        "searchResult": productCategoryList,
+        "cursorId": cursorId
+    };
+}

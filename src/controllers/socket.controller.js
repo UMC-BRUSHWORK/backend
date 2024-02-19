@@ -4,8 +4,6 @@ import { connectRoomService, readMessageService, sendMessageService } from "../s
 export const connectRoom = async (info, socket, io) => {
     // 채팅방 접속을 위한 컨트롤러
     socket.join(info.roomId);
-    console.log(info);
-    console.log(typeof(info.roomId));
     io.to(info.roomId).emit('connect-info', {result: await connectRoomService(info.roomId)})
 }
 

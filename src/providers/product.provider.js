@@ -1,7 +1,7 @@
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
-import { getKeywordResponseDTO, getProductListResponseDTO, productCommonResponseDTO } from "../dtos/product.dto";
-import { getCategory, getKeyword, getKeywordAuth, getProduct, getProductListToAuthDB, getProductListToDB} from "../models/product.dao";
+import { getKeywordResponseDTO, getProductListResponseDTO, productCommonResponseDTO, searchCategoryResponseDTO } from "../dtos/product.dto";
+import { getCategory, getKeyword, getKeywordAuth, getProduct, getProductListToAuthDB, getProductListToDB, searchCategoryAuthDao, searchCategoryDao} from "../models/product.dao";
 
 // 작품 정보 조회
 export const joinProductInfo = async (productId) => {
@@ -51,4 +51,24 @@ export const joinProductKeyword = async (query) => {
     })
 
     return getKeywordResponseDTO(result);
+}
+
+// 작품 카테고리 검색
+export const searchCategoryProvider = async (query) => {
+
+    const { categoryId, cursorId = -1, paging = 5 , userId} = query;
+    let result;
+
+    if(userId){
+        result = await searchCategoryAuthDao(parseInt(categoryId), parseInt(cursorId), parseInt(paging), parseInt(userId));
+
+    }else{
+        result = await searchCategoryDao(parseInt(categoryId), parseInt(cursorId), parseInt(paging));
+    }
+
+    if(result.length < 0){
+        throw new BaseError(status.RESULT_NOT_FOUND);
+    }
+
+    return searchCategoryResponseDTO(result);
 }

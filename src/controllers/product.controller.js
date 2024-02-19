@@ -2,7 +2,7 @@ import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
 
 import { dealProduct, joinProduct, rejoinProduct } from "../services/product.service.js";
-import { joinProductInfo, joinProductKeyword, joinProductList } from "../providers/product.provider.js";
+import { joinProductInfo, joinProductKeyword, joinProductList, searchCategoryProvider } from "../providers/product.provider.js";
 
 // 작품 등록 
 export const newProductController = async (req, res, next) => {
@@ -32,4 +32,10 @@ export const dealProductController = async (req, res, next) => {
 // 작품 검색 조회 관련 Controller
 export const searchProductController = async (req, res, next) => {
     res.send(response(status.SUCCESS, await joinProductKeyword(req.query)));
+}
+
+// 카테고리 검색
+export const searchCategoryController = async (req, res, next) => {
+    console.log("search Category");
+    res.send(response(status.SUCCESS, await searchCategoryProvider(req.query)));
 }

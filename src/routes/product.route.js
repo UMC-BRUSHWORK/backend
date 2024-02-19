@@ -2,7 +2,7 @@ import express from "express";
 
 import asyncHandler from 'express-async-handler';
 
-import { newProductController, editProductInfoController, getProductInfoController, getProductListController, dealProductController, searchProductController } from "../controllers/product.controller";
+import { newProductController, editProductInfoController, getProductInfoController, getProductListController, dealProductController, searchProductController, searchCategoryController } from "../controllers/product.controller";
 import { imageUploader } from "../middleware/image.uploader.js";
 import { jwtAuthenticationMiddleware } from "../middleware/jwt.auth.js";
 
@@ -13,6 +13,8 @@ productRouter.post('/register', jwtAuthenticationMiddleware, imageUploader.array
 
 // 작품 검색 조회
 productRouter.get('/search', asyncHandler(searchProductController));
+
+productRouter.get('/category/search', asyncHandler(searchCategoryController));
 
 // 작품 조회 관련(리스트, 세부 조회)
 productRouter.get('/list', asyncHandler(getProductListController)); // 작품 리스트 조회

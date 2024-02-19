@@ -73,3 +73,18 @@ export const updateProductDealSql = "UPDATE product SET product_consumer_id = ?,
 export const insertSalesSql = "INSERT INTO sales (sales_product_id, sales_consumer_id, sales_author_id) values (?, ?, ?);";
 
 export const insertPurchaseSql = "INSERT INTO purchase (purchase_product_id, purchase_consumer_id, purchase_author_id) values (?, ?, ?);";
+
+// 카테고리 검색
+export const countProductCategory = "SELECT pc_id as productCategoryCursor from product_category order by pc_id DESC limit 1";
+
+export const selectProductCategoryList = 
+"SELECT pc.pc_id, pc.pc_category_id, p.product_id, p.product_name, p.product_author_id, p.product_author_nickname, p.product_preview_img, p.product_status "+
+"FROM product_category pc INNER JOIN product p ON pc.pc_product_id = p.product_id "+
+"WHERE pc.pc_id < ? and pc.pc_category_id = ? "+
+"ORDER BY pc.pc_id DESC LIMIT ?";
+
+export const selectProductCategoryListForAuth =
+"SELECT pc.pc_id, p.product_id, p.product_name, p.product_author_id, p.product_author_nickname, p.product_preview_img, p.product_status, IFNULL(fp.favor_status, 0) as favorStatus "+
+"FROM product_category pc INNER JOIN product p ON pc.pc_product_id = p.product_id LEFT JOIN favor_product fp ON fp.favor_product_id = p.product_id and fp.favor_user_id = ? "+
+"WHERE pc.pc_id < ? and pc.pc_category_id = ? " +
+"ORDER BY pc.pc_id DESC LIMIT ?"

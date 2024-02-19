@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, countProduct, updateProductDealSql, insertSalesSql, getKeywordTitleSql, getKeywordDescriptionSql, getKeywordHashtagSql, selectProductAuthorList, addProductSql, getKeywordHashtagAuthSql, getKeywordTitleToAuthSql, getKeywordDescriptionAuthSql, selectProductListForAuthUser, selectProductAuthorListForAuth, getKeywordAuthorAuthSql, getKeywordAuthorSql, insertPurchaseSql, selectProductList } from "./product.sql.js";
+import { getProductIdSql, getCategoryIdSql, connectProductCategorySql, updateProductInfoSql, isExistProduct, getCategoryItem, updateCategorySql, countProduct, updateProductDealSql, insertSalesSql, getKeywordTitleSql, getKeywordDescriptionSql, getKeywordHashtagSql, selectProductAuthorList, addProductSql, getKeywordHashtagAuthSql, getKeywordTitleToAuthSql, getKeywordDescriptionAuthSql, selectProductListForAuthUser, selectProductAuthorListForAuth, getKeywordAuthorAuthSql, getKeywordAuthorSql, insertPurchaseSql, selectProductList, countProductCategory, selectProductCategoryList, selectProductCategoryListForAuth } from "./product.sql.js";
 
 // 작품 존재 확인
 export const getProductByProductId = async (productId) => {
@@ -283,6 +283,49 @@ export const dealSalesAddDao = async (productId, consumerId, authorId) => {
         conn.release();
         return product.insertId;
         
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 카테고리 검색 dao
+export const searchCategoryDao = async (categoryId, cursorId, paging) =>{
+    try {
+        const conn = await pool.getConnection();
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(countProductCategory);
+            cursorId = temp[0].productCategoryCursor + 1;
+        }
+
+        // 작품 리스트 - 커서 아이디, paging 사이즈
+        const [product_list] = await pool.query(selectProductCategoryList, [cursorId, categoryId, paging]);
+        
+        conn.release();
+        return product_list;
+
+    } catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const searchCategoryAuthDao = async (categoryId, cursorId, paging, userId) =>{
+    try {
+        const conn = await pool.getConnection();
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(countProductCategory);
+            cursorId = temp[0].productCategoryCursor + 1;
+        }
+
+        // 작품 리스트 - 커서 아이디, paging 사이즈
+        const [product_list] = await pool.query(selectProductCategoryListForAuth, [userId, cursorId, categoryId, paging]);
+        
+        conn.release();
+        return product_list;
+
     } catch (err) {
         console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
