@@ -2,7 +2,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 import { reviewResponseDTO } from "../dtos/review.dto"
-import { addReviewDB, findAlreadyRegisterReviewDao, findExistSalesDao } from "../models/review.dao";
+import { addReviewDB, findAlreadyRegisterReviewDao, findExistSalesDao, updateReviewStatusDao } from "../models/review.dao";
 
 // 후기 등록
 export const newReviewService = async (body) => {
@@ -20,6 +20,8 @@ export const newReviewService = async (body) => {
     if(existSales){
         // 판매된 작품일 시
         const joinReviewData = await addReviewDB(productId, userId, reviewRate, reviewContent);
+        await updateReviewStatusDao(existSales);
+        
         return reviewResponseDTO(joinReviewData);
     }else{
         throw BaseError(status.NO_SALES_HISTORY);
