@@ -26,6 +26,7 @@ export const sendMessageResponseDTO = (data) => {
         "messageId": data.cm_id,
         "message": data.cm_content,
         "isMedia": data.cm_is_media,
+        "isRead": data.cm_is_read,
         "receiverId": data.cm_receiver_id,
         "senderId": data.cm_sender_id,
         "date": moment.utc(data.created_at).add(9,'h').format('YYYY-MM-DD HH:mm:ss'),
