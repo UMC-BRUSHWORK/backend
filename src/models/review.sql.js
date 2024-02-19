@@ -14,3 +14,8 @@ export const getReviewListIdSql = "SELECT review_id, review_product_id, review_c
 "FROM review JOIN user on review_consumer_id = user_id "+
 "WHERE review_product_id IN (SELECT sales_product_id FROM sales WHERE sales_author_id = ?) and review_id < ? "+
 "ORDER BY review_id DESC LIMIT ?";
+
+export const getUserReviewListSql = "SELECT review_id, review_product_id, review_consumer_id, review_context, review_status, user_nickname "+
+"FROM review JOIN user on review_consumer_id = user_id "+
+"WHERE review_product_id IN (SELECT sales_product_id FROM sales WHERE sales_consumer_id = ?) and review_id < ? "+
+"ORDER BY review_id DESC LIMIT ?";
