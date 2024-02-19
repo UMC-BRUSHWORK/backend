@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
 // sql
-import { insertReviewSql, getReviewIdSql, getReviewListIdSql, findExistSalesSql, findAlreadyRegisterReviewSql, getReviewCountSql } from "./review.sql.js";
+import { insertReviewSql, getReviewIdSql, getReviewListIdSql, findExistSalesSql, findAlreadyRegisterReviewSql, getReviewCountSql, getUserReviewListSql } from "./review.sql.js";
 
 // 리뷰 등록 ----
 // 실제 판매 테이블에 존재하는지 확인
@@ -81,6 +81,25 @@ export const getReviewListDB = async (authorId, cursorId, paging) => {
         }
 
         const [reviewList] = await pool.query(getReviewListIdSql, [authorId, cursorId, paging]);
+
+        conn.release();
+        return reviewList;
+    } catch (err) {
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 내가 작성한 후기 목록 조회
+export const getUserReviewListDao = async (userId, paging, cursorId) => {
+    try {
+        const conn = await pool.getConnection();
+
+        if(cursorId == -1){
+            const [temp] = await pool.query(getReviewCountSql);
+            cursorId = temp[0].reviewCursor + 1;
+        }
+
+        const [reviewList] = await pool.query(getUserReviewListSql, [userId, cursorId, paging]);
 
         conn.release();
         return reviewList;

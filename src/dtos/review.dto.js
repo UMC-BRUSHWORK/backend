@@ -47,3 +47,29 @@ export const getReviewListResponseDTO = (data) => {
         "cursorId": cursorId
     };
 }
+
+export const getUserReviewListResponseDTO = (data) => {
+    
+    const reviewList= [];
+    let cursorId = -1;
+
+    for (let item of data) {
+        reviewList.push({
+            "reviewId": item.review_id,
+            "productId": item.review_product_id,
+            "consumerId": item.review_consumer_id,
+            "consumerNickname": item.user_nickname,
+            "context": item.review_context,
+            "date": moment.utc(item.created_at).add(9, 'h').format('YYYY-MM-DD HH:mm:ss')
+        })
+    }
+
+    if(data.length){
+        cursorId = data[data.length-1].review_id;
+    }
+
+    return {
+        "reviewListData": reviewList, 
+        "cursorId": cursorId
+    };
+}
