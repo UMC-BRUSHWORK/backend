@@ -6,7 +6,7 @@ import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 
 // sql
-import { countChatLog, countChatRoom, getChatListSql, getChatLogSql, getCreateChatRoomToIDsSql, getProductChatListSql, insertChatRoomSql, isRoomExistSql } from "./chat.sql.js";
+import { countChatLog, countChatRoom, getChatListSql, getChatLogCountSql, getChatLogSql, getCreateChatRoomToIDsSql, getProductChatListSql, insertChatRoomSql, isRoomExistSql } from "./chat.sql.js";
 
 // 채팅방 찾기
 export const findChatRoom = async (buyerId, sellerId, productId) => {
@@ -111,6 +111,21 @@ export const getProductChatListDao = async (authorId, productId, paging, cursorI
         conn.release();
 
         return result;
+
+    }catch (err) {
+        console.error(err);
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getChatLogCountDao = async (roomId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(getChatLogCountSql, roomId);
+        conn.release();
+
+        return result[0].chatMsgCount;
 
     }catch (err) {
         console.error(err);
