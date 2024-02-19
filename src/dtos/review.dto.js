@@ -53,10 +53,15 @@ export const getUserReviewListResponseDTO = (data) => {
     const reviewList= [];
     let cursorId = -1;
 
+    // 작가명, 작품 이미지, 작가 아이디
     for (let item of data) {
         reviewList.push({
             "reviewId": item.review_id,
             "productId": item.review_product_id,
+            "productName": item.product_author_id,
+            "productImage": item.product_preview_img,
+            "authorId": item.product_author_id,
+            "authorNickname": item.product_author_nickname,
             "consumerId": item.review_consumer_id,
             "consumerNickname": item.user_nickname,
             "context": item.review_context,

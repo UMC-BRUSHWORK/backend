@@ -103,6 +103,7 @@ export const getUserReviewListDao = async (userId, paging, cursorId) => {
         conn.release();
         return reviewList;
     } catch (err) {
+        console.error(err);
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }
