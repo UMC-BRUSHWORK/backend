@@ -39,7 +39,7 @@ export const getChatResponseDTO = (data) => {
     };
 }
 
-export const getChatLogResponseDTO = (data) => {
+export const getChatLogResponseDTO = (data, logCount) => {
 
     const chatLogList = [];
     let cursorId = -1;
@@ -62,7 +62,8 @@ export const getChatLogResponseDTO = (data) => {
     
     return {
         "chatLogListData": chatLogList,
-        "cursorId": cursorId
+        "cursorId": cursorId,
+        "totalChatMsg": logCount
     };
 }
 
