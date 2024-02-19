@@ -10,6 +10,7 @@ export const sendMessageService = async (message) => {
     const {roomId, senderId, receiverId, content, isMedia = 0 } = message;
 
     const result = await addMessageDao(roomId, senderId, receiverId, content, isMedia);
+    console.log("sendMessageService", result);
 
     return sendMessageResponseDTO(result);
 }
@@ -20,5 +21,7 @@ export const readMessageService = async (info) => {
 
     const result = await readMessageDao(roomId, userId);
     
+    console.log("readMessageService", result);
+
     return readMessageResponseDTO(result, roomId, userId);
 }
