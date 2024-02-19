@@ -27,3 +27,5 @@ export const getProductChatListSql =
 "SELECT cr.cr_id, cr.cr_buyer_id, cr.cr_seller_id, cr.cr_product_id, cr.cr_latest_msg_date, u.user_profile, u.user_nickname "+
 "FROM chat_room cr INNER JOIN user u ON cr.cr_buyer_id = u.user_id "+
 "WHERE cr.cr_product_id = ? and cr.cr_seller_id = ? and cr.cr_id < ? ORDER BY cr.cr_latest_msg_date DESC LIMIT ?;";
+
+export const getChatLogCountSql = "SELECT COUNT(cm.cm_id) as chatMsgCount FROM chat_message cm WHERE cm.cm_room_id = ?"

@@ -121,7 +121,7 @@ export const getProductChatListDao = async (authorId, productId, paging, cursorI
 export const getChatLogCountDao = async (roomId) => {
     try{
         const conn = await pool.getConnection();
-
+        
         const [result] = await pool.query(getChatLogCountSql, roomId);
         conn.release();
 

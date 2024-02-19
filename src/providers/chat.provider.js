@@ -1,5 +1,5 @@
 import { getChatLogResponseDTO, getChatResponseDTO, getProductChatListResponseDTO } from "../dtos/chat.dto";
-import { getChatListDao, getChatLogDao, getProductChatListDao } from "../models/chat.dao";
+import { getChatListDao, getChatLogCountDao, getChatLogDao, getProductChatListDao } from "../models/chat.dao";
 
 export const getChatService = async (body, query) => {
     // 채팅방 리스트 가져오기
@@ -16,8 +16,9 @@ export const getChatLogService = async (body, query) => {
     const { roomId } = body;
     const { paging = 10, cursorId = -1} = query;
     const result = await getChatLogDao(roomId, parseInt(paging), parseInt(cursorId));
+    const logCount = await getChatLogCountDao(roomId);
 
-    return getChatLogResponseDTO(result);
+    return getChatLogResponseDTO(result, logCount);
 }
 
 export const getProductChatListProvider = async (authorId, query) => {
