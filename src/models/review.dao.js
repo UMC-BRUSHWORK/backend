@@ -15,6 +15,7 @@ export const findExistSalesDao = async (productId, consumerId) => {
         const conn = await pool.getConnection();
 
         const [exist] = await pool.query(findExistSalesSql, [productId, consumerId]);
+        console.log(exist);
         conn.release();
 
         return exist[0].isExist;
