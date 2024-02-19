@@ -41,11 +41,11 @@ export const addMessageDao = async (roomId, senderId, receiverId, content, isMed
 
 }
 
-export const readMessageDao = async (roomId, receiverId) => {
+export const readMessageDao = async (roomId, userId) => {
     try{
         const conn = await pool.getConnection();
         
-        const [msg] = await pool.query(updateReadMessageSql, [roomId, receiverId]);
+        const [msg] = await pool.query(updateReadMessageSql, [roomId, userId]);
 
         conn.release();
         return msg;

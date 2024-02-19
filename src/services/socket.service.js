@@ -16,12 +16,9 @@ export const sendMessageService = async (message) => {
 
 export const readMessageService = async (info) => {
 
-    const {roomId, receiverId} = info;
+    const {roomId, userId} = info;
 
-    console.log("readMessageService", info);
-    console.log("readMessageService", roomId, receiverId);
-
-    const result = await readMessageDao(roomId, receiverId);
+    const result = await readMessageDao(roomId, userId);
     
     return readMessageResponseDTO(result, roomId, receiverId);
 }
