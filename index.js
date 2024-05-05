@@ -26,6 +26,7 @@ import { reviewRouter } from './src/routes/review.route.js';
 import { reportRouter } from './src/routes/report.route.js';
 import { tosRouter } from './src/routes/tos.route.js';
 import { chatRouter } from './src/routes/chat.route.js';
+import { paymentRouter } from './src/routes/payment.route.js';
 
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
@@ -66,6 +67,7 @@ app.use('/review', reviewRouter);   // 리뷰 관련 router
 app.use('/report', reportRouter);   // 신고 관련 router
 app.use('/tos', tosRouter);         // 약관 관련 router 
 app.use('/chat', chatRouter(io));   // 채팅 관련 router
+app.use('/payment', paymentRouter); // 결제 관련 router
 
 // error handling
 app.use((req, res, next) => {
