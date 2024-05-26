@@ -13,10 +13,10 @@ paths:
               properties:
                 user_email:
                   type: string
-                  description: 유저 이메일
+                  description: 소셜 이메일
                 user_password:
                   type: string
-                  description: 유저 비밀번호
+                  description: 소셜 비밀번호
               required:
                 - user_email
                 - user_password
@@ -38,7 +38,7 @@ paths:
                     type: string
                     example: <generated_token>
         '404':
-          description: db에 유저가 존재하지 않음
+          description: db에 소셜 로그인 이력이 존재하지 않음
           content:
             application/json:
               schema:
