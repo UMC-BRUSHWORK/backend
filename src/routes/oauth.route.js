@@ -1,9 +1,6 @@
 import express from 'express';
-import asyncHandler from 'express-async-handler';
-import { kakaoLoginController, socialLoginController, socialLogoutController } from '../controllers/oauth.controller';
 
 export const oauthRouter = express.Router();
-
 
 // 카카오 로그인 페이지로 이동
 router.get('/kakao', passport.authenticate('kakao-login'));

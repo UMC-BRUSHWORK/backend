@@ -2,13 +2,14 @@ import { pool } from "../../config/db.connect";
 import { BaseError } from "../../config/error";
 import { status } from "../../config/response.status";
 
-import { getUserByIDSql, getUserSql, updateAccessTime } from "./0auth.sql";
+import { getUserByKakaoSql, getUserByGoogleSql } from "./oauth.sql";
 
-export const getUserByEmail = async (email) => {
+// 카카오
+export const getUserByKakao = async (kakaoAcc) => {
     try {
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(getUserSql, email);
+        const [result] = await pool.query(getUserByKakaoSql, kakaoAcc);
         console.log('inpool', null, result);
         
         conn.release();
@@ -22,19 +23,21 @@ export const getUserByEmail = async (email) => {
     }
 };
 
-// 접속 시간 업데이트
-export const updateAccess = async (userId) => {
+// 구글
+export const getUserByGoogle = async (googleAcc) => {
     try {
         const conn = await pool.getConnection();
 
-        await pool.query(updateAccessTime, userId);
-        const [result] = await pool.query(getUserByIDSql, userId);
-
+        const [result] = await pool.query(getUserByGoogleSql, googleAcc);
+        console.log('inpool', null, result);
+        
         conn.release();
-        return result[0];
-    } catch (err) {
+        
+        return result;
+
+    }catch (err) {
         console.error('inpool', null, err);
         conn.release();
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
-}
+};

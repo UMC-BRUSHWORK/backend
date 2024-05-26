@@ -1,11 +1,15 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 import { loginController, logoutController } from '../controllers/auth.controller';
+import { kakaoLoginController, googleLoginController} from '../controllers/oauth.controller';
 
 export const authRouter = express.Router();
 
 authRouter.post('/login', asyncHandler(loginController));
 authRouter.post('/logout', asyncHandler(logoutController))
+
+authRouter.post('/login/kakao', asyncHandler( kakaoLoginController));
+authRouter.post('/login/google', asyncHandler( googleLoginController));
 
 // 로그인 요청
 router.post('/login', isNotLoggedIn, (req, res, next) => {

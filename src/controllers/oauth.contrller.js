@@ -4,24 +4,30 @@ import { status } from "../../config/response.status";
 
 import { socialLoginUser } from "../services/oauth.service";
 
-
+// 카카오
 export const kakaoLoginController = async (req, res) => {
     const passport = require('passport')
     const KakaoStrategy = require('passport-kakao').Strategy
 
     passport.use('kakao-login', new KakaoStrategy({
-        clientID: '[REST API Key]',
+        clientID: '596ecabbb4a2d9b14725e56ee7c6f15a',
         callbackURL: '[등록한 Redirect URI]',
     }, async (accessToken, refreshToken, profile, done) => {
         console.log(accessToken);
         console.log(profile);
     }));
 };
-export const socialLoginController = async (req, res) => {
-    res.send(response(status.SUCCESS, await socialLoginUser(req.body)));
-};
 
-export const socialLogoutController = (req, res) => {
-    req.session.destroy((err) => {throw new BaseError(status.SESSEION_DELETE_ERR)});
-    res.send(response(status.SUCCESS, "소셜 로그아웃 성공"))
+// 구글
+export const googleLoginController = async (req, res) => {
+    const passport = require('passport')
+    const googleStrategy = require('passport-kakao').Strategy
+
+    passport.use('google-login', new googleStrategy({
+        clientID: '[REST API Key]',
+        callbackURL: '[등록한 Redirect URI]',
+    }, async (accessToken, refreshToken, profile, done) => {
+        console.log(accessToken);
+        console.log(profile);
+    }));
 };
