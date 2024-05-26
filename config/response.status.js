@@ -38,6 +38,10 @@ export const status = {
     TOKEN_IS_INVALID: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "SIGNIN4005", "message": "유효하지 않은 토큰입니다." },
     SESSEION_DELETE_ERR: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "SIGNIN4006", "message": "세션 삭제 중 에러가 발생했습니다."},
 
+    // social login err
+    KAKAO_ERR: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "LOGIN4001", "message": "카카오 로그인 중 에러가 발생했습니다."},
+    GOOGLE_ERR: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "LOGIN4002", "message": "구글 로그인 중 에러가 발생했습니다."},
+
     // paging err
 
     // 선호 작품 관련 err
