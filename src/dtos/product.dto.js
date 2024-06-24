@@ -116,7 +116,7 @@ export const searchCategoryResponseDTO = (data) => {
     }
 
     return {
-        "searchResult": productCategoryList,
+        "searchCategoryResult": productCategoryList,
         "cursorId": cursorId
     };
 }

@@ -36,6 +36,5 @@ export const searchProductController = async (req, res, next) => {
 
 // 카테고리 검색
 export const searchCategoryController = async (req, res, next) => {
-    console.log("search Category");
     res.send(response(status.SUCCESS, await searchCategoryProvider(req.query)));
 }
