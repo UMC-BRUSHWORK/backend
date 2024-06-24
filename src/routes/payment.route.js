@@ -3,4 +3,4 @@ import { confirmPaymentController } from '../controllers/payment.controller';
 
 export const paymentRouter = express.Router();
 
-paymentRouter.get('/confirm', confirmPaymentController);
+paymentRouter.post('/confirm', confirmPaymentController);
