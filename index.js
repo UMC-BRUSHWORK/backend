@@ -22,6 +22,7 @@ import { oauthRouter } from './src/routes/oauth.route.js';
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
 const app = express();
+const port = 3000;
 
 // server setting - veiw, static, body-parser etc..
 app.set('port', process.env.PORT || 3000)   // 서버 포트 지정
@@ -58,8 +59,6 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(err.data.status || status.INTERNAL_SERVER_ERROR).send(response(err.data));
 });
-
-
 
 app.listen(app.get('port'), () => {
     console.log(`Example app listening on port ${app.get('port')}`);
