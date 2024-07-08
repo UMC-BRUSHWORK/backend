@@ -5,9 +5,7 @@ import SwaggerUi from "swagger-ui-express"
 import { specs } from './config/swagger.config.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
-
-
-
+import bodyParser from 'body-parser';
 
 // 응답 관련
 import { response } from './config/response.js';
@@ -19,15 +17,12 @@ import { healthRouter } from './src/routes/health.route.js';
 import { testRouter } from './src/routes/test.route.js';
 import { userRouter } from './src/routes/user.route.js';
 import { authRouter } from './src/routes/auth.route.js';
-
+import { oauthRouter } from './src/routes/oauth.route.js';
 
 dotenv.config();    // .env 파일 사용 (환경 변수 관리)
 
-
 const app = express();
-const bodyParser = require('body-parser');
-
-
+const port = 3000;
 
 // server setting - veiw, static, body-parser etc..
 app.set('port', process.env.PORT || 3000)   // 서버 포트 지정
@@ -48,6 +43,8 @@ app.use('/test', testRouter);       // test
 app.use('/user', userRouter);       // user 관련 router
 app.use('/auth', authRouter);       // auth 관련 router
 
+app.use('/oauth', oauthRouter);       // oauth 관련 router
+
 // error handling
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);
@@ -62,8 +59,6 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(err.data.status || status.INTERNAL_SERVER_ERROR).send(response(err.data));
 });
-
-
 
 app.listen(app.get('port'), () => {
     console.log(`Example app listening on port ${app.get('port')}`);
