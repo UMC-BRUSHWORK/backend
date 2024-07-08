@@ -51,6 +51,10 @@ export const status = {
     PASSWORD_CHANGE_FAILED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "SIGNIN4007", "message": "비밀번호 변경을 실패했습니다."},
     // paging err
 
+    // social login err
+    KAKAO_ERR: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "LOGIN4001", "message": "카카오 로그인 중 에러가 발생했습니다."},
+    GOOGLE_ERR: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "LOGIN4002", "message": "구글 로그인 중 에러가 발생했습니다."},
+
     // 선호 작품 관련 err
     LIKE_PARAM_IS_WRONG: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "LIKE4001", "message": "쿼리 실행 시 전달되는 파라미터가 잘못되었습니다. userId, productId 가 제대로 전달되었는지 확인해주세요." },
 
