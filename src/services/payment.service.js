@@ -19,7 +19,6 @@ export const confirmPayment = async (paymentInfo = {}) => {
   );
 
   const data = await response.json();
-  const returnData = paymentConfirmResponseDTO(data);
-  
-  return returnData;
+
+  return await paymentConfirmResponseDTO(data);
 }
