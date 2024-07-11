@@ -1,3 +1,5 @@
+import { paymentConfirmResponseDTO } from "../dtos/payment.dto";
+
 export const confirmPayment = async (paymentInfo = {}) => {
   const { paymentKey, orderId, amount } = paymentInfo;
 
@@ -17,7 +19,6 @@ export const confirmPayment = async (paymentInfo = {}) => {
   );
 
   const data = await response.json();
-  console.log(data);
 
-  return data;
+  return await paymentConfirmResponseDTO(data);
 }
