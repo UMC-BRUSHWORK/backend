@@ -11,12 +11,13 @@ export const loginResponseDTO = (result, token) => {
         "introduce": result.user_introduce,
         "status": result.user_status,
         "accessTime": moment.utc(result.access_at).add(9, 'h').format('YYYY-MM-DD HH:mm:ss'),
-        "token": token
+        "token": token,
+        "tokenType": "jwt"
     };
 }
 
 export const registerResponseDTO = (result) => {
-    
+    //  생성(회원가입)
     return {
         "userId": result.user_id,
         "nickname": result.user_nickname,

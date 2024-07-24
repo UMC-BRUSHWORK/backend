@@ -74,7 +74,7 @@ app.use('/report', reportRouter);   // 신고 관련 router
 app.use('/tos', tosRouter);         // 약관 관련 router 
 app.use('/chat', chatRouter(io));   // 채팅 관련 router
 app.use('/payment', paymentRouter); // 결제 관련 router
-app.use('/oauth', oauthRouter);
+app.use('/oauth', oauthRouter);     // kakao 결제 관련 router
 
 // error handling
 app.use((req, res, next) => {
