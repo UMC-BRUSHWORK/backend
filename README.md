@@ -1,79 +1,121 @@
-# BRUSHWORK-backend
+# 🎨 BRUSHWORK
 
-## Branch
-###종류<br>
-[참고-gitflow 설명](https://techblog.woowahan.com/2553/)
+**미대생 졸업 작품 및 아마추어 대상 예술 작품 거래 플랫폼**
 
-- `main`: 제품 출시 브랜치
-- `develop`: 출시를 위해 개발하는 브랜치
-  - `feature/{이슈 번호}`: 새로운 기능 개발하는 브랜치
-  - `refactor/{이슈 번호}`: 개발된 기능을 리팩터링하는 브랜치
-- `hotfix`: 출시 버전에서 발생한 버그를 수정하는 브랜치
-- `release`: 이번 출시 버전을 준비하는 브랜치
+[📽️ 시연 영상](https://drive.google.com/file/d/1cKGpDF1SAG6xo6ACMYT70owL8iFRhoFd/view)
 
-## Commit Message
-[참고1](https://velog.io/@msung99/Git-Commit-Message-Convension) <br>
-[참고2](https://doublesprogramming.tistory.com/256) <br>
-[참고3](https://overcome-the-limits.tistory.com/6#%EB%8C%80%EC%B6%A9-%EC%8D%BC%EB%8D%98-git-commit-message) <br>
-### 구조
-```
-✨[Feat] 추가 login API   // 타입: 제목
-// 깃모지의 경우, 넣어도 되고 안넣어도 되는데 나중에 넣을지 말지 정해야됨
+[💻 발표 자료](https://drive.google.com/file/d/1KOLNvgfAc8wy98VGQffWypGqZpTZIdht/view)
 
-로그인 API 개발               // 본문
+## 🎯 프로젝트 소개
 
-Resolves: #123               // 꼬리말 => 이슈 123을 해결했으며,
-Ref: #456                                이슈 456 를 참고해야하며,
-Related to: #48, #45                     현재 커밋에서 아직 이슈 48 과 45 가 해결되지 않았다.
-```
-### 제목
-- 코드의 변경 사항에 대한 짧은 요약
-- 명령조로 간결하게 작성
+**개발 기간**: 2023.11 ~ 2024.06 (7개월)
 
-### 본문 (선택사항)
-- 부연 설명이 필요하거나 커밋의 이유를 설명할 경우 작성
-- 무엇을 변경했는지 또는 왜 변경했는지 설명하도록 함
-- 제목과 구분되기 위해 공백 한 줄을 띄워서 작성
-  
-### 꼬리말 (선택사항)
-- issue tracker id를 작성할 때 사용
-- `유형:#이슈 번호` 형식으로 사용
-  - `Fixes`: 이슈 수정 중 (미해결)
-  - `Resolves`: 이슈 해결
-  - `Ref`: 참고할 이슈
-  - `Related to`: 해당 커밋에 관련된 이슈번호 (미해결)
+### 🌟 프로젝트 목표
+- 미대생 졸업 작품의 체계적인 거래 환경 조성
+- 실시간 채팅을 통한 원활한 소통
+- 안정적이고 확장 가능한 서비스 인프라 구축
+
+## 🙋 팀원
+### PM & DESIGNER
+| 닉네임 | Github |
+|---|---|
+| 칼리/김민정 (PM/팀장) | [@minjeong-kim-git](https://github.com/minjeong-kim-git) |
+| 박스/강승현 (DESIGNER) | [@seunghyeonKang](https://github.com/seunghyeonKang) |
+### FRONTEND
+| 닉네임 | Github |
+|---|---|
+| 센/박세은 (프론트 리더) | [@marchfirst01](https://github.com/marchfirst01) |
+| 몰리/이은수 | [@EunSo0](https://github.com/EunSo0) |
+| 챠리/최유리 | [@techncherry](https://github.com/techncherry) |
+| 주니/김한주 | [@hanjuuuuuu](https://github.com/hanjuuuuuu) |
+### BACKEND
+| 닉네임 | Github | 역할 |
+| --- | --- | --- |
+| 섀넌/한상은 | [@silvarge](https://github.com/silvarge) | 백엔드 파트 리더, 채팅/결제/관심 작품 도메인 담당
+| 말리부/정윤호 | [@yunho0310](https://github.com/yunho0310) | 사용자, 인증 도메인 담당
+| 이노/장예원 | [@eynow1159](https://github.com/eynow1159) | 작품 도메인, 소셜 로그인 기능 담당
+
+## ✨ 주요 기능
+
+### 🖼️ 작품 관리
+- **작품 등록**: 상세 정보와 이미지를 통한 작품 업로드, 판매 방법에 대한 정보 작성을 통한 작품 판매 등록
+- **작품 검색**: 다양한 조건으로 작품 검색 및 필터링
+- **관심 작품**: 마음에 드는 작품을 위시리스트에 저장
+
+### 💬 실시간 소통(DM)
+- **실시간 채팅**: Socket.io 기반 메시지 송수신, 구매 의사 표현 및 거래 논의
+- **채팅방 관리**: 거래 및 유저별 독립적인 채팅공간 제공
+- **메시지 히스토리**: 과거 대화 내용 저장 및 조회
+
+### 🤝 결제
+- **결제**: 토스 결제 API를 이용한 결제 시스템 구현 (테스트 거래까지만 구현)
+- **거래 내역**: 과거 거래 기록 조회
+
+### 🔐 사용자 관리
+- **회원가입/로그인**: JWT 기반 인증 시스템
+- **소셜 로그인**: Kakao, Google 소셜 로그인
+- **프로필 관리**: 개인정보 및 작품 이력 관리
+
+## 🛠 기술 스택
+
+### Backend
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=flat-square&logo=socketdotio&logoColor=white)
+
+### Infrastructure
+![AWS](https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonaws&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=github-actions&logoColor=white)
+
+### Tools & Libraries
+![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black)
+
+**상세 기술 스택**
+- **Backend**: JavaScript(Node.js), Express.js, MySQL(AWS RDS)
+- **Infrastructure**: AWS Elastic Beanstalk, AWS RDS, AWS S3, AWS Route 53, AWS Certificate Manager
+- **DevOps**: Docker, GitHub Actions
+- **Libraries**: Socket.io, Swagger-jsdoc, Swagger-ui-express, Multer/Multer-s3, JWT, Bcrypt, Cookie-parser, Express-session, CORS, Dotenv, Moment-timezone, UUID
+
+## 🏗 시스템 아키텍처
+
+```mermaid
+graph TB
+    subgraph "Client"
+        A[Frontend]
+    end
     
-### Commit Type
-- `Feat` : 새로운 기능을 추가하는 경우
-- `Fix` : 버그를 고친경우
-- `Docs` : 문서를 수정한 경우
-- `Style` : 코드 포맷 변경, 세미콜론 누락, 코드 수정이 없는경우
-- `Refactor` : 코드 리펙토링
-- `Test` : 테스트 코드. 리펙토링 테스트 코드를 추가했을 때
-- `Chore` : 빌드 업무 수정, 패키지 매니저 수정 (
-- `Design` : CSS 등 사용자가 UI 디자인을 변경했을 때
-- `Rename` : 파일명(or 폴더명) 을 수정한 경우
-- `Remove` : 코드(파일) 의 삭제가 있을 때. "Clean", "Eliminate" 를 사용하기도 함
+    subgraph "DNS & SSL"
+        B[AWS Route 53]
+        C[AWS Certificate Manager]
+    end
+    
+    subgraph "AWS Elastic Beanstalk"
+        D[Load Balancer]
+        E[Node.js Application Server<br/>Express.js + Socket.io]
+    end
+    
+    subgraph "Storage Layer"
+        F[AWS RDS MySQL]
+        G[AWS S3]
+    end
+    
+    subgraph "CI/CD Pipeline"
+        H[GitHub Actions<br/>Build by babel]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    E --> G
+    
+    H --> D
+```
+## 📁 프로젝트 구조 - Layered Architecture
 
-- - -
-## Gitmoji
-[깃모지 공식 사이트](https://gitmoji.dev/) <br>
-[깃모지 참고](https://inpa.tistory.com/entry/GIT-%E2%9A%A1%EF%B8%8F-Gitmoji-%EC%82%AC%EC%9A%A9%EB%B2%95-Gitmoji-cli) <br>
-[gitmoji-cli](https://tngusmiso.tistory.com/57) <br>
-
-### 깃모지 예시
-아이콘|코드|설명|원문
----|---|---|---
-🔥|`:fire:`|코드/파일 삭제|Remove code or files.
-🐛|`:bug:`|버그 수정|Fix a bug.
-🚑|`:ambulance:`|긴급 수정|Critical hotfix.
-✨|`:sparkles:`|새 기능|Introduce new features.
-📝|`:memo:`|문서 추가/수정|Add or update documentation.
-🎉|`:tada:`|프로젝트 시작|Begin a project.
-♻️|`:recycle:`|코드 리팩토링|Refactor code.
-
-- - -
-## Project 경로
 ```
 📦brushwork_be
  ┣ 📂config
@@ -100,4 +142,62 @@ Related to: #48, #45                     현재 커밋에서 아직 이슈 48 �
  ┣ 📜swagger-output.json
  ┣ 📜swagger.js
  ┗ 📜yarn.lock
+```
+
+---
+# Ground Rules
+
+## 📋 목차
+- [Branch 전략](#-branch-전략)
+- [Commit Message 규칙](#-commit-message-규칙)
+- [Gitmoji 가이드](#-gitmoji-가이드)
+
+## 🌿 Branch 전략
+
+### Branch 종류
+Git Flow 기반으로 다음과 같은 브랜치 구조를 따릅니다.
+
+**영구 브랜치**
+- `main`: 제품 출시용 안정 브랜치
+- `develop`: 개발 통합 브랜치 (차기 배포 준비)
+
+**임시 브랜치**
+- `feature/{이슈번호}`: 새로운 기능 개발
+  - 예: `feature/123`, `feature/login-api`
+- `refactor/{이슈번호}`: 기존 기능 리팩터링
+  - 예: `refactor/456`, `refactor/auth-service`
+- `hotfix/{이슈번호}`: 운영 환경 긴급 버그 수정
+  - 예: `hotfix/789`, `hotfix/critical-error`
+- `release/{버전}`: 배포 준비 브랜치
+  - 예: `release/v1.2.0`
+
+### Branch Workflow
+```
+main ← hotfix ← develop ← feature
+                     ↖ refactor
+```
+
+**참고**: [Git Flow 상세 가이드](https://techblog.woowahan.com/2553/)
+
+## 💬 Commit Message 규칙
+
+### 기본 구조
+```
+[Type] 제목 (50자 이내)
+
+본문 (선택사항 - 72자 단위로 줄바꿈)
+
+꼬리말 (선택사항)
+```
+
+### 실제 예시
+```
+✨ [Feat] 사용자 로그인 API 구현
+
+JWT 토큰 기반 인증 시스템 구현
+- 이메일/비밀번호 검증 로직 추가
+- 토큰 만료 시간 설정 (24시간)
+
+Resolves: #123
+Ref: #456
 ```
