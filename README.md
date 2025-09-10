@@ -24,14 +24,14 @@
 ### FRONTEND
 | 닉네임 | Github |
 |---|---|
-| 센/박세은 (프론트 리더) | [@marchfirst01](https://github.com/marchfirst01) |
+| 센/박세은 (프론트 파트장) | [@marchfirst01](https://github.com/marchfirst01) |
 | 몰리/이은수 | [@EunSo0](https://github.com/EunSo0) |
 | 챠리/최유리 | [@techncherry](https://github.com/techncherry) |
 | 주니/김한주 | [@hanjuuuuuu](https://github.com/hanjuuuuuu) |
 ### BACKEND
 | 닉네임 | Github | 역할 |
 | --- | --- | --- |
-| 섀넌/한상은 | [@silvarge](https://github.com/silvarge) | 백엔드 파트 리더, 채팅/결제/관심 작품 도메인 담당
+| 섀넌/한상은 (백엔드 파트장) | [@silvarge](https://github.com/silvarge) | 채팅/결제/관심 작품 도메인 담당
 | 말리부/정윤호 | [@yunho0310](https://github.com/yunho0310) | 사용자, 인증 도메인 담당
 | 이노/장예원 | [@eynow1159](https://github.com/eynow1159) | 작품 도메인, 소셜 로그인 기능 담당
 
